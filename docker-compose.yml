@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+ php:
+    build: 
+      context: .
+      dockerfile: ./php/Dockerfile
+    volumes: 
+      - ./src/:/php
+ web:
+     build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+     ports:
+      - 8080:80
+     depends_on:
+      - php
+     volumes:
+      - ./src/:/php
+ mysql:
+     build:
+        context: .
+        dockerfile: ./mysql/Dockerfile
+     ports:
+       - 3307:3306
+     env_file: .env.dev
+     environment:
+        TZ: 'Asia/Tokyo'
+     volumes:
+       - mysql-volume:/var/lib/mysql
+ node:
+      build:
+        context: .
+        dockerfile: ./node/Dockerfile
+      working_dir: /frontend
+      ports:
+        - 4200:4200
+      volumes:
+        - ./frontend:/frontend
+      tty: true
+
+volumes:
+   mysql-volume:
+    name: database-volumes
