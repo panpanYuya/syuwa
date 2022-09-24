@@ -1,5 +1,5 @@
 <div class="app-logo">
-  <img src="../../../assets/syuwa-logo.png" alt="酒話ロゴ">
+  <img src="../../../assets/images/syuwa-logo.png" alt="酒話ロゴ">
 </div>
 <div class="login-wrapper">
   <div class="title">
@@ -8,12 +8,11 @@
   <form class="login-form" type="email" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field class="login-full-width" appearance="fill">
       <mat-label>メールアドレス</mat-label>
-      <input matInput placeholder="" formControlName="email">
+      <input id="email" matInput placeholder="" formControlName="email">
     </mat-form-field>
-
     <mat-form-field class="login-full-width" appearance="fill">
       <mat-label>パスワード</mat-label>
-      <input type="password" matInput placeholder="" formControlName="password">
+      <input type="password" id="password" matInput placeholder="" formControlName="password">
     </mat-form-field>
     <div class="login-button-row">
       <button class="login-button">ログイン</button>
