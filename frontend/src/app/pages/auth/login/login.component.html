@@ -5,14 +5,14 @@
   <div class="title">
     ログイン
   </div>
-  <form class="login-form" type="email" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field class="login-full-width" appearance="fill">
       <mat-label>メールアドレス</mat-label>
-      <input id="email" matInput placeholder="" formControlName="email">
+      <input id="login-email" matInput placeholder="" formControlName="email">
     </mat-form-field>
     <mat-form-field class="login-full-width" appearance="fill">
       <mat-label>パスワード</mat-label>
-      <input type="password" id="password" matInput placeholder="" formControlName="password">
+      <input type="password" id="login-password" matInput placeholder="" formControlName="password">
     </mat-form-field>
     <div class="login-button-row">
       <button class="login-button">ログイン</button>
