@@ -1,12 +1,14 @@
-import { retry } from 'rxjs';
+import { Observable } from 'rxjs';
+import { ErrorMessageConst } from 'src/app/common/constants/error-message-const';
+import { ErrorStatusConst } from 'src/app/common/constants/error-status-const';
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { RoutingService } from '../../../common/services/routing.service';
 import { UrlConst } from '../../constants/url-const';
 import { LoginRequestDto } from '../models/dtos/requests/login-request-dto';
+import { LoginResponseDto } from '../models/dtos/responses/login-response-dto';
 import { LoginService } from '../services/login.service';
 
 @Component({
@@ -15,6 +17,7 @@ import { LoginService } from '../services/login.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  public errorMessage?: string;
 
   email = new FormControl('', [Validators.required]);
   password = new FormControl('', [Validators.required]);
@@ -31,8 +34,8 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.setErrorMessage('');
   }
-
 
   clickLoginButton() {
     let loginRequestDto = this.createLoginRequestDto();
@@ -44,17 +47,32 @@ export class LoginComponent implements OnInit {
   }
 
   private login(loginRequestDto:LoginRequestDto) {
-    // this.loginService.login(loginRequestDto);
-
-    this.routingService.transitToPath(UrlConst.PATH_DRINK + UrlConst.SLASH + UrlConst.PATH_SHOW);
+    let loginResponseDto: Observable<LoginResponseDto> = this.loginService.login(loginRequestDto);
+    loginResponseDto.subscribe( {
+      next:
+        () => {
+          this.routingService.transitToPath(UrlConst.PATH_DRINK + UrlConst.SLASH + UrlConst.PATH_SHOW);
+        },
+      error:
+        (error) => {
+          if (error.status === ErrorStatusConst.AUTH_ERROR_CODE) {
+            this.setErrorMessage(ErrorMessageConst.AUTH_ERROR);
+          } else {
+            this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
+          }
+        }
+    });
   }
 
-  private createLoginRequestDto():LoginRequestDto{
+  public createLoginRequestDto():LoginRequestDto{
     return {
       email: this.email.value || "",
       password: this.password.value || ""
     };
   }
 
+  public setErrorMessage(errorMessage: string) {
+    this.errorMessage = errorMessage;
+  }
 
 }

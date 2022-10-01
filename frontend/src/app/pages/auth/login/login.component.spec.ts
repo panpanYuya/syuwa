@@ -1,3 +1,5 @@
+import { of } from 'rxjs';
+import { ErrorMessageConst } from 'src/app/common/constants/error-message-const';
 import { MaterialModule } from 'src/app/material/material.module';
 import { HtmlElementUtility } from 'src/app/testing/html-element-utility';
 
@@ -17,12 +19,13 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
 
   let fixture: ComponentFixture<LoginComponent>;
-  let loginServiceSpy: { login: jasmine.Spy, setUser: jasmine.Spy };
+  // let loginServiceSpy: { login: jasmine.Spy, setUser: jasmine.Spy };
+  let loginServiceSpy = jasmine.createSpyObj('LoginService', ['login']);
   let router:Router;
 
   beforeEach(async () => {
     loginServiceSpy = jasmine.createSpyObj('LoginService', ['login', 'setUser']);
-
+    let expectedLoginReqDto:LoginRequestDto = createExpectedRequestDto();
     await TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [LoginComponent],
@@ -52,28 +55,37 @@ describe('LoginComponent', () => {
   });
 
   describe('formCheck', () => {
-    it('sign in user email', () => {
-      const expectedValue = 'test@test.com';
-      HtmlElementUtility.setValueToHTMLInputElement(fixture, '#login-email', expectedValue);
-      expect(component.email.value).toEqual(expectedValue);
+    it('should sign in user email', () => {
+      HtmlElementUtility.setValueToHTMLInputElement(fixture, '#login-email', expectedSignInResponseDto.email);
+      expect(component.email.value).toEqual(expectedSignInResponseDto.email);
     });
 
     it('sign in user password', () => {
-      const expectedValue = 'testtest';
-      HtmlElementUtility.setValueToHTMLInputElement(fixture, '#login-password', expectedValue);
-      expect(component.password.value).toEqual(expectedValue);
+      HtmlElementUtility.setValueToHTMLInputElement(fixture, '#login-password', expectedSignInResponseDto.password);
+      expect(component.password.value).toEqual(expectedSignInResponseDto.password);
     });
   });
 
   describe('login', () => {
     it('should login', () => {
+      loginServiceSpy.login.and.returnValue(of(expectedSignInResponseDto));
       spyOn(router, 'navigate');
       component.clickLoginButton();
+      //TODO バックエンド作成後に作成
       // expect(loginServiceSpy.setUser.calls.count()).toEqual(1);
       expect(router.navigate).toHaveBeenCalledWith([UrlConst.SLASH + UrlConst.PATH_DRINK + UrlConst.SLASH + UrlConst.PATH_SHOW]);
     });
+
   });
 
+  describe('createLoginRequest', () => {
+    it('should create RequestDto', () => {
+      HtmlElementUtility.setValueToHTMLInputElement(fixture, '#login-email', expectedSignInResponseDto.email);
+      HtmlElementUtility.setValueToHTMLInputElement(fixture, '#login-password', expectedSignInResponseDto.password);
+      const loginRequestDto: LoginRequestDto = component.createLoginRequestDto();
+      expect(loginRequestDto).toEqual(expectedSignInResponseDto);
+    });
+  });
 
 });
 
