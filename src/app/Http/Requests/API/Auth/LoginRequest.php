@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Hash;
 
 class LoginRequest extends FormRequest
 {

@@ -4,7 +4,6 @@ namespace App\Models\Users;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -32,6 +31,8 @@ class User extends Authenticatable
         'password',
     ];
 
+
+    //TODO 不要だった場合は削除
     /**
      * The attributes that should be cast.
      *
