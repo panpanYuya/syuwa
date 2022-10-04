@@ -28,6 +28,7 @@ class LoginController extends Controller
             $status = HttpStatusConst::SERVER_ERROR;
             $message = __('error.database.auth');
         } finally {
+            //TODOエラーの共通処理実装後に修正する
             return response()->json([
                 'status' => $status,
                 'message' => $message,
