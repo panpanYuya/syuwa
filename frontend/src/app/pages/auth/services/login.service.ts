@@ -17,7 +17,7 @@ export class LoginService {
   ) { }
 
   public login(loginRequestDto:LoginRequestDto): Observable<LoginResponseDto> {
-    return this.http.post<LoginResponseDto>(ApiConst.SLASH + ApiConst.LOGIN, loginRequestDto)
+    return this.http.post<LoginResponseDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.LOGIN, loginRequestDto)
       .pipe(
         catchError(() => {
           return of(null as unknown  as LoginResponseDto);
