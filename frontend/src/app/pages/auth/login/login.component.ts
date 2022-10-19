@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { ErrorMessageConst } from 'src/app/common/constants/error-message-const';
 import { ErrorStatusConst } from 'src/app/common/constants/error-status-const';
 
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
@@ -18,6 +19,8 @@ import { LoginService } from '../services/login.service';
 })
 export class LoginComponent implements OnInit {
   public errorMessage?: string;
+  public xsrfToken: string;
+
 
   email = new FormControl('', [Validators.required]);
   password = new FormControl('', [Validators.required]);
@@ -31,7 +34,9 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private loginService: LoginService,
     private routingService: RoutingService,
-  ) { }
+  ) {
+    this.xsrfToken = "";
+  }
 
   ngOnInit(): void {
     this.setErrorMessage('');
@@ -42,26 +47,34 @@ export class LoginComponent implements OnInit {
     this.login(loginRequestDto);
   }
 
-  onSubmit() {
-    alert(JSON.stringify(this.loginForm.value));
-  }
-
-  private login(loginRequestDto:LoginRequestDto) {
-    let loginResponseDto: Observable<LoginResponseDto> = this.loginService.login(loginRequestDto);
-    loginResponseDto.subscribe( {
+  private login(loginRequestDto: LoginRequestDto) {
+    let xsrf: Observable<string>= this.loginService.getXsrfToken();
+    xsrf.subscribe( {
       next:
-        () => {
-          this.routingService.transitToPath(UrlConst.PATH_DRINK + UrlConst.SLASH + UrlConst.PATH_SHOW);
-        },
+      () => {
+        let loginResponseDto: Observable<LoginResponseDto> = this.loginService.login(loginRequestDto);
+        loginResponseDto.subscribe( {
+          next:
+            () => {
+                this.routingService.transitToPath(UrlConst.PATH_DRINK + UrlConst.SLASH + UrlConst.PATH_SHOW);
+            },
+          error:
+            (error) => {
+              if (error.status === ErrorStatusConst.AUTH_ERROR_CODE) {
+                return this.setErrorMessage(ErrorMessageConst.AUTH_ERROR);
+              } else {
+                return this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
+              }
+            }
+        });
+      },
+      //errorを以後修正
       error:
-        (error) => {
-          if (error.status === ErrorStatusConst.AUTH_ERROR_CODE) {
-            this.setErrorMessage(ErrorMessageConst.AUTH_ERROR);
-          } else {
-            this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
-          }
+        () => {
+          return this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
         }
     });
+
   }
 
   public createLoginRequestDto():LoginRequestDto{

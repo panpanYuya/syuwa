@@ -1,3 +1,4 @@
 export interface LoginResponseDto {
-  accessToken: string,
+  status: number,
+  message: string,
 }

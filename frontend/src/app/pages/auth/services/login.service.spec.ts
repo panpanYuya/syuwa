@@ -1,6 +1,7 @@
 import { ApiConst } from 'src/app/common/constants/api-const';
 import { ErrorMessageConst } from 'src/app/common/constants/error-message-const';
 
+import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
@@ -10,6 +11,7 @@ import { LoginService } from './login.service';
 
 describe('LoginService', () => {
   let service: LoginService;
+  let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
@@ -18,6 +20,7 @@ describe('LoginService', () => {
     });
     service = TestBed.inject(LoginService);
     httpTestingController = TestBed.inject(HttpTestingController);
+    httpClient = TestBed.inject(HttpClient);
   });
 
   afterEach(() => {
@@ -31,6 +34,21 @@ describe('LoginService', () => {
   });
 
   describe('login', () => {
+    it('should get xsrfToken', () => {
+      const xsrfApiUrl = ApiConst.SLASH + ApiConst.XSRF;
+      service.getXsrfToken().subscribe(
+        {
+          error:
+            (error) => {
+              expect(error).toBeNull();
+            }
+        }
+      );
+      const req = httpTestingController.expectOne(xsrfApiUrl);
+      expect(req.request.method).toEqual('GET');
+      req.flush(null);
+    });
+
     const webApiUrl = ApiConst.SLASH + ApiConst.LOGIN;
     it('should return expected response', ((done: DoneFn) => {
       const loginRequestDto: LoginRequestDto = createExpectedLoginRequestDto();
