@@ -16,10 +16,18 @@ class PostSeeder extends Seeder
     {
         //
         DB::table('posts')->insert([
-            'user_id' => 1,
-            'text' => 'この日本酒は純米大吟醸のお酒です。',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
+            [
+                'user_id' => 1,
+                'text' => 'この日本酒は純米大吟醸のお酒です。',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'user_id' => 1,
+                'text' => 'このワインは赤です。',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
         ]);
     }
 }

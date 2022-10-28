@@ -17,10 +17,18 @@ class ImageSeeder extends Seeder
     {
         //
         DB::table('images')->insert([
-            'post_id' => 1,
-            'img_url' => '/assets/wine.png',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
+            [
+                'post_id' => 1,
+                'img_url' => '/assets/images/wine.png',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'post_id' => 2,
+                'img_url' => '/assets/images/syuwa-logo.png',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
         ]);
     }
 }

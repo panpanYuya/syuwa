@@ -1,13 +1,13 @@
 <app-header></app-header>
 <div class="board">
-  <div class="post">
+  <div class="post" *ngFor="let post of posts">
     <div class="post-img">
-      <img fluid src="/assets/images/wine.png" alt="">
+      <img fluid src={{post.imageUrl}} alt="">
     </div>
     <div class="post-body">
       <div class="post-body_top">
         <div class="tag">
-          <p>日本酒</p>
+          <p>{{post.tagName}}</p>
         </div>
         <div class="fabo">
           <span class="material-icons">
@@ -16,51 +16,10 @@
         </div>
       </div>
       <div class="post-body_bottom">
-        <div class="comment">これは日本酒です。</div>
+        <div class="comment">{{post.text}}</div>
         <div class="show-comment">コメントを39件表示</div>
       </div>
     </div>
   </div>
-  <div class="post">
-    <div class="post-img">
-      <img fluid src="/assets/images/wine.png" alt="">
-    </div>
-    <div class="post-body">
-      <div class="post-body_top">
-        <div class="tag">
-          <p>日本酒</p>
-        </div>
-        <div class="fabo">
-          <span class="material-icons">
-            favorite
-          </span>
-        </div>
-      </div>
-      <div class="post-body_bottom">
-        <div class="comment">これは日本酒です。</div>
-        <div class="show-comment">コメントを39件表示</div>
-      </div>
-    </div>
-  </div>
-  <div class="post">
-    <div class="post-img">
-      <img fluid src="/assets/images/wine.png" alt="">
-    </div>
-    <div class="post-body">
-      <div class="post-body_top">
-        <div class="tag">
-          <p>日本酒</p>
-        </div>
-        <div class="fabo">
-          <span class="material-icons">
-            favorite
-          </span>
-        </div>
-      </div>
-      <div class="post-body_bottom">
-        <div class="comment">これは日本酒です。</div>
-        <div class="show-comment">コメントを39件表示</div>
-      </div>
-    </div>
-  </div>
+
 </div>

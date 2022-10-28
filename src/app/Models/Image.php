@@ -14,7 +14,6 @@ class Image extends Model
         'id',
         'post_id',
         'img_url',
-        'tag_id',
     ];
 
     /**

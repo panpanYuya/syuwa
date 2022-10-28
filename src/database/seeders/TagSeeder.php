@@ -17,9 +17,16 @@ class TagSeeder extends Seeder
     {
         //
         DB::table('tags')->insert([
-            'tag_name' => '日本酒',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
+            [
+                'tag_name' => '日本酒',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'tag_name' => 'ワイン',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
         ]);
     }
 }

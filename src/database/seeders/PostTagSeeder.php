@@ -16,10 +16,18 @@ class PostTagSeeder extends Seeder
     {
         //
         DB::table('post_tags')->insert([
-            'post_id' => 1,
-            'tag_id' => 1,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
+            [
+                'post_id' => 1,
+                'tag_id' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'post_id' => 2,
+                'tag_id' => 2,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
         ]);
     }
 }
