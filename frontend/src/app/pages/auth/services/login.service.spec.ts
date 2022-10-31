@@ -34,22 +34,22 @@ describe('LoginService', () => {
   });
 
   describe('login', () => {
-    it('should get xsrfToken', () => {
-      const xsrfApiUrl = ApiConst.SLASH + ApiConst.XSRF;
-      service.getXsrfToken().subscribe(
-        {
-          error:
-            (error) => {
-              expect(error).toBeNull();
-            }
-        }
-      );
-      const req = httpTestingController.expectOne(xsrfApiUrl);
-      expect(req.request.method).toEqual('GET');
-      req.flush(null);
-    });
+    // it('should get xsrfToken', () => {
+    //   const xsrfApiUrl = ApiConst.SLASH + ApiConst.XSRF;
+    //   service.getXsrfToken().subscribe(
+    //     {
+    //       error:
+    //         (error) => {
+    //           expect(error).toBeNull();
+    //         }
+    //     }
+    //   );
+    //   const req = httpTestingController.expectOne(xsrfApiUrl);
+    //   expect(req.request.method).toEqual('GET');
+    //   req.flush(null);
+    // });
 
-    const webApiUrl = ApiConst.SLASH + ApiConst.LOGIN;
+    const webApiUrl = ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.LOGIN;
     it('should return expected response', ((done: DoneFn) => {
       const loginRequestDto: LoginRequestDto = createExpectedLoginRequestDto();
       const expectedLoginResponseDto: LoginResponseDto = createExpectedLoginResponseDto();
@@ -107,6 +107,7 @@ function createExpectedLoginRequestDto(): LoginRequestDto{
  */
 function createExpectedLoginResponseDto(): LoginResponseDto{
   return {
-    accessToken: 'testtestteste'
+    status: 200,
+    message: 'ログインに成功しました。',
   };
 }

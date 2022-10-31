@@ -50,7 +50,7 @@ export class BoardComponent implements OnInit {
     post.userId = responseDto.user_id;
     post.text = responseDto.text;
     post.createdAt = responseDto.created_at;
-    //現状、タグと画像は一枚ずつの投稿にしているので、このままpush
+    //現状、タグと画像は一つずつの投稿にしているので、このままpush
     post.tagId = responseDto.post_tags[0].id;
     post.tagName = responseDto.post_tags[0].tag.tag_name;
     post.imageId = responseDto.images[0].id;

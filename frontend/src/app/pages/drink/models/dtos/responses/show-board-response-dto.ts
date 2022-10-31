@@ -4,23 +4,23 @@ export interface ShowBoardResponseDto {
   text: string;
   created_at: Date;
   updated_at: Date;
-  post_tags: Array<{
+  post_tags: {
     id: number;
-    tag_name: string;
+    tag_id: number;
     created_at: Date;
     updated_at: Date;
-    tag: Array<{
+    tag: {
       id: number;
       tag_name: string;
       created_at: Date;
       updated_at: Date;
-    }>;
-  }>;
-  imagetag: Array<{
+    };
+  };
+  imagetag: {
     id: number;
     post_id: number;
     img_url: string;
     created_at: Date;
     updated_at: Date;
-  }>;
+  };
 }
