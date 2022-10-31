@@ -1,3 +1,10 @@
+.error-message{
+  font-size: 30px;
+  font-weight: 100;
+  color: red;
+  margin-top: 15px;
+}
+
 .board{
   display: flex;
   justify-content: space-around;
@@ -53,4 +60,22 @@
 
 .show-comment{
   font-size: 7px;
+}
+
+@media screen and (min-width: 100px) {
+  .error-message {
+      font-size: 15px;
+      font-weight: 100;
+      margin-top: 15px;
+  }
+
+}
+@media screen and (min-width: 768px) {
+
+  .error-message {
+    font-size: 30px;
+    font-weight: 100;
+    margin-top: 30px;
+  }
+
 }

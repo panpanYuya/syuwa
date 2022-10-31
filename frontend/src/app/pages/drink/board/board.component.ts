@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { ErrorMessageConst } from 'src/app/common/constants/error-message-const';
 
 import { Component, OnInit } from '@angular/core';
 
@@ -12,6 +13,7 @@ import { BoardService } from '../services/board.service';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
+  public errorMessage:string;
 
   public posts: Post[];
 
@@ -19,6 +21,7 @@ export class BoardComponent implements OnInit {
 
   constructor(private boardService: BoardService) {
     this.posts = [];
+    this.errorMessage = '';
   }
 
   ngOnInit(): void {
@@ -30,16 +33,19 @@ export class BoardComponent implements OnInit {
     showBoardResponseDto.subscribe( {
       next:
         () => {
-          showBoardResponseDto.forEach((data:any) => {
-            for (let i = 0; i < data["post"].length; i++){
-              this.setPosts(data["post"][i]);
+          showBoardResponseDto.forEach((data: any) => {
+            if (data == null) {
+              this.setErrorMessage(ErrorMessageConst.NO_POST);
+            } else {
+              for (let i = 0; i < data["post"].length; i++){
+                this.setPosts(data["post"][i]);
+              }
             }
           });
         },
-      error:
-        (error) => {
-          //TODO　500エラー画面を作成する。
-           alert(error);
+        error:
+        () => {
+          this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
         }
     });
   }
@@ -57,6 +63,10 @@ export class BoardComponent implements OnInit {
     post.imageUrl = responseDto.images[0].img_url;
 
     this.posts.push(post);
+  }
+
+  setErrorMessage(message:string) {
+    this.errorMessage = message;
   }
 
 }
