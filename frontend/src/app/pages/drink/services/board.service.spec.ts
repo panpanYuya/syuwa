@@ -32,8 +32,8 @@ describe('BoardService', () => {
   });
 
   describe('getPost', () => {
+    const webApiUrl = ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.SHOW
     it('should return expected response', ((done: DoneFn) => {
-      const webApiUrl = ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.SHOW
       const expectedBoardResponseDto: ShowBoardResponseDto = createExpectedBoardResponseDto();
       service.getPosts().subscribe({
         next: (postResponseDto) => {
@@ -47,12 +47,21 @@ describe('BoardService', () => {
       req.flush(expectedBoardResponseDto);
     }));
 
-    // it('should return error when response', () => {
-
+    //TODO 機能作成後に
+    // it('should return null when response is 404 Not Found', () => {
+    //   const errorStatus = 404;
+    //   const errorMessage = '404 Not Found';
+    //   service.getPosts().subscribe({
+    //     error: (error) => {
+    //       expect(error).toBeNull();
+    //     }
+    //   });
+    //   const req = httpTestingController.expectOne(webApiUrl);
+    //   expect(req.request.method).toEqual('GET');
+    //   req.flush(errorMessage, { status: errorStatus, statusText: errorMessage });
     // });
+
   });
-
-
 
 
 });

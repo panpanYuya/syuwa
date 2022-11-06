@@ -81,6 +81,7 @@ describe('LoginComponent', () => {
     });
 
   });
+  //TODO 例外処理を書く　URLを参考にhttps://qiita.com/sengoku/items/c4a04995aae43d953961
 
   describe('createLoginRequest', () => {
     it('should create RequestDto', () => {
