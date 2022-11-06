@@ -5,6 +5,8 @@ import { HttpClient, HttpClientModule, HttpClientXsrfModule } from '@angular/com
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { LogoComponent } from '../common/logo/logo.component';
+import { PagesModule } from '../pages.module';
 import { LoginComponent } from './login/login.component';
 
 @NgModule({
@@ -16,6 +18,7 @@ import { LoginComponent } from './login/login.component';
     ReactiveFormsModule,
     MaterialModule,
     HttpClientModule,
+    PagesModule
   ],
   exports: [
     ReactiveFormsModule,
