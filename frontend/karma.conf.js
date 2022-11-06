@@ -1,5 +1,6 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
+process.env.CHROME_BIN="/usr/bin/chromium";//←追記
 
 module.exports = function (config) {
   config.set({
@@ -30,15 +31,34 @@ module.exports = function (config) {
       reporters: [
         { type: 'html' },
         { type: 'text-summary' }
-      ]
+      ],
+      check: {
+        global: {
+          statements: 80,
+          branches: 80,
+          functions: 80,
+          lines: 80
+        }
+      }
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    customLaunchers: {
+      ChromeHeadless: {
+          base: 'Chromium', //←Chromiumの接頭は大文字である。
+          flags: [
+            '--no-sandbox',
+            '--headless',
+            '--disable-gpu',
+            '--remote-debugging-port=9222'
+          ]
+      }
+    },
   });
 };

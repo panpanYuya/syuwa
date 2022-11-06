@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "http://web:80"
+  },
+  "/sanctum": {
+    "target": "http://web:80"
+  }
+}

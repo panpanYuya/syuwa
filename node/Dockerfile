@@ -1,5 +1,7 @@
 FROM node:16
 
+RUN apt-get update -y && apt-get upgrade -y && apt-get install -y --no-install-recommends chromium
+
 WORKDIR /
 
 RUN npm install -g @angular/cli

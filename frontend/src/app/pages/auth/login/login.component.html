@@ -1,0 +1,27 @@
+<div class="app-logo">
+  <img src="../../../assets/images/syuwa-logo.png" alt="酒話ロゴ">
+</div>
+<div class="login-wrapper">
+  <div class="title">
+    ログイン
+  </div>
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="clickLoginButton()">
+    <mat-form-field class="login-full-width" appearance="fill">
+      <mat-error *ngIf="email.hasError('required')">
+        メールアドレスは<strong>必須です</strong>
+      </mat-error>
+      <mat-label>メールアドレス</mat-label>
+      <input id="login-email" matInput placeholder="" formControlName="email">
+    </mat-form-field>
+    <mat-form-field class="login-full-width" appearance="fill">
+      <mat-error *ngIf="password.hasError('required')">
+        パスワードは<strong>必須です</strong>
+      </mat-error>
+      <mat-label>パスワード</mat-label>
+      <input type="password" id="login-password" matInput placeholder="" formControlName="password">
+    </mat-form-field>
+    <div class="login-button-row">
+      <button class="login-button">ログイン</button>
+    </div>
+  </form>
+</div>
