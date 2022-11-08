@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Users\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class UserSeeder extends Seeder
+
+class TmpUserRegistrationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,11 +17,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        //TODO seederの説明を記述する
-        DB::table('users')->insert([
+        //TODO コメントを追加する
+        DB::table('tmp_user_registrations')->insert([
             'user_name' => Str::random(10),
-            'email' => "test@test.com",
+            'email' => "testtest@test.com",
             'password' => Hash::make("password"),
+            'birthday' =>date('1999-12-1'),
         ]);
     }
 }

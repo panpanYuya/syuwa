@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Auth\LoginController;
+use App\Http\Controllers\API\Auth\RegisterController;
 use App\Http\Controllers\API\drink\BoardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,3 +28,6 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/drink/show', [BoardController::class, 'show']);
 
 Route::post('/login', [LoginController::class, 'authenticate']);
+
+//TODOコメントを追加する
+Route::post('/user/regist', [RegisterController::class, 'registUser']);
