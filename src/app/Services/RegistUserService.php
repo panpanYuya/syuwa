@@ -27,7 +27,7 @@ class RegistUserService
         //TODO ハッシュ化メソッドを呼び出す
         $user->password = $this.hashedPassword($user->password);
         //TODO 仮登録テーブルのinterfaceに仮登録テーブルに登録する処理を追加
-        //TODO 仮登録テーブルRepositoryに値を登録する処理を各
+        //TODO 仮登録テーブルRepositoryに値を登録する処理を書く
         //TODO ↑を呼び出す処理を記述する
 
     }
