@@ -22,7 +22,8 @@ class TmpUserRegistrationSeeder extends Seeder
             'user_name' => Str::random(10),
             'email' => "testtest@test.com",
             'password' => Hash::make("password"),
-            'birthday' =>date('1999-12-1'),
+            'birthday' => date('1999-12-1'),
+            'token' => Str::random(16),
         ]);
     }
 }

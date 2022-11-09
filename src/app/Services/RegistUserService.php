@@ -2,9 +2,14 @@
 
 namespace App\Services;
 
+use App\Consts\UrlConst;
+use App\Consts\UtilConst;
 use App\Models\Users\TmpUserRegistration;
 use App\Repositories\RegistTmpUserRepository;
 use Illuminate\Support\Facades\Hash;
+use Exception;
+use Illuminate\Support\Str;
+use Throwable;
 
 class RegistUserService
 {
@@ -21,14 +26,31 @@ class RegistUserService
      * @param User $user
      * @return void
      */
-    public function registTmpUser(TmpUserRegistration $tmpUser)
+    public function createTmpUser(TmpUserRegistration $tmpUser)
     {
         $tmpUser->password = $this->hashedPassword($tmpUser->password);
-        return $tmpUser;
-        //TODO 仮登録テーブルのinterfaceに仮登録テーブルに登録する処理を追加
-        //TODO 仮登録テーブルRepositoryに値を登録する処理を書く
-        //TODO ↑を呼び出す処理を記述する
 
+        try
+        {
+            $this->registTmpUserRepository->createNewTmpUser($tmpUser);
+        }catch(Throwable $e)
+        {
+            throw new Exception($e);
+        }
+    }
+
+    public function updateTmpUser(TmpUserRegistration $tmpUser)
+    {
+        $tmpUser->password = $this->hashedPassword($tmpUser->password);
+
+        try
+        {
+            //TODO ここでエラーが発生しているので、ここから修正
+            $this->registTmpUserRepository->updateNewTmpUser($tmpUser);
+        }catch(Throwable $e)
+        {
+            throw new Exception($e);
+        }
     }
 
     /**
@@ -51,5 +73,26 @@ class RegistUserService
     public function hashedPassword(string $password):string
     {
         return Hash::make($password);
+    }
+
+    /**
+     * 仮登録用のトークンを作成
+     *
+     * @return string
+     */
+    public function createTmpToken():string
+    {
+        return Str::random(UtilConst::TOKENCOUNT);
+    }
+
+    /**
+     * メールに記載する登録メールに記載するURLを作成
+     *
+     * @param string $token
+     * @return string
+     */
+    public function createRegistUrl(string $token):string
+    {
+        return config('app.url') . UrlConst::CREATEANDUPDATEURL . $token;
     }
 }

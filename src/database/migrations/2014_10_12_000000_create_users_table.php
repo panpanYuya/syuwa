@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('user_name')->comment('ユーザーネーム');
-            $table->string('email')->unique()->comment('メールアドレス');
-            $table->string('password')->comment('パスワード');
+            $table->string('user_name', 100)->comment('ユーザーネーム');
+            $table->string('email', 255)->unique()->comment('メールアドレス');
+            $table->string('password', 255)->comment('パスワード');
             $table->timestamps();
         });
     }

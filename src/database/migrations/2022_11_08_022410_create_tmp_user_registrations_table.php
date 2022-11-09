@@ -17,10 +17,11 @@ return new class extends Migration
         Schema::create('tmp_user_registrations', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->nullable()->comment('ユーザーid');
-            $table->string('user_name')->comment('ユーザーネーム');
-            $table->string('email')->unique()->comment('メールアドレス');
-            $table->string('password')->comment('パスワード');
+            $table->string('user_name', 100)->comment('ユーザーネーム');
+            $table->string('email', 255)->unique()->comment('メールアドレス');
+            $table->string('password', 255)->comment('パスワード');
             $table->date('birthday')->comment('誕生日');
+            $table->string('token', 16)->comment('仮登録トークン');
             $table->timestamps();
         });
     }

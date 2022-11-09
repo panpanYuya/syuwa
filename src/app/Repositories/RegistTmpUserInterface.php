@@ -6,7 +6,9 @@ use App\Models\Users\TmpUserRegistration;
 
 interface RegistTmpUserInterface
 {
-    public function registNewTmpUser(): TmpUserRegistration;
+    public function createNewTmpUser(TmpUserRegistration $tmpUser);
+
+    public function updateNewTmpUser(TmpUserRegistration $tmpUser);
 
     public function checkTmpUser(string $email): bool;
 }
