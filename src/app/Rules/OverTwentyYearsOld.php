@@ -4,6 +4,8 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
+use Carbon\Carbon;
+
 class OverTwentyYearsOld implements Rule
 {
     /**
@@ -28,7 +30,10 @@ class OverTwentyYearsOld implements Rule
     {
         //お酒の解禁年齢は基本的に変更がないと思われるので、マジックナンバーのまま記述する
         $checkTwenty = date("Y-m-d", strtotime("-20 year"));
-        return ['birthday' => "before_or_equal:$checkTwenty"];
+        // $userYear =  date("Y-m-d", strtotime($value));
+        $userYear = new Carbon($value);
+        return $userYear->gt($checkTwenty);
+        // return ['birthday' => "before_or_equal:$checkTwenty"];
 
     }
 

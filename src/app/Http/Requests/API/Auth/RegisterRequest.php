@@ -14,7 +14,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,11 +26,11 @@ class RegisterRequest extends FormRequest
     {
         return [
             //TODO アルファベットと英語の判定を作成する
-            'user_name' => 'require|min:1|max:255',
-            'mail_address' => 'require|min:3|max:255|unique:App\Models\Users\User.email|email:strict,dns,spoof',
-            'birthday' => new OverTwentyYearsOld(),
-            'password' => 'require|min:8|max:255|',
-            'password_confirm' => 'password_confirmation' ,
+            'user_name' => 'required|min:1|max:255',
+            'email' => 'required|min:3|max:255|unique:App\Models\Users\User,email|email:strict,dns,spoof',
+            'birthday' => 'required',
+            // 'birthday' => new OverTwentyYearsOld,
+            'password' => 'required|min:8|max:255|confirmed',
         ];
     }
 }
