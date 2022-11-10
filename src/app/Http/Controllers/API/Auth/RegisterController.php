@@ -21,7 +21,7 @@ class RegisterController extends Controller
         $this->registUserService = $registUserService;
     }
 
-    public function registUser(RegisterRequest $response): JsonResponse
+    public function registTmpUser(RegisterRequest $response): JsonResponse
     {
         //TODO 最後にTODOのコメントの消し忘れがないかを確認する
         $tmpUser = $this->setTmpUserRegistration($response);
@@ -38,9 +38,8 @@ class RegisterController extends Controller
         Mail::to($tmpUser->email)->send(new RegistTmpUserMail($tmpUser->user_name, $registUrl));
 
         return response()->json([
-            'result' => 'success',
-            'statasCode' => 200,
-        ]);
+            'result' => 'success'
+        ], 200);
     }
 
     /**
