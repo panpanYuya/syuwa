@@ -14,7 +14,6 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        //
         DB::table('posts')->insert([
             [
                 'user_id' => 1,

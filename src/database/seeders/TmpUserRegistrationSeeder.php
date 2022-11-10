@@ -17,7 +17,6 @@ class TmpUserRegistrationSeeder extends Seeder
      */
     public function run()
     {
-        //TODO コメントを追加する
         DB::table('tmp_user_registrations')->insert([
             'user_name' => Str::random(10),
             'email' => "testtest@test.com",

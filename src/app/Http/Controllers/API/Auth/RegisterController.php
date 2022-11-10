@@ -17,26 +17,19 @@ class RegisterController extends Controller
 
     public function __construct(
         RegistUserService $registUserService
-    ){
+    ) {
         $this->registUserService = $registUserService;
     }
 
     public function registUser(RegisterRequest $response): JsonResponse
     {
-        // $user = $this.setUser($response);
         //TODO 最後にTODOのコメントの消し忘れがないかを確認する
         $tmpUser = $this->setTmpUserRegistration($response);
-        //TODO 仮登録の判定を行い➀➁で動きを変える。
         //入力されたユーザーが存在するかを確認する
-        (boolean) $tmpUserFlg =$this->registUserService->checkTmpUser($tmpUser->email);
-        if($tmpUserFlg)
-        {
-            //TODO 仮登録を更新➁
-            //TODO 仮登録のサービスで更新の関数を作成する
-            //TODO 存在するユーザー情報を更新する処理を作成
-            //TODO 仮登録のメールを送信する処理を記載
+        (bool) $tmpUserFlg = $this->registUserService->checkTmpUser($tmpUser->email);
+        if ($tmpUserFlg) {
             $this->registUserService->updateTmpUser($tmpUser);
-        } else{
+        } else {
             $this->registUserService->createTmpUser($tmpUser);
         }
 
@@ -48,7 +41,6 @@ class RegisterController extends Controller
             'result' => 'success',
             'statasCode' => 200,
         ]);
-
     }
 
     /**
@@ -67,6 +59,4 @@ class RegisterController extends Controller
         $tmpUserRegistration->token = $this->registUserService->createTmpToken();
         return $tmpUserRegistration;
     }
-
-
 }

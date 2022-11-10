@@ -24,10 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
 });
 
-//login機能が修正出来次第sanctumを噛ませるように修正
+//TODO login機能が修正出来次第sanctumを噛ませるように修正
 Route::get('/drink/show', [BoardController::class, 'show']);
 
 Route::post('/login', [LoginController::class, 'authenticate']);
 
-//TODOコメントを追加する
+//TODO もう一つのURL作成後にgroup化
 Route::post('/user/regist', [RegisterController::class, 'registUser']);

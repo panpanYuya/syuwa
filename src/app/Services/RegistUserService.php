@@ -30,25 +30,26 @@ class RegistUserService
     {
         $tmpUser->password = $this->hashedPassword($tmpUser->password);
 
-        try
-        {
+        try {
             $this->registTmpUserRepository->createNewTmpUser($tmpUser);
-        }catch(Throwable $e)
-        {
+        } catch (Throwable $e) {
             throw new Exception($e);
         }
     }
 
+    /**
+     * 仮登録情報を更新する処理
+     *
+     * @param TmpUserRegistration $tmpUser
+     * @return void
+     */
     public function updateTmpUser(TmpUserRegistration $tmpUser)
     {
         $tmpUser->password = $this->hashedPassword($tmpUser->password);
 
-        try
-        {
-            //TODO ここでエラーが発生しているので、ここから修正
+        try {
             $this->registTmpUserRepository->updateNewTmpUser($tmpUser);
-        }catch(Throwable $e)
-        {
+        } catch (Throwable $e) {
             throw new Exception($e);
         }
     }
@@ -70,7 +71,7 @@ class RegistUserService
      * @param string $password
      * @return string
      */
-    public function hashedPassword(string $password):string
+    public function hashedPassword(string $password): string
     {
         return Hash::make($password);
     }
@@ -80,7 +81,7 @@ class RegistUserService
      *
      * @return string
      */
-    public function createTmpToken():string
+    public function createTmpToken(): string
     {
         return Str::random(UtilConst::TOKENCOUNT);
     }
@@ -91,7 +92,7 @@ class RegistUserService
      * @param string $token
      * @return string
      */
-    public function createRegistUrl(string $token):string
+    public function createRegistUrl(string $token): string
     {
         return config('app.url') . UrlConst::CREATEANDUPDATEURL . $token;
     }

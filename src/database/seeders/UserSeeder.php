@@ -17,7 +17,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        //TODO seederの説明を記述する
         DB::table('users')->insert([
             'user_name' => Str::random(10),
             'email' => "test@test.com",
