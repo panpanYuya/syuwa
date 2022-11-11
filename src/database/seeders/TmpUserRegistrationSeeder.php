@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
+use Datetime;
 
 class TmpUserRegistrationSeeder extends Seeder
 {
@@ -23,6 +23,8 @@ class TmpUserRegistrationSeeder extends Seeder
             'password' => Hash::make("password"),
             'birthday' => date('1999-12-1'),
             'token' => Str::random(16),
+            'created_at' => new Datetime(),
+            'updated_at' => new Datetime()
         ]);
     }
 }

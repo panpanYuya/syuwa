@@ -47,4 +47,15 @@ class RegistTmpUserRepository implements RegistTmpUserInterface
     {
         return TmpUserRegistration::where('email', $email)->exists();
     }
+
+    /**
+     * トークンに紐づく仮登録情報を取得
+     *
+     * @param string $token
+     * @return TmpUserRegistration
+     */
+    public function findTmpUser(string $token): TmpUserRegistration
+    {
+        return TmpUserRegistration::where('token', $token)->firstOrFail();
+    }
 }

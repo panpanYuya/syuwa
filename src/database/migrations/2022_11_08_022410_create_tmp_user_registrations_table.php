@@ -15,6 +15,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tmp_user_registrations', function (Blueprint $table) {
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_bin';
             $table->id();
             $table->foreignIdFor(User::class)->nullable()->comment('ユーザーid');
             $table->string('user_name', 100)->comment('ユーザーネーム');
@@ -22,7 +24,9 @@ return new class extends Migration
             $table->string('password', 255)->comment('パスワード');
             $table->date('birthday')->comment('誕生日');
             $table->string('token', 16)->comment('仮登録トークン');
-            $table->timestamps();
+
+            $table->dateTime('created_at', $precision = 0)->comment('作成時間');
+            $table->dateTime('updated_at', $precision = 0)->comment('更新時間');
         });
     }
 

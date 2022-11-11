@@ -29,5 +29,7 @@ Route::get('/drink/show', [BoardController::class, 'show']);
 
 Route::post('/login', [LoginController::class, 'authenticate']);
 
-//TODO もう一つのURL作成後にgroup化
-Route::post('/user/regist', [RegisterController::class, 'registTmpUser']);
+Route::controller(RegisterController::class)->group(function () {
+    Route::post('/user/regist', 'registTmpUser');
+    Route::post('/user/regist/complete/{token}', 'registUserComplete');
+});

@@ -42,6 +42,31 @@ class RegisterController extends Controller
         ], 200);
     }
 
+    public function registUserComplete(): JsonResponse
+    {
+
+        $tmpUser = $this->registUserService->createRegistUser(request('token'));
+        //TODO 登録から24時間超えてしまっている場合に登録されている物を削除するメソッド
+        if($this->registUserService->checkExpirationDate($tmpUser->updated_at))
+        {
+            return response()->json([
+                'result' => $tmpUser,
+                'expire' => true,
+            ], 200);
+        }
+        //TODO 個人情報のモデルを追加
+        //TOOD 個人情報のmigrationを追加
+        //TODO 個人情報のseederを追加
+        //TODO Tmpテーブルから誕生日以外をユーザー情報テーブルに登録する処理
+        //TODO tmpテーブルから誕生日をユーザー個人情報テーブルに追加
+        //TODO try catchの処理をお追加
+        //TODO 成功時にtmp情報を削除
+        return response()->json([
+            'result' => $tmpUser,
+            'expire' => false,
+        ], 200);
+    }
+
     /**
      * 仮登録モデル型に変換
      *
@@ -55,6 +80,7 @@ class RegisterController extends Controller
         $tmpUserRegistration->email = $request->email;
         $tmpUserRegistration->password = $request->password;
         $tmpUserRegistration->birthday = $request->birthday;
+        //TODO tokenを作成する時に登録されていないかを確認する
         $tmpUserRegistration->token = $this->registUserService->createTmpToken();
         return $tmpUserRegistration;
     }

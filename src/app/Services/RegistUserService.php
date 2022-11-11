@@ -6,9 +6,12 @@ use App\Consts\UrlConst;
 use App\Consts\UtilConst;
 use App\Models\Users\TmpUserRegistration;
 use App\Repositories\RegistTmpUserRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
-use Exception;
 use Illuminate\Support\Str;
+use DateTime;
+use Exception;
+use Illuminate\Support\Facades\Date;
 use Throwable;
 
 class RegistUserService
@@ -20,6 +23,7 @@ class RegistUserService
     ) {
         $this->registTmpUserRepository = $registTmpUserRepository;
     }
+
     /**
      * ユーザー認証テーブルに登録する処理を行う関数
      *
@@ -63,6 +67,31 @@ class RegistUserService
     public function checkTmpUser(string $email): bool
     {
         return $this->registTmpUserRepository->checkTmpUser($email);
+    }
+
+    /**
+     * トークンに紐づく仮登録情報を取得
+     *
+     * @param string $token
+     * @return TmpUserRegistration
+     */
+    public function createRegistUser(string $token): TmpUserRegistration
+    {
+        return $this->registTmpUserRepository->findTmpUser($token);
+    }
+
+    /**
+     * 仮登録用のURLが有効期限切れではないかを確認
+     * trueの場合は有効期限内
+     * falseの場合は有効期限外
+     *
+     * @param Date $endTime
+     * @return boolean
+     */
+    public function checkExpirationDate(DateTime $expirationDate): bool
+    {
+        $expirationDate->addHour(UtilConst::ONE_DAY_TO_HOUR);
+        return Carbon::now() < $expirationDate;
     }
 
     /**

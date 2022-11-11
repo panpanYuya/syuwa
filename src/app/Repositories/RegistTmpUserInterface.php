@@ -10,5 +10,7 @@ interface RegistTmpUserInterface
 
     public function updateNewTmpUser(TmpUserRegistration $tmpUser);
 
+    public function findTmpUser(string $token): TmpUserRegistration;
+
     public function checkTmpUser(string $email): bool;
 }

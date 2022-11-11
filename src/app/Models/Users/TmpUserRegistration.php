@@ -21,6 +21,7 @@ class TmpUserRegistration extends Model
         'email',
         'birthday',
         'token',
+        'updated_at',
     ];
 
     /**
