@@ -7,23 +7,26 @@ use App\Consts\UtilConst;
 use App\Models\Users\TmpUserRegistration;
 use App\Models\Users\User;
 use App\Repositories\RegistTmpUserRepository;
+use App\Repositories\RegistUserRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Str;
 use DateTime;
 use Exception;
-use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class RegistUserService
 {
     private RegistTmpUserRepository $registTmpUserRepository;
+    private RegistUserRepository $registUserRepository;
 
     public function __construct(
-        RegistTmpUserRepository $registTmpUserRepository
+        RegistTmpUserRepository $registTmpUserRepository,
+        RegistUserRepository $registUserRepository
     ) {
         $this->registTmpUserRepository = $registTmpUserRepository;
+        $this->registUserRepository = $registUserRepository;
     }
 
     /**
@@ -54,9 +57,7 @@ class RegistUserService
         $user = $this->createUserForm($tmpUser);
         try
         {
-            DB::beginTransaction();
-            $this->registTmpUserRepository->createNewUser($user);
-            DB::commit();
+            $this->registUserRepository->createNewUser($user);
         } catch(Throwable $e)
         {
             abort(500);
@@ -76,6 +77,15 @@ class RegistUserService
 
         try {
             $this->registTmpUserRepository->updateNewTmpUser($tmpUser);
+        } catch (Throwable $e) {
+            abort(500);
+        }
+    }
+
+    public function deleteRegistedTmpUser(TmpUserRegistration $tmpUser)
+    {
+        try {
+            $this->registTmpUserRepository->deleteTmpUser($tmpUser);
         } catch (Throwable $e) {
             abort(500);
         }
@@ -105,6 +115,7 @@ class RegistUserService
 
     /**
      * 仮登録用のURLが有効期限切れではないかを確認
+     * 有効期限は24時間
      * trueの場合は有効期限内
      * falseの場合は有効期限外
      *
@@ -130,12 +141,22 @@ class RegistUserService
 
     /**
      * 仮登録用のトークンを作成
+     * 登録するトークンがすでに仮登録テーブルに登録されていないかを確認
      *
      * @return string
      */
     public function createTmpToken(): string
     {
-        return Str::random(UtilConst::TOKENCOUNT);
+        $tokenFlg = false;
+        while (!$tokenFlg)
+        {
+            $token = Str::random(UtilConst::TOKENCOUNT);
+            if(!$this->registTmpUserRepository->checkToken($token))
+            {
+                $tokenFlg =true;
+            }
+        }
+        return $token;
     }
 
     /**

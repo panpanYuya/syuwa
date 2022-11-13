@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Auth;
 
+use App\Consts\ErrorMessageConst;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Auth\RegisterRequest;
 use App\Mail\RegistTmpUserMail;
@@ -42,24 +43,28 @@ class RegisterController extends Controller
         ], 200);
     }
 
+    /**
+     * URLから仮登録ユーザーを本登録する処理
+     *
+     * @return JsonResponse
+     */
     public function registUserComplete(): JsonResponse
     {
-
         $tmpUser = $this->registUserService->findTmpUserByToken(request('token'));
         if($this->registUserService->checkExpirationDate($tmpUser->updated_at))
         {
             $this->registUserService->createNewUser($tmpUser);
-            //TODO 成功時にtmp情報を削除
+            $this->registUserService->deleteRegistedTmpUser($tmpUser);
             return response()->json([
-                'result' => $tmpUser,
                 'expire' => true,
             ], 200);
         }
-        //特定のエラーを返す処理追加
+
+        $this->registUserService->deleteRegistedTmpUser($tmpUser);
         return response()->json([
-            'result' => $tmpUser,
+            'message' => ErrorMessageConst::EXPIRATION_DATE,
             'expire' => false,
-        ], 200);
+        ], 404);
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Users\TmpUserRegistration;
-use App\Models\Users\User;
 
 class RegistTmpUserRepository implements RegistTmpUserInterface
 {
@@ -39,15 +38,14 @@ class RegistTmpUserRepository implements RegistTmpUserInterface
     }
 
     /**
-     * ユーザーテーブルに登録する処理
+     * 仮登録テーブルに登録しているユーザーを削除
      *
-     * @param User $user
+     * @param TmpUserRegistration $tmpUser
      * @return void
      */
-    public function createNewUser(User $user)
+    public function deleteTmpUser(TmpUserRegistration $tmpUser)
     {
-        $user->save();
-
+        $tmpUser->delete();
     }
 
     /**
@@ -59,6 +57,17 @@ class RegistTmpUserRepository implements RegistTmpUserInterface
     public function checkTmpUser(string $email): bool
     {
         return TmpUserRegistration::where('email', $email)->exists();
+    }
+
+    /**
+     * 仮登録テーブルに同一のtokenが存在するか確認
+     *
+     * @param string $token
+     * @return boolean
+     */
+    public function checkToken(string $token): bool
+    {
+        return TmpUserRegistration::where('token', $token)->exists();
     }
 
     /**
