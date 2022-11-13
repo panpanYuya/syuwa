@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('email', 255)->unique()->comment('メールアドレス');
             $table->string('password', 255)->comment('パスワード');
             $table->date('birthday')->comment('誕生日');
-            $table->string('token', 16)->comment('仮登録トークン');
+            $table->string('token', 16)->unique()->comment('仮登録トークン');
 
             $table->dateTime('created_at', $precision = 0)->comment('作成時間');
             $table->dateTime('updated_at', $precision = 0)->comment('更新時間');
