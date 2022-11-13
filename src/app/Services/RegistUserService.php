@@ -5,13 +5,15 @@ namespace App\Services;
 use App\Consts\UrlConst;
 use App\Consts\UtilConst;
 use App\Models\Users\TmpUserRegistration;
+use App\Models\Users\User;
 use App\Repositories\RegistTmpUserRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Date;
 use DateTime;
 use Exception;
-use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class RegistUserService
@@ -25,7 +27,7 @@ class RegistUserService
     }
 
     /**
-     * ユーザー認証テーブルに登録する処理を行う関数
+     * 仮登録テーブルに登録する処理
      *
      * @param User $user
      * @return void
@@ -42,6 +44,27 @@ class RegistUserService
     }
 
     /**
+     * 仮登録ユーザーを本登録する処理
+     *
+     * @param TmpUserRegistration $tmpUser
+     * @return void
+     */
+    public function createNewUser(TmpUserRegistration $tmpUser)
+    {
+        $user = $this->createUserForm($tmpUser);
+        try
+        {
+            DB::beginTransaction();
+            $this->registTmpUserRepository->createNewUser($user);
+            DB::commit();
+        } catch(Throwable $e)
+        {
+            abort(500);
+        }
+
+    }
+
+    /**
      * 仮登録情報を更新する処理
      *
      * @param TmpUserRegistration $tmpUser
@@ -54,7 +77,7 @@ class RegistUserService
         try {
             $this->registTmpUserRepository->updateNewTmpUser($tmpUser);
         } catch (Throwable $e) {
-            throw new Exception($e);
+            abort(500);
         }
     }
 
@@ -75,9 +98,9 @@ class RegistUserService
      * @param string $token
      * @return TmpUserRegistration
      */
-    public function createRegistUser(string $token): TmpUserRegistration
+    public function findTmpUserByToken(string $token): TmpUserRegistration
     {
-        return $this->registTmpUserRepository->findTmpUser($token);
+        return $this->registTmpUserRepository->findTmpUserByToken($token);
     }
 
     /**
@@ -124,5 +147,23 @@ class RegistUserService
     public function createRegistUrl(string $token): string
     {
         return config('app.url') . UrlConst::CREATEANDUPDATEURL . $token;
+    }
+
+
+    /**
+     * ユーザーテーブルに登録する新規ユーザーの情報をセット
+     *
+     * @param TmpUserRegistration $tmpUser
+     * @return User
+     */
+    public function createUserForm(TmpUserRegistration $tmpUser): User
+    {
+        $user = new User();
+        $user->user_name = $tmpUser->user_name;
+        $user->email = $tmpUser->email;
+        $user->password = $tmpUser->password;
+        $user->birthday = $tmpUser->birthday;
+
+        return $user;
     }
 }

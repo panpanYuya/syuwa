@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Users\TmpUserRegistration;
+use App\Models\Users\User;
 
 interface RegistTmpUserInterface
 {
@@ -10,7 +11,9 @@ interface RegistTmpUserInterface
 
     public function updateNewTmpUser(TmpUserRegistration $tmpUser);
 
-    public function findTmpUser(string $token): TmpUserRegistration;
+    public function createNewUser(User $user);
 
     public function checkTmpUser(string $email): bool;
+
+    public function findTmpUserByToken(string $token): TmpUserRegistration;
 }

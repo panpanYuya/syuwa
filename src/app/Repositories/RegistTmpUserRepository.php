@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Users\TmpUserRegistration;
+use App\Models\Users\User;
 
 class RegistTmpUserRepository implements RegistTmpUserInterface
 {
@@ -38,6 +39,18 @@ class RegistTmpUserRepository implements RegistTmpUserInterface
     }
 
     /**
+     * ユーザーテーブルに登録する処理
+     *
+     * @param User $user
+     * @return void
+     */
+    public function createNewUser(User $user)
+    {
+        $user->save();
+
+    }
+
+    /**
      * 仮登録テーブルに登録済みのメールアドレスか確認
      *
      * @param string $email
@@ -54,8 +67,9 @@ class RegistTmpUserRepository implements RegistTmpUserInterface
      * @param string $token
      * @return TmpUserRegistration
      */
-    public function findTmpUser(string $token): TmpUserRegistration
+    public function findTmpUserByToken(string $token): TmpUserRegistration
     {
         return TmpUserRegistration::where('token', $token)->firstOrFail();
     }
+
 }

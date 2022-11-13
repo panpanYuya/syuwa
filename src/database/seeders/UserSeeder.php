@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'user_name' => Str::random(10),
             'email' => "test@test.com",
             'password' => Hash::make("password"),
+            'birthday' => '2002/10/10 19:24:40',
             'created_at' => new Datetime(),
             'updated_at' => new Datetime()
         ]);

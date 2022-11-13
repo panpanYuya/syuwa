@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('user_name', 100)->comment('ユーザーネーム');
             $table->string('email', 255)->unique()->comment('メールアドレス');
             $table->string('password', 255)->comment('パスワード');
+            $table->date('birthday')->comment('誕生日');
             $table->datetime('created_at', $precision = 0)->comment('作成時間');
             $table->dateTime('updated_at', $precision = 0)->comment('更新時間');
         });
