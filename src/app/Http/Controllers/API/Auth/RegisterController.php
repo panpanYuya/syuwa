@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\API\Auth;
 
-use App\Consts\ErrorMessageConst;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Auth\RegisterRequest;
-use App\Mail\RegistTmpUserMail;
 use App\Models\Users\TmpUserRegistration;
 use App\Services\RegistUserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Mail;
+
 
 class RegisterController extends Controller
 {
@@ -34,9 +32,8 @@ class RegisterController extends Controller
             $this->registUserService->createTmpUser($tmpUser);
         }
 
-        $registUrl = $this->registUserService->createRegistUrl($tmpUser->token);
         //TODO フロントエンド実装時に仮登録メールに記載するメールアドレスを追加する
-        Mail::to($tmpUser->email)->send(new RegistTmpUserMail($tmpUser->user_name, $registUrl));
+        $this->registUserService->sendTemporaryMail($tmpUser->email, $tmpUser->user_name, $tmpUser->token);
 
         return response()->json([
             'result' => 'success'
@@ -50,9 +47,11 @@ class RegisterController extends Controller
      */
     public function registUserComplete(): JsonResponse
     {
+        //TODO 登録されていない時の処理を調べる
         $tmpUser = $this->registUserService->findTmpUserByToken(request('token'));
         if($this->registUserService->checkExpirationDate($tmpUser->updated_at))
         {
+            //TODO削除できなかった時の危険性を考える
             $this->registUserService->createNewUser($tmpUser);
             $this->registUserService->deleteRegistedTmpUser($tmpUser);
             return response()->json([
@@ -62,7 +61,7 @@ class RegisterController extends Controller
 
         $this->registUserService->deleteRegistedTmpUser($tmpUser);
         return response()->json([
-            'message' => ErrorMessageConst::EXPIRATION_DATE,
+            'message' => trans('error.expiration'),
             'expire' => false,
         ], 404);
     }
@@ -80,7 +79,6 @@ class RegisterController extends Controller
         $tmpUserRegistration->email = $request->email;
         $tmpUserRegistration->password = $request->password;
         $tmpUserRegistration->birthday = $request->birthday;
-        //TODO tokenを作成する時に登録されていないかを確認する
         $tmpUserRegistration->token = $this->registUserService->createTmpToken();
         return $tmpUserRegistration;
     }

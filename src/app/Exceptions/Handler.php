@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Consts\ErrorMessageConst;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Throwable;
@@ -64,19 +63,19 @@ class Handler extends ExceptionHandler
             switch ($statusCode) {
                 case 400:
                     return response()->json([
-                        'message' => ErrorMessageConst::BAD_REQUEST
+                        'message' => trans('error.bad_request')
                     ], 400);
                 case 401:
                         return response()->json([
-                        'message' => ErrorMessageConst::UNAUTHORIZED
+                        'message' => trans('error.unauthorized')
                     ], 401);
                 case 403:
                     return response()->json([
-                        'message' => ErrorMessageConst::FORBIDDEN
+                        'message' => trans('error.forbidden')
                     ], 403);
                 case 404:
                     return response()->json([
-                        'message' => ErrorMessageConst::NOT_FOUND
+                        'message' => __('error.not_found')
                     ], 404);
                 case 422:
                     return response()->json([
@@ -84,7 +83,7 @@ class Handler extends ExceptionHandler
                     ], 422);
                 case 500:
                     return response()->json([
-                        'message' => ErrorMessageConst::INTERNAL_SERVER_ERROR
+                        'message' => trans('error.server')
                     ], 500);
             }
         } elseif ($exception instanceof ValidationException)

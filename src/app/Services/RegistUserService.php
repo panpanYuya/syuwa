@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Consts\UrlConst;
 use App\Consts\UtilConst;
+use App\Mail\RegistTmpUserMail;
 use App\Models\Users\TmpUserRegistration;
 use App\Models\Users\User;
 use App\Repositories\RegistTmpUserRepository;
@@ -11,9 +12,9 @@ use App\Repositories\RegistUserRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use DateTime;
-use Exception;
 use Throwable;
 
 class RegistUserService
@@ -42,7 +43,7 @@ class RegistUserService
         try {
             $this->registTmpUserRepository->createNewTmpUser($tmpUser);
         } catch (Throwable $e) {
-            throw new Exception($e);
+            abort(500);
         }
     }
 
@@ -170,6 +171,23 @@ class RegistUserService
         return config('app.url') . UrlConst::CREATEANDUPDATEURL . $token;
     }
 
+    /**
+     * 本登録メールを送信
+     *
+     * @param string $email
+     * @param string $userName
+     * @param string $token
+     * @return void
+     */
+    public function sendTemporaryMail(string $email, string $userName, string $token)
+    {
+        $registUrl = $this->createRegistUrl($token);
+        try {
+            Mail::to($email)->send(new RegistTmpUserMail($userName, $registUrl));
+        } catch (Throwable $e) {
+            abort(500);
+        }
+    }
 
     /**
      * ユーザーテーブルに登録する新規ユーザーの情報をセット

@@ -19,8 +19,9 @@ class OverTwentyYearsOld implements Rule
     }
 
     /**
-     * Determine if the validation rule passes.
-     * //TODO 何の為のruleかを記載する
+     * 20歳以上であるかを判定
+     * 20歳以上true
+     * 20歳未満false
      *
      * @param  string  $attribute
      * @param  mixed  $value
@@ -29,12 +30,11 @@ class OverTwentyYearsOld implements Rule
     public function passes($attribute, $value)
     {
         //お酒の解禁年齢は基本的に変更がないと思われるので、マジックナンバーのまま記述する
-        $checkTwenty = date("Y-m-d", strtotime("-20 year"));
-        // $userYear =  date("Y-m-d", strtotime($value));
-        $userYear = new Carbon($value);
-        return $userYear->gt($checkTwenty);
-        // return ['birthday' => "before_or_equal:$checkTwenty"];
-
+        $checkTwenty = date("Y-m-d", strtotime($value));
+        $dt = new Carbon();
+        $dt->format('Y-m-d');
+        $dt->subYear(20);
+        return $dt->gt($checkTwenty);
     }
 
     /**
@@ -44,6 +44,6 @@ class OverTwentyYearsOld implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'このアプリケーションは20歳以上でないとご使用できません。';
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\API\Auth;
 
+use App\Rules\NameValidation;
 use App\Rules\OverTwentyYearsOld;
+use App\Rules\Space;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
@@ -25,12 +27,25 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            //TODO アルファベットと英語の判定を作成する
-            'user_name' => 'required|min:1|max:255',
-            'email' => 'required|min:3|max:255|unique:App\Models\Users\User,email|email:strict,dns,spoof',
-            'birthday' => 'required',
-            // 'birthday' => new OverTwentyYearsOld,
-            'password' => 'required|min:8|max:255|confirmed',
+            'user_name' => ['required', 'min:1', 'max:255', new Space, new NameValidation],
+            'email' => ['required','min:3','max:255', 'unique:App\Models\Users\User,email', 'email:strict,dns,spoof'],
+            'birthday' => ['required',new OverTwentyYearsOld],
+            'password' => ['required', 'min:8', 'max:255','confirmed', new Space, new NameValidation],
+        ];
+    }
+
+    /**
+     * 入力値
+     *
+     * @return void
+     */
+    public function attributes()
+    {
+        return [
+            'user_name' => 'ユーザー名',
+            'email' => 'メールアドレス',
+            'birthday' => '誕生日',
+            'password' => 'パスワード',
         ];
     }
 }
