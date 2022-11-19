@@ -67,7 +67,7 @@ class RegistUserService
     }
 
     /**
-     * 仮登録情報を更新する処理
+     * 仮登録情報を更新
      *
      * @param TmpUserRegistration $tmpUser
      * @return void
@@ -83,6 +83,12 @@ class RegistUserService
         }
     }
 
+    /**
+     * 仮登録情報を削除
+     *
+     * @param TmpUserRegistration $tmpUser
+     * @return void
+     */
     public function deleteRegistedTmpUser(TmpUserRegistration $tmpUser)
     {
         try {
@@ -93,7 +99,7 @@ class RegistUserService
     }
 
     /**
-     * 仮登録テーブルに登録データが存在確認
+     * 仮登録テーブルに登録データが存在するか確認
      *
      * @param string $email
      * @return boolean
@@ -115,7 +121,7 @@ class RegistUserService
     }
 
     /**
-     * 仮登録用のURLが有効期限切れではないかを確認
+     * 仮登録用のURLが有効期限切れではないか確認
      * 有効期限は24時間
      * trueの場合は有効期限内
      * falseの場合は有効期限外

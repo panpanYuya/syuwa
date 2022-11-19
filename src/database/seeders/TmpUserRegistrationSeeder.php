@@ -18,13 +18,33 @@ class TmpUserRegistrationSeeder extends Seeder
     public function run()
     {
         DB::table('tmp_user_registrations')->insert([
-            'user_name' => Str::random(10),
-            'email' => "testtest@test.com",
-            'password' => Hash::make("password"),
-            'birthday' => date('1999-12-1'),
-            'token' => Str::random(16),
-            'created_at' => new Datetime(),
-            'updated_at' => new Datetime()
+            [
+                'user_name' => Str::random(10),
+                'email' => "testtest@test.com",
+                'password' => Hash::make("password"),
+                'birthday' => date('1999-12-1'),
+                'token' => Str::random(16),
+                'created_at' => new Datetime(),
+                'updated_at' => new Datetime()
+            ],
+            [
+                'user_name' => 'testNewUser',
+                'email' => "newtestUser@test.com",
+                'password' => Hash::make("password"),
+                'birthday' => date('1999-12-1'),
+                'token' => 'testtesttesttest',
+                'created_at' => new Datetime(),
+                'updated_at' => new Datetime()
+            ],
+            [
+                'user_name' => 'testExpieredUser',
+                'email' => "testExpieredUser@test.com",
+                'password' => Hash::make("password"),
+                'birthday' => date('1999-12-1'),
+                'token' => 'failfailfailfail',
+                'created_at' => '2021/11/19 16:52:15',
+                'updated_at' => '2021/11/19 16:52:15'
+            ]
         ]);
     }
 }
