@@ -1,21 +1,18 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| Authentication Language Lines
+|--------------------------------------------------------------------------
+|
+| The following language lines are used during authentication for various
+| messages that we need to display to the user. You are free to modify
+| these language lines according to your application's requirements.
+|
+*/
+
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | 認証言語行
-    |--------------------------------------------------------------------------
-    |
-    | 以下の言語行は認証時にユーザーに対し表示する必要のある
-    | 様々なメッセージです。アプリケーションの必要に合わせ
-    | 自由にこれらの言語行を変更してください。
-    |
-    */
-
-    'success' => 'ログインに成功しました。',
-    'unauthorized' => 'ログイン情報が正しくありません。',
-    'failed' => 'ログイン情報が登録されていません。',
-    'throttle' => 'ログインに続けて失敗しています。:seconds秒後に再度お試しください。',
-
+    'failed'   => 'ログインに失敗しました。<br> ユーザー名、パスワードをご確認ください。',
+    'password' => 'パスワードが間違っています。',
+    'throttle' => 'ログインの試行回数が多すぎます。:seconds 秒後にお試しください。',
 ];
