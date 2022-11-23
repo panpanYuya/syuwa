@@ -7,11 +7,13 @@ export class ApiConst {
 
   static readonly LOGIN = 'login';
 
-  static readonly AUTH = 'auth';
-
   static readonly CHECK = 'check';
 
   static readonly DRINK = 'drink';
 
+  static readonly REGIST = 'regist';
+
   static readonly SHOW = 'show';
+
+  static readonly USER = 'user';
 }

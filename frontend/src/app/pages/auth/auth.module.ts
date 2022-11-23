@@ -5,13 +5,14 @@ import { HttpClient, HttpClientModule, HttpClientXsrfModule } from '@angular/com
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { LogoComponent } from '../common/logo/logo.component';
 import { PagesModule } from '../pages.module';
+import { CreateUserComponent } from './create-user/create-user.component';
 import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    CreateUserComponent,
   ],
   imports: [
     CommonModule,
