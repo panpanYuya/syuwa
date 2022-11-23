@@ -2,7 +2,6 @@ import { Observable } from 'rxjs';
 import { ErrorMessageConst } from 'src/app/common/constants/error-message-const';
 import { ErrorStatusConst } from 'src/app/common/constants/error-status-const';
 
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
@@ -52,7 +51,7 @@ export class LoginComponent implements OnInit {
     loginResponseDto.subscribe( {
       next:
         () => {
-            this.routingService.transitToPath(UrlConst.PATH_DRINK + UrlConst.SLASH + UrlConst.PATH_SHOW);
+            this.routingService.transitToPath(UrlConst.SLASH + UrlConst.AUTH + UrlConst.SLASH + UrlConst.CREATE);
         },
       error:
         (error) => {
@@ -76,6 +75,10 @@ export class LoginComponent implements OnInit {
     //     }
     // });
 
+  }
+
+  public toCreate() {
+    this.routingService.transitToPath(UrlConst.AUTH + UrlConst.SLASH + UrlConst.CREATE);
   }
 
   public createLoginRequestDto():LoginRequestDto{

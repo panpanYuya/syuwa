@@ -3,6 +3,7 @@
   <div class="title">
     ログイン
   </div>
+  <p *ngIf="errorMessage">{{errorMessage}}</p>
   <form class="login-form" [formGroup]="loginForm" (ngSubmit)="clickLoginButton()">
     <mat-form-field class="login-full-width" appearance="fill">
       <mat-error *ngIf="email.hasError('required')">
@@ -22,4 +23,10 @@
       <button class="login-button">ログイン</button>
     </div>
   </form>
+  <div class="forget-password-form">
+    <a href="">パスワードを忘れてしまった場合</a>
+  </div>
+  <div class="create-form">
+    <button class="create-button" (click)="toCreate()">新規登録</button>
+  </div>
 </div>
