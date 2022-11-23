@@ -5,6 +5,5 @@ namespace App\Consts;
 
 class UrlConst
 {
-
-    const CREATEANDUPDATEURL = '/regist/user/';
+    const CREATEANDUPDATEURL = 'web/user/regist/complete/';
 }

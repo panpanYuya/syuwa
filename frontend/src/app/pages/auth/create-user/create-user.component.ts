@@ -54,14 +54,12 @@ export class CreateUserComponent {
     Validators.required,
     Validators.minLength(8),
     Validators.maxLength(255),
-    Validators.pattern('/\S/u'),
   ]);
 
   passwordConfirmation = new FormControl('', [
     Validators.required,
     Validators.minLength(8),
     Validators.maxLength(255),
-    Validators.pattern('/\S/u'),
   ]);
 
   createForm = this.formBuilder.group({
@@ -84,9 +82,8 @@ export class CreateUserComponent {
         () => {
         this.createService.createUser(createUserRequestDto).subscribe( {
         next:
-            (result) => {
-              console.log(result);
-              this.routingService.transitToPath(UrlConst.PATH_DRINK + UrlConst.SLASH + UrlConst.PATH_SHOW);
+            () => {
+              this.routingService.transitToPath(UrlConst.SLASH + UrlConst.AUTH  + UrlConst.SLASH + UrlConst.CREATE + UrlConst.SLASH + UrlConst.SEND);
           },
         error:
           (error) => {

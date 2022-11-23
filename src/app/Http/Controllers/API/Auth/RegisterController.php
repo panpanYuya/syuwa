@@ -41,32 +41,6 @@ class RegisterController extends Controller
     }
 
     /**
-     * URLから仮登録ユーザーを本登録する処理
-     *
-     * @return JsonResponse
-     */
-    public function registUserComplete(): JsonResponse
-    {
-        //TODO 登録されていない時の処理を調べる
-        $tmpUser = $this->registUserService->findTmpUserByToken(request('token'));
-        if($this->registUserService->checkExpirationDate($tmpUser->updated_at))
-        {
-            //TODO削除できなかった時の危険性を考える
-            $this->registUserService->createNewUser($tmpUser);
-            $this->registUserService->deleteRegistedTmpUser($tmpUser);
-            return response()->json([
-                'expire' => true,
-            ], 200);
-        }
-
-        $this->registUserService->deleteRegistedTmpUser($tmpUser);
-        return response()->json([
-            'message' => trans('error.expiration'),
-            'expire' => false,
-        ], 404);
-    }
-
-    /**
      * 仮登録モデル型に変換
      *
      * @param RegisterRequest $request

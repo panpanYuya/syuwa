@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
   }
 
   public toCreate() {
-    this.routingService.transitToPath(UrlConst.AUTH + UrlConst.SLASH + UrlConst.CREATE);
+    this.routingService.transitToPath(UrlConst.SLASH + UrlConst.AUTH  + UrlConst.SLASH + UrlConst.CREATE + UrlConst.SLASH + UrlConst.REGIST);
   }
 
   public createLoginRequestDto():LoginRequestDto{

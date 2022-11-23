@@ -8,11 +8,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PagesModule } from '../pages.module';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { LoginComponent } from './login/login.component';
+import { SendEmailComponent } from './send-email/send-email.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
     CreateUserComponent,
+    SendEmailComponent,
   ],
   imports: [
     CommonModule,
