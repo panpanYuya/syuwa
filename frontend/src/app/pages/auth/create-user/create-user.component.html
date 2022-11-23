@@ -6,7 +6,7 @@
   <div class="create-user-title">
     アカウント情報入力
   </div>
-  <p *ngIf="errorMessage">{{errorMessage}}</p>
+  <p class="error-message" *ngIf="errorMessage">{{errorMessage}}</p>
   <form class="create-form" [formGroup]="createForm" (ngSubmit)="clickCreateUser()">
     <!-- -->
     <mat-form-field class="create-full-width" appearance="fill">
@@ -16,17 +16,16 @@
       <mat-error *ngIf="userName.hasError('maxlength')">
         文字数は<strong>50文字</strong>以内でお願いします
       </mat-error>
-      <mat-error *ngIf="userName.hasError('pattern')">
-        <strong>空白や<>、特殊記号</strong>は使用できません
-      </mat-error>
+
       <mat-label>ユーザー名</mat-label>
       <input id="create-email" matInput placeholder="" formControlName="userName">
+      <mat-hint align="end">ユーザー名は空白や<>、特殊記号は使用できません</mat-hint>
     </mat-form-field>
     <mat-form-field class="create-full-width" appearance="fill">
       <mat-error *ngIf="email.hasError('required') || email.hasError('minlength')">
         文字数は<strong>1文字</strong>以上でお願いします
       </mat-error>
-      <mat-error *ngIf="email.hasError('maxlength')">
+      <mat-error class="error-message" *ngIf="email.hasError('maxlength')">
         文字数は<strong>255文字</strong>以上でお願いします
       </mat-error>
       <mat-error *ngIf="email.hasError('pattern')">
@@ -51,6 +50,7 @@
       </mat-error>
       <mat-label>パスワード確認用</mat-label>
       <input type="password" id="create-password" matInput placeholder="" formControlName="passwordConfirmation">
+      <mat-hint align="end">パスワードと同じパスワードを入力してください</mat-hint>
     </mat-form-field>
     <div class="birthday-text">
       <div class="birthday-title">生年月日</div>
