@@ -35,7 +35,7 @@ export class LoginService {
   }
 
   public checkLogin():Observable<boolean> {
-    return this.http.get<boolean>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.AUTH + ApiConst.SLASH + ApiConst.CHECK)
+    return this.http.get<boolean>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.USER + ApiConst.SLASH + ApiConst.CHECK)
       .pipe(
         catchError(() => {
           return of(null as unknown as boolean);
