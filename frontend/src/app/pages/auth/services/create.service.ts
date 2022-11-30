@@ -23,13 +23,6 @@ export class CreateService {
       );
   }
 
-  private setResult(result:boolean, message: string): CreateUserResponseDto{
-    return {
-      result: result || false,
-      message: message || ""
-    };
-  }
-
   private handleError(error: HttpErrorResponse) {
     return throwError(() => error);
   }
