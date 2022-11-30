@@ -15,7 +15,6 @@ class ImageSeeder extends Seeder
      */
     public function run()
     {
-        //
         DB::table('images')->insert([
             [
                 'post_id' => 1,

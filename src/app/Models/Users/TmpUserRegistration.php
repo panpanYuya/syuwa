@@ -5,7 +5,7 @@ namespace App\Models\Users;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserPersonalInfo extends Model
+class TmpUserRegistration extends Model
 {
     use HasFactory;
 
@@ -15,9 +15,13 @@ class UserPersonalInfo extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'user_id',
+        'user_name',
+        'email',
         'birthday',
-        'sex',
+        'token',
+        'updated_at',
     ];
 
     /**
@@ -25,10 +29,7 @@ class UserPersonalInfo extends Model
      *
      * @var array<int, string>
      */
-    protected $hidden = [];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class)->withDefault();
-    }
+    protected $hidden = [
+        'password',
+    ];
 }

@@ -14,7 +14,6 @@ class PostTagSeeder extends Seeder
      */
     public function run()
     {
-        //
         DB::table('post_tags')->insert([
             [
                 'post_id' => 1,

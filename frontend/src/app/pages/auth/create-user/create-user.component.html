@@ -1,0 +1,70 @@
+<app-logo></app-logo>
+<div class="create-user-wrapper">
+  <div class="title">
+    新規登録
+  </div>
+  <div class="create-user-title">
+    アカウント情報入力
+  </div>
+  <p class="error-message" *ngIf="errorMessage">{{errorMessage}}</p>
+  <form class="create-form" [formGroup]="createForm" (ngSubmit)="clickCreateUser()">
+    <!-- -->
+    <mat-form-field class="create-full-width" appearance="fill">
+      <input id="user_name" matInput placeholder="" formControlName="userName">
+      <mat-hint align="end">ユーザー名は空白や<>、特殊記号は使用できません</mat-hint>
+      <mat-error class="validation-error" *ngIf="userName.hasError('required') || userName.hasError('minlength')">
+        文字数は<strong>1文字</strong>以上でお願いします
+      </mat-error>
+      <mat-error class="validation-error" *ngIf="userName.hasError('maxlength')">
+        文字数は<strong>50文字</strong>以内でお願いします
+      </mat-error>
+
+      <mat-label>ユーザー名</mat-label>
+    </mat-form-field>
+    <mat-form-field class="create-full-width" appearance="fill">
+      <mat-error *ngIf="email.hasError('required') || email.hasError('minlength')">
+        文字数は<strong>1文字</strong>以上でお願いします
+      </mat-error>
+      <mat-error class="validation-error" *ngIf="email.hasError('maxlength')">
+        文字数は<strong>255文字</strong>以上でお願いします
+      </mat-error>
+      <mat-error class="validation-error" *ngIf="email.hasError('pattern')">
+        <strong>空白は使用できません</strong>
+      </mat-error>
+      <mat-error class="validation-error" *ngIf="email.hasError('email')">
+        <strong>メールアドレス形式で入力ください</strong>
+      </mat-error>
+      <mat-label>メールアドレス</mat-label>
+      <input id="email" matInput placeholder="" formControlName="email">
+    </mat-form-field>
+    <mat-form-field class="create-full-width" appearance="fill">
+      <mat-error class="validation-error" *ngIf="password.hasError('required')">
+        パスワードは<strong>必須です</strong>
+      </mat-error>
+      <mat-label>パスワード</mat-label>
+      <input type="password" id="password" matInput placeholder="" formControlName="password">
+    </mat-form-field>
+    <mat-form-field class="create-full-width" appearance="fill">
+      <mat-error class="validation-error" *ngIf="passwordConfirmation.hasError('required')">
+        パスワード確認用は<strong>必須です</strong>
+      </mat-error>
+      <mat-label>パスワード確認用</mat-label>
+      <input type="password" id="password_Confirmation" matInput placeholder="" formControlName="passwordConfirmation">
+      <mat-hint align="end">パスワードと同じパスワードを入力してください</mat-hint>
+    </mat-form-field>
+    <div class="birthday-text">
+      <div class="birthday-title">生年月日</div>
+      <div class="birthday-note">このアプリは20歳以上の方でないと使用できません</div>
+    </div>
+    <mat-form-field class="create-full-width" appearance="fill">
+      <mat-error class="validation-error" *ngIf="birthday.hasError('required')">
+        誕生日は<strong>必須です</strong>
+      </mat-error>
+      <mat-label>誕生日</mat-label>
+      <input type="date" id="birthday" matInput placeholder="" formControlName="birthday">
+    </mat-form-field>
+    <div class="create-button-row">
+      <button class="create-button">新規登録</button>
+    </div>
+  </form>
+</div>

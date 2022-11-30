@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Request\Auth;
+namespace Tests\Unit\Requests\Auth;
 
 use App\Http\Requests\API\Auth\LoginRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -9,7 +9,6 @@ use Tests\TestCase;
 
 class LoginRequestTest extends TestCase
 {
-
     use RefreshDatabase;
     /**
      * A basic unit test example.
@@ -31,7 +30,8 @@ class LoginRequestTest extends TestCase
      * //dataProviderと書くことで呼び出せる
      * @dataProvider dataprovider
      */
-    public function test_login_request(array $items, array $values, bool $expect){
+    public function test_login_request(array $items, array $values, bool $expect)
+    {
         $request = new LoginRequest();
         $rules = $request->rules();
         $dataList = array_combine($items, $values);
@@ -48,7 +48,8 @@ class LoginRequestTest extends TestCase
      * @return dataProvider
      *
      */
-    public function dataprovider(): array{
+    public function dataprovider(): array
+    {
         return [
             'OK' => [
                 ['email', 'password'],

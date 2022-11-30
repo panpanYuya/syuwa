@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Users\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Datetime;
 
 class UserSeeder extends Seeder
 {
@@ -17,11 +17,13 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        //
         DB::table('users')->insert([
-            'name' => Str::random(10),
+            'user_name' => Str::random(10),
             'email' => "test@test.com",
             'password' => Hash::make("password"),
+            'birthday' => '2002/10/10 19:24:40',
+            'created_at' => new Datetime(),
+            'updated_at' => new Datetime()
         ]);
     }
 }

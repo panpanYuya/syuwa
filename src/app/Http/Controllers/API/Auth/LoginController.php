@@ -18,7 +18,6 @@ class LoginController extends Controller
     {
         try {
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-                //TODO正常に動く用になった時にもどす
                 $request->session()->regenerate();
                 $status = HttpStatusConst::SUCCESS;
                 $message = __('auth.success');

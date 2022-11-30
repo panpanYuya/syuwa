@@ -20,7 +20,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'id',
-        'name',
+        'user_name',
         'email',
     ];
 
@@ -31,18 +31,8 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'birthday',
     ];
-
-
-    //TODO 不要だった場合は削除
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    // protected $casts = [
-    //     'email_verified_at' => 'datetime',
-    // ];
 
     /**
      * ユーザーの追加情報を取得する
