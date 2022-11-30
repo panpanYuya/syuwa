@@ -67,17 +67,13 @@ describe('LoginComponent', () => {
   });
 
   describe('login', () => {
-    // it('should check xsrf-token', () => {
-    //   loginServiceSpy.getXsrfToken();
-    // });
-
     it('should login', () => {
       loginServiceSpy.login.and.returnValue(of(expectedSignInResponseDto));
       spyOn(router, 'navigate');
       component.clickLoginButton();
       //TODO バックエンド作成後に作成
       // expect(loginServiceSpy.setUser.calls.count()).toEqual(1);
-      expect(router.navigate).toHaveBeenCalledWith([UrlConst.SLASH + UrlConst.PATH_DRINK + UrlConst.SLASH + UrlConst.PATH_SHOW]);
+      expect(router.navigate).toHaveBeenCalledWith([UrlConst.SLASH + UrlConst.DRINK + UrlConst.SLASH + UrlConst.BOARD]);
     });
 
   });
