@@ -24,8 +24,8 @@ describe('RoutingService', () => {
   describe('transitToPath', () => {
     it('should be transitToPath', () => {
       spyOn(router, 'navigate');
-      service.transitToPath(UrlConst.PATH_DRINK + UrlConst.SLASH + UrlConst.PATH_SHOW);
-      expect(router.navigate).toHaveBeenCalledWith([UrlConst.SLASH + UrlConst.PATH_DRINK + UrlConst.SLASH + UrlConst.PATH_SHOW]);
+      service.transitToPath(UrlConst.DRINK + UrlConst.SLASH + UrlConst.BOARD);
+      expect(router.navigate).toHaveBeenCalledWith([UrlConst.SLASH + UrlConst.DRINK + UrlConst.SLASH + UrlConst.BOARD]);
     });
   });
 
