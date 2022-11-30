@@ -37,7 +37,6 @@ class ResistUserServiceTest extends TestCase
 
         $this->regist_user_repository_mock = Mockery::mock(RegistUserRepository::class);
         $this->regist_tmp_user_repository_mock = Mockery::mock(RegistTmpUserRepository::class);
-
     }
 
 
@@ -105,7 +104,6 @@ class ResistUserServiceTest extends TestCase
 
         // メールが1回送信されたことをアサート
         Mail::assertSent(RegistTmpUserMail::class, 1);
-
     }
 
     /**
@@ -117,7 +115,7 @@ class ResistUserServiceTest extends TestCase
     {
         $testPassword = 'testtest';
         $service = new RegistUserService($this->regist_tmp_user_repository_mock, $this->regist_user_repository_mock);
-        $hashedPassword= $service->hashedPassword($testPassword);
+        $hashedPassword = $service->hashedPassword($testPassword);
         $this->assertTrue(Hash::check('testtest', $hashedPassword));
     }
 }
