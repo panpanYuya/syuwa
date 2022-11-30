@@ -7,6 +7,6 @@ export class UrlConst {
   static readonly REGIST = 'regist';
   static readonly SEND = 'send';
 
-  static readonly PATH_DRINK = 'drink';
-  static readonly PATH_SHOW = 'show';
+  static readonly DRINK = 'drink';
+  static readonly BOARD = 'board';
 }

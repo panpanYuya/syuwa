@@ -47,33 +47,33 @@ export class LoginComponent implements OnInit {
   }
 
   private login(loginRequestDto: LoginRequestDto) {
-    let loginResponseDto: Observable<LoginResponseDto> = this.loginService.login(loginRequestDto);
-    loginResponseDto.subscribe( {
+    //TODO 実装、修正後に修正
+    let xsrf: Observable<string>= this.loginService.getXsrfToken();
+    xsrf.subscribe( {
       next:
-        () => {
-            this.routingService.transitToPath(UrlConst.SLASH + UrlConst.AUTH + UrlConst.SLASH + UrlConst.CREATE);
+      () => {
+          let loginResponseDto: Observable<LoginResponseDto> = this.loginService.login(loginRequestDto);
+          loginResponseDto.subscribe( {
+            next:
+              () => {
+                  this.routingService.transitToPath(UrlConst.SLASH + UrlConst.DRINK + UrlConst.SLASH + UrlConst.BOARD);
+              },
+            error:
+              (error) => {
+                if (error.status === ErrorStatusConst.AUTH_ERROR_CODE) {
+                  return this.setErrorMessage(ErrorMessageConst.AUTH_ERROR);
+                } else {
+                  return this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
+                }
+              }
+            });
         },
-      error:
-        (error) => {
-          if (error.status === ErrorStatusConst.AUTH_ERROR_CODE) {
-            return this.setErrorMessage(ErrorMessageConst.AUTH_ERROR);
-          } else {
+        //errorを以後修正
+        error:
+          () => {
             return this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
           }
-        }
-    });
-    //TODO 実装、修正後に修正
-    // let xsrf: Observable<string>= this.loginService.getXsrfToken();
-    // xsrf.subscribe( {
-    //   next:
-    //   () => {
-    //   },
-    //   //errorを以後修正
-    //   error:
-    //     () => {
-    //       return this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
-    //     }
-    // });
+      });
 
   }
 

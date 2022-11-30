@@ -34,9 +34,7 @@ export class CreateUserComponent {
   userName = new FormControl('', [
     Validators.required,
     Validators.minLength(1),
-    Validators.maxLength(10),
-    // Validators.pattern('\S*'),
-    // Validators.pattern('[^ぁ-んァ-ン０-９a-zA-Z0-9!-\/:;@¥\[-`\{-~].+'),
+    Validators.maxLength(50),
   ]);
 
   email = new FormControl('', [
@@ -81,21 +79,20 @@ export class CreateUserComponent {
       next:
         () => {
         this.createService.createUser(createUserRequestDto).subscribe( {
-        next:
-            () => {
-              this.routingService.transitToPath(UrlConst.SLASH + UrlConst.AUTH  + UrlConst.SLASH + UrlConst.CREATE + UrlConst.SLASH + UrlConst.SEND);
-          },
-        error:
-          (error) => {
-            if (error.status === 422) {
-              return this.setErrorMessage(error.error.message);
-            } else {
-              return this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
+          next:
+              () => {
+                this.routingService.transitToPath(UrlConst.SLASH + UrlConst.AUTH  + UrlConst.SLASH + UrlConst.CREATE + UrlConst.SLASH + UrlConst.SEND);
+            },
+          error:
+            (error) => {
+              if (error.status === 422) {
+                return this.setErrorMessage(error.error.message);
+              } else {
+                return this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
+              }
             }
-          }
-    });
+        });
       },
-      //errorを以後修正
       error:
         () => {
           return this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
