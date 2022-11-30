@@ -22,7 +22,6 @@ class RegisterController extends Controller
 
     public function registTmpUser(RegisterRequest $response): JsonResponse
     {
-        //TODO 最後にTODOのコメントの消し忘れがないかを確認する
         $tmpUser = $this->setTmpUserRegistration($response);
         //入力されたユーザーが存在するかを確認する
         (bool) $tmpUserFlg = $this->registUserService->checkTmpUser($tmpUser->email);
@@ -32,7 +31,6 @@ class RegisterController extends Controller
             $this->registUserService->createTmpUser($tmpUser);
         }
 
-        //TODO フロントエンド実装時に仮登録メールに記載するメールアドレスを追加する
         $this->registUserService->sendTemporaryMail($tmpUser->email, $tmpUser->user_name, $tmpUser->token);
 
         return response()->json([
