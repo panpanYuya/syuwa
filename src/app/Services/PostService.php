@@ -23,7 +23,16 @@ class PostService
         $this->createNewPostRepository = $createNewPostRepository;
     }
 
-    public function addPost($userId, $tag, $imgUrl, $comment)
+    /**
+     * 新規投稿を行う処理
+     *
+     * @param integer $userId
+     * @param integer $tag
+     * @param string $imgUrl
+     * @param string $comment
+     * @return void
+     */
+    public function addPost(int $userId, int $tag, string $imgUrl, string $comment)
     {
 
         $postForm = $this->createPostForm($userId, $comment);
