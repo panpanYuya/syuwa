@@ -2,30 +2,27 @@
 
 namespace App\Services;
 
-use App\Consts\UrlConst;
-use App\Consts\UtilConst;
-use App\Mail\RegistTmpUserMail;
+
 use App\Models\Post;
 use App\Models\Image;
-use App\Models\Post as ModelsPost;
 use App\Models\PostTag;
-use App\Models\Tag;
-use App\Models\Users\TmpUserRegistration;
-use App\Models\Users\User;
+use App\Repositories\CreateNewPostRepository;
 use App\Repositories\RegistTmpUserRepository;
 use App\Repositories\RegistUserRepository;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
-use DateTime;
-use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class PostService
 {
+    private CreateNewPostRepository $createNewPostRepository;
+
+    public function __construct(
+        CreateNewPostRepository $createNewPostRepository
+    ) {
+        $this->createNewPostRepository = $createNewPostRepository;
+    }
+
     public function addPost($userId, $tag, $imgUrl, $comment)
     {
 
@@ -33,14 +30,14 @@ class PostService
         DB::beginTransaction();
         try
         {
-            $postForm->save();
-            $resultPost = DB::table('posts')->where('user_id', $userId)->latest('id')->first();
+            $this->createNewPostRepository->createPost($postForm);
+            $latestPost = $this->createNewPostRepository->findLatestPost($userId);
 
-            $tagForm = $this->createPostTagForm($resultPost->id, $tag);
-            $tagForm->save();
+            $postTagForm = $this->createPostTagForm($latestPost->id, $tag);
+            $this->createNewPostRepository->createPostTag($postTagForm);
 
-            $imgForm = $this->createImgForm($resultPost->id, $imgUrl);
-            $imgForm->save();
+            $imgForm = $this->createImgForm($latestPost->id, $imgUrl);
+            $this->createNewPostRepository->createImage($imgForm);
 
             DB::commit();
         } catch (Throwable $e)

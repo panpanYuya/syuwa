@@ -26,8 +26,7 @@ class PostAddRequest extends FormRequest
         return [
             //
             'tag' => ['required', 'numeric'],
-            //TODO 画像のvalidtionをbase64ように修正
-            'img' => ['required'],
+            'img' => [],
             'comment' => ['max:255'],
         ];
     }

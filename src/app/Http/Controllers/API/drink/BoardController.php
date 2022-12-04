@@ -47,17 +47,13 @@ class BoardController extends Controller
 
     public function add(PostAddRequest $postAddRequest): JsonResponse
     {
-        //TODO 画像のbase64化をする
-        //TODO Requestクラスから取得した値を専用のモデルに格納する
         // $userId = Auth::id();
         $userId = 1;
+        //TODO 画像がnullの場合はno_imageを表示できるようにゆくゆく修正
         $this->postService->addPost($userId, $postAddRequest->tag, $postAddRequest->img, $postAddRequest->comment);
 
-        //TODO
-        //TODO 格納した値が正しく格納できた場合は登録した物を追加するを返す。
-
         return response()->json([
-            'result1' => true,
+            'result' => true,
         ]);
     }
 }
