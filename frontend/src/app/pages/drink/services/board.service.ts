@@ -1,10 +1,11 @@
-import { catchError, Observable, of } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
 import { ApiConst } from 'src/app/common/constants/api-const';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { getSafePropertyAccessString } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 
+import { CreateNewPostRequestDto } from '../models/dtos/requests/create-new-post-request-dto';
 import { ShowBoardResponseDto } from '../models/dtos/responses/show-board-response-dto';
 
 @Injectable({
@@ -16,12 +17,24 @@ export class BoardService {
     private http: HttpClient
   ) { }
 
-  getPosts(): Observable<ShowBoardResponseDto>{
+  getPosts(): Observable<ShowBoardResponseDto> {
     return this.http.get<ShowBoardResponseDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.SHOW)
       .pipe(
         catchError(() => {
           return of(null as unknown as ShowBoardResponseDto);
         })
       );
+  }
+
+  createNewPost(createNewPost: CreateNewPostRequestDto): Observable<CreateNewPostRequestDto> {
+    return this.http.post<CreateNewPostRequestDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.ADD, createNewPost)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+
+  private handleError(error: HttpErrorResponse) {
+    return throwError(() => error);
   }
 }

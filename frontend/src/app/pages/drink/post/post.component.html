@@ -1,0 +1,36 @@
+<app-header></app-header>
+<div class="create-post-wrapper">
+  <div class="title">
+    新規投稿
+  </div>
+  <p class="error-message" *ngIf="errorMessage">{{errorMessage}}</p>
+  <form class="create-form" [formGroup]="createForm" (ngSubmit)="createNewPost()">
+    <p>投稿画像</p>
+    <img id="post-image" [src]="postImage.value" class="image-preview" *ngIf="postImage.value" />
+    <button mat-flat-button id="file-input-button" class="flat-button" (click)="fileInputElement.click()"
+      [disabled]="postImage.value" matTooltip="アップロードする画像を選択します。">画像のアップロード</button>
+    <input hidden (change)="clickPostImageButton(fileInputElement.files)" #fileInputElement type="file">
+    <button mat-flat-button id="file-input-clear-button" class="flat-button" (click)="clickClearButton()"
+      [disabled]="!postImage.value" matTooltip="アップロード画像をクリアします。">画像のクリア</button>
+    <p>投稿は一枚となっております</p>
+    <mat-form-field class="create-full-width" appearance="fill">
+      <mat-error *ngIf="postTag.hasError('required')">
+        タグは<strong>必須です</strong>
+      </mat-error>
+      <mat-label>タグ</mat-label>
+      <mat-select id="post-tag" class="form-field" formControlName="postTag">
+        <mat-option *ngFor="let tag of tags" [value]="tag.value">
+          {{tag.viewValue}}
+        </mat-option>
+      </mat-select>
+      <mat-hint align="end">お酒の種類を選択してください</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="create-full-width" appearance="fill">
+      <mat-label>コメント</mat-label>
+      <textarea matInput placeholder="写真と共に投稿するコメントを入力してください" formControlName="comment"></textarea>
+    </mat-form-field>
+    <div class="create-button-row">
+      <button class="create-button">投稿</button>
+    </div>
+  </form>
+</div>
