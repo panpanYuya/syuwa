@@ -55,9 +55,6 @@ class PostService
             DB::rollback();
             abort(500);
         }
-        //TODO 画像テーブルに投稿を保存する処理
-        //TODO AWSを導入後、S3に登録する処理を追加
-
     }
 
     /**
