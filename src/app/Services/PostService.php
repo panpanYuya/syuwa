@@ -9,8 +9,9 @@ use App\Models\PostTag;
 use App\Repositories\CreateNewPostRepository;
 use App\Repositories\RegistTmpUserRepository;
 use App\Repositories\RegistUserRepository;
-
+use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class PostService
@@ -36,9 +37,9 @@ class PostService
     {
 
         $postForm = $this->createPostForm($userId, $comment);
-        DB::beginTransaction();
-        try
-        {
+        // DB::beginTransaction();
+        // try
+        // {
             $this->createNewPostRepository->createPost($postForm);
             $latestPost = $this->createNewPostRepository->findLatestPost($userId);
 
@@ -48,14 +49,59 @@ class PostService
             $imgForm = $this->createImgForm($latestPost->id, $imgUrl);
             $this->createNewPostRepository->createImage($imgForm);
 
-            DB::commit();
-        } catch (Throwable $e)
-        {
-            DB::rollback();
-            abort(500);
-        }
+        //     DB::commit();
+        // } catch (Throwable $e)
+        // {
+        //     DB::rollback();
+        //     abort(500);
+        // }
         //TODO 画像テーブルに投稿を保存する処理
         //TODO AWSを導入後、S3に登録する処理を追加
+
+    }
+
+    /**
+     * Base64でエンコードされた値を元のファイル形式に戻す
+     *
+     * @param string $encStr
+     */
+    public function decodeBase64(string $encStr)
+    {
+        return base64_decode($encStr);
+    }
+
+    public function toFile(string $encStr):array
+    {
+        list($fileInfo, $fileData) = explode(';', $encStr);
+        // 拡張子を取得
+        $extension = explode('/', $fileInfo)[1];
+        // $fileDataにある"base64,"を削除する
+        list(, $fileData) = explode(',', $fileData);
+        // base64をデコード
+        $fileData = base64_decode($fileData);
+        // ランダムなファイル名生成
+        $fileName = md5(uniqid(rand(), true)) . ".$extension";
+
+        return array($fileName, $fileData);
+
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $fileName
+     * @param string $fileData
+     * @return string $storeUrl
+     */
+    public function storePhoto(string $fileName, string $fileData): string
+    {
+        try {
+            Storage::disk('s3')->put($fileName, $fileData, 'public');
+        } catch (Exception $e) {
+            abort(500);
+        }
+        // データベースに保存するためのパスを返す
+        return Storage::disk('s3')->url("/syuwa-post-img/$fileName");
 
     }
 
@@ -66,7 +112,7 @@ class PostService
      * @param string $comment
      * @return Post
      */
-    public function createPostForm(int $userId, string $comment): Post
+    private function createPostForm(int $userId, string $comment): Post
     {
         $post = new Post();
         $post->user_id = $userId;
@@ -82,7 +128,7 @@ class PostService
      * @param integer $tag
      * @return PostTag
      */
-    public function createPostTagForm(int $postId, int $tag): PostTag
+    private function createPostTagForm(int $postId, int $tag): PostTag
     {
         $postTag = new PostTag();
         $postTag->post_id = $postId;
@@ -98,7 +144,7 @@ class PostService
      * @param string $imgUrl
      * @return Image
      */
-    public function createImgForm(int $postId, string $imgUrl): Image
+    private function createImgForm(int $postId, string $imgUrl): Image
     {
         $img = new Image();
         $img->post_id = $postId;

@@ -25,8 +25,8 @@ class PostAddRequest extends FormRequest
     {
         return [
             //
-            'tag' => ['required', 'numeric'],
-            'img' => [],
+            'post_image' => ['required'],
+            'post_tag' => ['required', 'numeric'],
             'comment' => ['max:255'],
         ];
     }

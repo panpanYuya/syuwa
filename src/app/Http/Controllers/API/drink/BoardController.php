@@ -10,6 +10,7 @@ use App\Services\PostService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BoardController extends Controller
 {
@@ -45,12 +46,19 @@ class BoardController extends Controller
         ]);
     }
 
+    /**
+     * 投稿を登録する処理
+     * 画像はS3に画像ファイルとして保存
+     *
+     * @param PostAddRequest $postAddRequest
+     * @return JsonResponse
+     */
     public function add(PostAddRequest $postAddRequest): JsonResponse
     {
-        // $userId = Auth::id();
-        $userId = 1;
-        //TODO 画像がnullの場合はno_imageを表示できるようにゆくゆく修正
-        $this->postService->addPost($userId, $postAddRequest->tag, $postAddRequest->img, $postAddRequest->comment);
+        $userId = Auth::id();
+        list($fileName, $fileData) = $this->postService->toFile($postAddRequest->post_image);
+        $storeUrl = $this->postService->storePhoto($fileName, $fileData);
+        $this->postService->addPost($userId, $postAddRequest->post_tag, $storeUrl, $postAddRequest->comment);
 
         return response()->json([
             'result' => true,
