@@ -37,9 +37,9 @@ class PostService
     {
 
         $postForm = $this->createPostForm($userId, $comment);
-        // DB::beginTransaction();
-        // try
-        // {
+        DB::beginTransaction();
+        try
+        {
             $this->createNewPostRepository->createPost($postForm);
             $latestPost = $this->createNewPostRepository->findLatestPost($userId);
 
@@ -49,12 +49,12 @@ class PostService
             $imgForm = $this->createImgForm($latestPost->id, $imgUrl);
             $this->createNewPostRepository->createImage($imgForm);
 
-        //     DB::commit();
-        // } catch (Throwable $e)
-        // {
-        //     DB::rollback();
-        //     abort(500);
-        // }
+            DB::commit();
+        } catch (Throwable $e)
+        {
+            DB::rollback();
+            abort(500);
+        }
         //TODO 画像テーブルに投稿を保存する処理
         //TODO AWSを導入後、S3に登録する処理を追加
 
