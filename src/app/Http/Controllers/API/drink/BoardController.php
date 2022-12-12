@@ -5,12 +5,10 @@ namespace App\Http\Controllers\API\drink;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Drink\PostAddRequest;
 use App\Models\Post;
-use App\Models\Users\User;
+use App\Models\Tag;
 use App\Services\PostService;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class BoardController extends Controller
 {
@@ -43,6 +41,18 @@ class BoardController extends Controller
 
         return response()->json([
             'post'=> $posted,
+        ]);
+    }
+
+    /**
+     * 登録されているタグを取得
+     *
+     * @return JsonResponse
+     */
+    public function create():JsonResponse
+    {
+        return response()->json([
+            'tags' => Tag::all(),
         ]);
     }
 

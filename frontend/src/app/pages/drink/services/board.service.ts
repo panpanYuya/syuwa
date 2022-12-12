@@ -6,6 +6,7 @@ import { getSafePropertyAccessString } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 
 import { CreateNewPostRequestDto } from '../models/dtos/requests/create-new-post-request-dto';
+import { GetTagsResponseDto } from '../models/dtos/responses/get-tags-response-dto';
 import { ShowBoardResponseDto } from '../models/dtos/responses/show-board-response-dto';
 
 @Injectable({
@@ -28,6 +29,13 @@ export class BoardService {
 
   createNewPost(createNewPost: CreateNewPostRequestDto): Observable<CreateNewPostRequestDto> {
     return this.http.post<CreateNewPostRequestDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.ADD, createNewPost)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getTags(): Observable<GetTagsResponseDto> {
+    return this.http.get<GetTagsResponseDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.CREATE)
       .pipe(
         catchError(this.handleError)
       );

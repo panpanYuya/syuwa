@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::controller(BoardController::class)->group(function () {
     Route::get('/drink/show', 'show');
     Route::post('/drink/add', 'add');
+    Route::get('/drink/create', 'create');
 });
 
 Route::post('/login', [LoginController::class, 'authenticate']);

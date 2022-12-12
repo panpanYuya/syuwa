@@ -58,15 +58,11 @@ class PostService
     }
 
     /**
-     * Base64でエンコードされた値を元のファイル形式に戻す
+     * base64でエンコードされている画像をデコードし、適当な拡張子とランダムなファイル名を作成する処理
      *
      * @param string $encStr
+     * @return array ($fileName, $fileData)
      */
-    public function decodeBase64(string $encStr)
-    {
-        return base64_decode($encStr);
-    }
-
     public function toFile(string $encStr):array
     {
         list($fileInfo, $fileData) = explode(';', $encStr);

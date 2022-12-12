@@ -7,6 +7,8 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { UrlConst } from '../../constants/url-const';
 import { CreateNewPostRequestDto } from '../models/dtos/requests/create-new-post-request-dto';
+import { GetTagsResponseDto } from '../models/dtos/responses/get-tags-response-dto';
+import { Tag } from '../models/tag';
 import { BoardService } from '../services/board.service';
 
 interface Tags {
@@ -31,6 +33,7 @@ export class PostComponent implements OnInit {
     private routingService: RoutingService,
     private boardService: BoardService,
   ) {
+
   }
 
   postImage = new FormControl(null);
@@ -50,15 +53,34 @@ export class PostComponent implements OnInit {
     comment: this.comment,
   });
 
-  tags: Tags[] = [
-    {value: 1, viewValue: 'ワイン' },
-    {value: 2, viewValue: '日本酒' },
-    {value: 3, viewValue: 'ウィスキー' },
+  tags: Tag[] = [
+    // {value: 1, viewValue: 'ワイン' },
+    // {value: 2, viewValue: '日本酒' },
+    // {value: 3, viewValue: 'ウィスキー' },
   ];
 
 
 
   ngOnInit(): void {
+    let getTagsResponseDto: Observable<GetTagsResponseDto> = this.boardService.getTags();
+    getTagsResponseDto.subscribe({
+      next:
+        () => {
+        getTagsResponseDto.forEach((data: any) => {
+          if (data == null) {
+            this.setErrorMessage(ErrorMessageConst.NO_POST);
+          } else {
+            for (let i = 0; i < data["tags"].length; i++){
+              this.setTags(data["tags"][i]);
+            }
+          }
+        });
+      },
+      error:
+      () => {
+        this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
+      }
+    });
   }
 
   createNewPost() {
@@ -120,8 +142,16 @@ export class PostComponent implements OnInit {
     }
   }
 
+  setTags(responseDto: any) {
+    const tag: Tag = new Tag();
+    tag.value = responseDto.id;
+    tag.viewValue = responseDto.tag_name;
+
+    this.tags.push(tag);
+  }
 
   setErrorMessage(message:string) {
     this.errorMessage = message;
   }
+
 }
