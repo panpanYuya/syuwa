@@ -91,9 +91,13 @@ export class PostComponent implements OnInit {
         this.routingService.transitToPath(UrlConst.SLASH + UrlConst.DRINK + UrlConst.SLASH + UrlConst.BOARD);
       },
       error:
-      () => {
-        this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
-      }
+        (error) => {
+          if (error.status === 422) {
+            return this.setErrorMessage(error.error.message);
+          } else {
+            return this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
+          }
+        }
     })
   }
 
@@ -103,6 +107,7 @@ export class PostComponent implements OnInit {
     }
     const mimeType = files[0].type;
     if (mimeType.match("image/*") == null) {
+      this.setErrorMessage(ErrorMessageConst.FILE_FORMAT_ERROR);
       return;
     }
     this.readFile(files[0]).subscribe((result:any) => {
