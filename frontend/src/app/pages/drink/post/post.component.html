@@ -9,7 +9,8 @@
     <img id="post-image" [src]="postImage.value" class="image-preview" *ngIf="postImage.value" />
     <button mat-flat-button id="file-input-button" class="flat-button" (click)="fileInputElement.click()"
       [disabled]="postImage.value" matTooltip="アップロードする画像を選択します。">画像のアップロード</button>
-    <input hidden (change)="clickPostImageButton(fileInputElement.files)" #fileInputElement type="file">
+    <input hidden (change)="clickPostImageButton(fileInputElement.files)" accept="image/*" #fileInputElement
+      type="file">
     <button mat-flat-button id="file-input-clear-button" class="flat-button" (click)="clickClearButton()"
       [disabled]="!postImage.value" matTooltip="アップロード画像をクリアします。">画像のクリア</button>
     <p>投稿は一枚となっております</p>

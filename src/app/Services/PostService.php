@@ -7,8 +7,6 @@ use App\Models\Post;
 use App\Models\Image;
 use App\Models\PostTag;
 use App\Repositories\CreateNewPostRepository;
-use App\Repositories\RegistTmpUserRepository;
-use App\Repositories\RegistUserRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -58,12 +56,12 @@ class PostService
     }
 
     /**
-     * base64でエンコードされている画像をデコードし、適当な拡張子とランダムなファイル名を作成する処理
+     * base64型の文字列から画像をデコードし、新たなファイル名とデコードしたファイルを返す処理
      *
      * @param string $encStr
      * @return array ($fileName, $fileData)
      */
-    public function toFile(string $encStr):array
+    public function base64ToFile(string $encStr):array
     {
         list($fileInfo, $fileData) = explode(';', $encStr);
         // 拡張子を取得
@@ -72,7 +70,7 @@ class PostService
         list(, $fileData) = explode(',', $fileData);
         // base64をデコード
         $fileData = base64_decode($fileData);
-        // ランダムなファイル名生成
+        // ランダムなファイル名生成(uniqidの第二引数($more_entropy)をtrueにしているので23文字までしか生成されない)
         $fileName = md5(uniqid(rand(), true)) . ".$extension";
 
         return array($fileName, $fileData);
@@ -80,7 +78,7 @@ class PostService
     }
 
     /**
-     * Undocumented function
+     * 画像をS3に登録する処理
      *
      * @param string $fileName
      * @param string $fileData
@@ -94,6 +92,7 @@ class PostService
             abort(500);
         }
         // データベースに保存するためのパスを返す
+        //TODO urlの箇所をピリオドでつなげる
         return Storage::disk('s3')->url("/syuwa-post-img/$fileName");
 
     }
