@@ -66,7 +66,7 @@ class BoardController extends Controller
     public function add(PostAddRequest $postAddRequest): JsonResponse
     {
         $userId = Auth::id();
-        list($fileName, $fileData) = $this->postService->toFile($postAddRequest->post_image);
+        list($fileName, $fileData) = $this->postService->base64ToFile($postAddRequest->post_image);
         $storeUrl = $this->postService->storePhoto($fileName, $fileData);
         $this->postService->addPost($userId, $postAddRequest->post_tag, $storeUrl, $postAddRequest->comment);
 
