@@ -76,4 +76,12 @@ class BoardController extends Controller
             'result' => true,
         ]);
     }
+
+
+    public function detail(): JsonResponse
+    {
+        return response()->json([
+            'result' => 'テスト用',
+        ]);
+    }
 }
