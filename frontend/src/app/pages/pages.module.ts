@@ -9,21 +9,25 @@ import { HeaderComponent } from './common/header/header.component';
 import { LogoComponent } from './common/logo/logo.component';
 import { NavigationComponent } from './common/navigation/navigation.component';
 import { BoardComponent } from './drink/board/board.component';
+import { PostComponent } from './drink/post/post.component';
 
 @NgModule({
   declarations: [
-    BoardComponent,
     HeaderComponent,
     NavigationComponent,
-    LogoComponent
+    LogoComponent,
+    PostComponent,
+    BoardComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     MaterialModule,
+    HttpClientModule,
   ],
   exports: [
-    LogoComponent
+    LogoComponent,
+    HeaderComponent,
   ]
 })
 export class PagesModule { }

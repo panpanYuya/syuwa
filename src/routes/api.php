@@ -25,11 +25,19 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 //TODO login機能が修正出来次第sanctumを噛ませるように修正
-Route::get('/drink/show', [BoardController::class, 'show']);
+Route::controller(BoardController::class)->group(function () {
+    Route::get('/drink/show', 'show');
+    Route::post('/drink/add', 'add');
+    Route::get('/drink/create', 'create');
+});
 
 Route::post('/login', [LoginController::class, 'authenticate']);
 
-Route::controller(RegisterController::class)->group(function () {
+Route::middleware('auth:sanctum')->controller(RegisterController::class)->group(function () {
     Route::post('/user/regist', 'registTmpUser');
     Route::post('/user/regist/complete/{token}', 'registUserComplete');
 });
+
+// get('/user', function (Request $request) {
+//     return $request->user();
+// });

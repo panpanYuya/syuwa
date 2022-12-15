@@ -61,7 +61,7 @@ return [
         'string'  => ':attributeは、:value文字以上でなければなりません。',
     ],
     'hankaku'              => ':attribute は半角英数字で入力してください。',
-    'image'                => ':attributeには、画像を指定してください。',
+    'image'                => ':attributeには、画像ファイルを指定してください。',
     'in'                   => '選択された:attributeは、有効ではありません。',
     'in_array'             => ':attributeが:otherに存在しません。',
     'integer'              => ':attributeには、整数を指定してください。',
@@ -140,5 +140,6 @@ return [
         'email' => 'メールアドレス',
         'password' => 'パスワード',
         'birthday' => '誕生日',
+        'post_image' => '画像',
     ],
 ];
