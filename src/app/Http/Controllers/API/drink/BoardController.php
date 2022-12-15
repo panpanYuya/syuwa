@@ -51,8 +51,10 @@ class BoardController extends Controller
      */
     public function create():JsonResponse
     {
+        //TODO タグを取得する処理をサービスクラスに追加する
+        $tags= $this->postService->getTags();
         return response()->json([
-            'tags' => Tag::all(),
+            'tags' => $tags,
         ]);
     }
 

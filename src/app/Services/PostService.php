@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Models\Post;
 use App\Models\Image;
 use App\Models\PostTag;
+use App\Models\Tag;
 use App\Repositories\CreateNewPostRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,23 @@ class PostService
         CreateNewPostRepository $createNewPostRepository
     ) {
         $this->createNewPostRepository = $createNewPostRepository;
+    }
+
+    /**
+     * タグを取得するメソッド
+     *
+     */
+    public function getTags()
+    {
+        try
+        {
+            $tags = Tag::all();
+        } catch(Throwable $e)
+        {
+            abort(500);
+        }
+
+        return  $tags;
     }
 
     /**
