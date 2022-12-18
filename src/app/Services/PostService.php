@@ -8,6 +8,7 @@ use App\Models\Image;
 use App\Models\PostTag;
 use App\Models\Tag;
 use App\Repositories\CreateNewPostRepository;
+use App\Repositories\PostRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -17,10 +18,14 @@ class PostService
 {
     private CreateNewPostRepository $createNewPostRepository;
 
+    private PostRepository $postRepository;
+
     public function __construct(
-        CreateNewPostRepository $createNewPostRepository
+        CreateNewPostRepository $createNewPostRepository,
+        PostRepository $postRepository
     ) {
         $this->createNewPostRepository = $createNewPostRepository;
+        $this->postRepository = $postRepository;
     }
 
     /**
@@ -29,11 +34,9 @@ class PostService
      */
     public function getTags()
     {
-        try
-        {
+        try {
             $tags = Tag::all();
-        } catch(Throwable $e)
-        {
+        } catch (Throwable $e) {
             abort(500);
         }
 
@@ -54,8 +57,7 @@ class PostService
 
         $postForm = $this->createPostForm($userId, $comment);
         DB::beginTransaction();
-        try
-        {
+        try {
             $this->createNewPostRepository->createPost($postForm);
             $latestPost = $this->createNewPostRepository->findLatestPost($userId);
 
@@ -66,8 +68,7 @@ class PostService
             $this->createNewPostRepository->createImage($imgForm);
 
             DB::commit();
-        } catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             DB::rollback();
             abort(500);
         }
@@ -79,7 +80,7 @@ class PostService
      * @param string $encStr
      * @return array ($fileName, $fileData)
      */
-    public function base64ToFile(string $encStr):array
+    public function base64ToFile(string $encStr): array
     {
         list($fileInfo, $fileData) = explode(';', $encStr);
         // 拡張子を取得
@@ -92,7 +93,6 @@ class PostService
         $fileName = md5(uniqid(rand(), true)) . ".$extension";
 
         return array($fileName, $fileData);
-
     }
 
     /**
@@ -112,7 +112,23 @@ class PostService
         // データベースに保存するためのパスを返す
         //TODO urlの箇所をピリオドでつなげる
         return Storage::disk('s3')->url("/syuwa-post-img/$fileName");
+    }
 
+    /**
+     * postIdに紐づく投稿詳細を取得する機能
+     *
+     * @param integer $postId
+     * @return Post
+     */
+    public function getPostDetail(int $postId): Post
+    {
+        try {
+            $postDetail = $this->postRepository->getPostDetail($postId);
+        } catch (Exception $e)
+        {
+            abort(500);
+        }
+        return $postDetail;
     }
 
     /**
@@ -162,5 +178,4 @@ class PostService
 
         return $img;
     }
-
 }

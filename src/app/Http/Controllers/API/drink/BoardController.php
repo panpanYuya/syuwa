@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use App\Services\PostService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BoardController extends Controller
@@ -32,15 +33,14 @@ class BoardController extends Controller
         $followerFlg = false;
 
         //フォローしているユーザーが存在している場合はフォローユーザーの投稿から最新の10件を取得する
-        if($followerFlg){
-
-        } else{
+        if ($followerFlg) {
+        } else {
             //フォローしているユーザーが存在していない場合は最新の投稿から10件を取得
-            $posted = Post::orderBy('created_at', 'desc')->with(['postTags','images', 'postTags.tag'])->take(10)->get();
+            $posted = Post::orderBy('created_at', 'desc')->with(['postTags', 'images', 'postTags.tag'])->take(10)->get();
         }
 
         return response()->json([
-            'post'=> $posted,
+            'post' => $posted,
         ]);
     }
 
@@ -49,10 +49,10 @@ class BoardController extends Controller
      *
      * @return JsonResponse
      */
-    public function create():JsonResponse
+    public function create(): JsonResponse
     {
         //TODO タグを取得する処理をサービスクラスに追加する
-        $tags= $this->postService->getTags();
+        $tags = $this->postService->getTags();
         return response()->json([
             'tags' => $tags,
         ]);
@@ -78,10 +78,12 @@ class BoardController extends Controller
     }
 
 
-    public function detail(): JsonResponse
+    public function detail(int $postId): JsonResponse
     {
+        $postDetail = $this->postService->getPostDetail($postId);
+
         return response()->json([
-            'result' => 'テスト用',
+            'post' => $postDetail,
         ]);
     }
 }
