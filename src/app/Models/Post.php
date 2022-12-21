@@ -21,6 +21,7 @@ class Post extends Model
         'id',
         'user_id',
         'text',
+        'created_at',
     ];
 
     /**
@@ -29,7 +30,6 @@ class Post extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'created_at',
         'updated_at',
     ];
 
