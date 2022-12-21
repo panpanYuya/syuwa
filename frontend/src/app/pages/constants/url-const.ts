@@ -4,6 +4,7 @@ export class UrlConst {
   static readonly AUTH = 'auth';
   static readonly LOGIN = 'login';
   static readonly CREATE = 'create';
+  static readonly DETAIL = 'detail';
   static readonly REGIST = 'regist';
   static readonly SEND = 'send';
 
