@@ -9,6 +9,8 @@ export class ApiConst {
 
   static readonly CREATE = 'create';
 
+  static readonly DETAIL = 'detail';
+
   static readonly DRINK = 'drink';
 
   static readonly LOGIN = 'login';
