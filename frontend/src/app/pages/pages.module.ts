@@ -9,6 +9,7 @@ import { HeaderComponent } from './common/header/header.component';
 import { LogoComponent } from './common/logo/logo.component';
 import { NavigationComponent } from './common/navigation/navigation.component';
 import { BoardComponent } from './drink/board/board.component';
+import { DetailComponent } from './drink/detail/detail.component';
 import { PostComponent } from './drink/post/post.component';
 
 @NgModule({
@@ -18,6 +19,7 @@ import { PostComponent } from './drink/post/post.component';
     LogoComponent,
     PostComponent,
     BoardComponent,
+    DetailComponent
   ],
   imports: [
     CommonModule,

@@ -3,7 +3,8 @@
   <div class="error-message">
     {{ errorMessage }}
   </div>
-  <div class="post" *ngFor="let post of posts">
+  <div class="post" *ngFor="let post of posts" (click)="showPostDetail(post.id)">
+    <input type="hidden" value="{{post.id}}">
     <div class="post-img">
       <img fluid src={{post.imageUrl}} alt="">
     </div>

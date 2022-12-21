@@ -1,8 +1,10 @@
 import { Observable } from 'rxjs';
 import { ErrorMessageConst } from 'src/app/common/constants/error-message-const';
+import { RoutingService } from 'src/app/common/services/routing.service';
 
 import { Component, OnInit } from '@angular/core';
 
+import { UrlConst } from '../../constants/url-const';
 import { ShowBoardResponseDto } from '../models/dtos/responses/show-board-response-dto';
 import { Post } from '../models/post';
 import { BoardService } from '../services/board.service';
@@ -19,7 +21,10 @@ export class BoardComponent implements OnInit {
 
 
 
-  constructor(private boardService: BoardService) {
+  constructor(
+    private boardService: BoardService,
+    private routingService: RoutingService,
+  ) {
     this.posts = [];
     this.errorMessage = '';
   }
@@ -48,6 +53,10 @@ export class BoardComponent implements OnInit {
           this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
         }
     });
+  }
+
+  showPostDetail(postId: number) {
+    this.routingService.transitToPath(UrlConst.SLASH + UrlConst.DRINK  + UrlConst.SLASH + UrlConst.DETAIL + UrlConst.SLASH + postId)
   }
 
   setPosts(responseDto: any) {

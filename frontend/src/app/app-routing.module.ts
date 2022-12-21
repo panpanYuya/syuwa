@@ -5,6 +5,7 @@ import { CreateUserComponent } from './pages/auth/create-user/create-user.compon
 import { LoginComponent } from './pages/auth/login/login.component';
 import { SendEmailComponent } from './pages/auth/send-email/send-email.component';
 import { BoardComponent } from './pages/drink/board/board.component';
+import { DetailComponent } from './pages/drink/detail/detail.component';
 import { PostComponent } from './pages/drink/post/post.component';
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path:'auth/create/send', component: SendEmailComponent },
   { path:'drink/board', component:BoardComponent},
   { path:'drink/add', component:PostComponent},
+  { path:'drink/detail/:postId', component:DetailComponent},
 ];
 
 @NgModule({

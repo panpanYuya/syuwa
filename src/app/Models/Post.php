@@ -21,6 +21,16 @@ class Post extends Model
         'id',
         'user_id',
         'text',
+        'created_at',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'updated_at',
     ];
 
 

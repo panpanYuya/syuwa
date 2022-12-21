@@ -6,6 +6,7 @@ import { getSafePropertyAccessString } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 
 import { CreateNewPostRequestDto } from '../models/dtos/requests/create-new-post-request-dto';
+import { GetPostDetailResponseDTO } from '../models/dtos/responses/get-post-detail-response-dto';
 import { GetTagsResponseDto } from '../models/dtos/responses/get-tags-response-dto';
 import { ShowBoardResponseDto } from '../models/dtos/responses/show-board-response-dto';
 
@@ -36,6 +37,13 @@ export class BoardService {
 
   getTags(): Observable<GetTagsResponseDto> {
     return this.http.get<GetTagsResponseDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.CREATE)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getPostDetail(postId: number): Observable<GetPostDetailResponseDTO>{
+    return this.http.get<GetPostDetailResponseDTO>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.DETAIL + ApiConst.SLASH  +postId)
       .pipe(
         catchError(this.handleError)
       );

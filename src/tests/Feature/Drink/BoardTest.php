@@ -5,6 +5,7 @@ namespace Tests\Feature\Drink;
 use App\Models\Image;
 use App\Models\Post;
 use App\Models\PostTag;
+use App\Models\Tag;
 use App\Models\Users\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -90,6 +91,54 @@ class BoardTest extends TestCase
         ]);
 
         $response->assertStatus(422);
+
+    }
+
+    public function test_get_post_detail()
+    {
+
+        $post = Post::factory()->for(User::factory()->create())->create();
+        $tag = Tag::factory()->create();
+        $postTag = PostTag::factory()->state(['post_id' => $post->id, 'tag_id'=> $tag->id])->create();
+        $image = Image::factory()->state(['post_id' => $post->id])->create();
+
+        $response = $this->withHeaders([
+            'XSRF-TOKEN' => csrf_token(),
+        ])->getJson('/api/drink/detail/' . $post->id);
+
+        $response->assertJson(
+            [
+                'post' => [
+                    'id' => $post->id,
+                    'user_id' => $post->user->id,
+                    'text' => $post->text,
+                    'user' => [
+                        'id' => $post->user->id,
+                        'user_name' => $post->user->user_name,
+                        'email' => $post->user->email,
+                    ],
+                    'post_tags' => [
+                        [
+                            'id' => $postTag->id,
+                            'post_id' => $postTag->post_id,
+                            'tag_id' => $postTag->tag_id,
+                            'tag' => [
+                                'id' => $tag->id,
+                                'tag_name' => $tag->tag_name
+                            ]
+                        ]
+                    ],
+                    'images' => [
+                        [
+                            'id' => $image->id,
+                            'post_id' => $image->post_id,
+                            'img_url' => $image->img_url
+                        ]
+                    ]
+                ]
+            ],
+            JSON_UNESCAPED_UNICODE
+        );
 
     }
 
