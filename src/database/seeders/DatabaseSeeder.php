@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             PostTagSeeder::class,
             ImageSeeder::class,
             TmpUserRegistrationSeeder::class,
+            FollowUserSeeder::class,
         ]);
     }
 }
