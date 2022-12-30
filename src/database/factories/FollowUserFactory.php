@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,8 @@ class FollowUserFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'following_id' =>  optional(User::inRandomOrder()->first())->id ?? factory(User::class)->create()->id,
+            'followed_id' =>  optional(User::inRandomOrder()->first())->id ?? factory(User::class)->create()->id,
         ];
     }
 }

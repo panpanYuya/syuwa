@@ -14,11 +14,14 @@ class FollowUserSeeder extends Seeder
      */
     public function run()
     {
-        //
         DB::table('follow_users')->insert([
             [
-                'user_id' => 2,
-                'follow_id' => 1,
+                'following_id' => 2,
+                'followed_id' => 1,
+            ],
+            [
+                'following_id' => 1,
+                'followed_id' => 2,
             ],
         ]);
     }

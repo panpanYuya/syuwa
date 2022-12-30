@@ -19,6 +19,80 @@ class BoardTest extends TestCase
 
     use RefreshDatabase;
 
+    public function test_show()
+    {
+
+        $email = 'test@test.com';
+        $password = 'password';
+
+        $response = $this->postJson('/api/login', ['email' => $email, 'password' =>  $password]);
+
+        $response = $this->withHeaders([
+            'XSRF-TOKEN' => csrf_token(),
+        ])->getJson('/api/drink/show/0');
+
+        $response->assertJson(
+            [
+                'post' => [
+                    [
+                        'id'=> 1,
+                        'user_id'=> 1,
+                        'text'=> 'この日本酒は純米大吟醸のお酒です。',
+                        'created_at'=> '2022-12-16T12:00:00.000000Z',
+                        'following_id'=> 1,
+                        'followed_id'=> 2,
+                        'post_tags'=> [
+                            [
+                                'id'=> 1,
+                                'post_id'=> 1,
+                                'tag_id'=> 1,
+                                'tag'=> [
+                                    'id'=> 1,
+                                    'tag_name'=> '日本酒'
+                                ]
+                            ]
+                        ],
+                        'images'=> [
+                            [
+                                'id'=> 1,
+                                'post_id'=> 1,
+                                'img_url'=> '/assets/images/wine.png'
+                            ]
+                        ]
+                    ],
+                    [
+                        'id'=> 2,
+                        'user_id'=> 1,
+                        'text'=> 'このワインは赤です。',
+                        'created_at'=> '2022-12-17T12:00:00.000000Z',
+                        'following_id'=> 1,
+                        'followed_id'=> 2,
+                        'post_tags'=> [
+                            [
+                                'id'=> 2,
+                                'post_id'=> 2,
+                                'tag_id'=> 2,
+                                'tag'=> [
+                                    'id'=> 2,
+                                    'tag_name'=> 'ワイン'
+                                ]
+                            ]
+                        ],
+                        'images'=> [
+                            [
+                            'id'=> 2,
+                                'post_id'=> 2,
+                                'img_url'=> '/assets/images/syuwa-logo.png',
+                            ]
+                        ]
+                    ]
+
+                ]
+            ],
+            JSON_UNESCAPED_UNICODE
+        );
+    }
+
     /**
      * 新規投稿機能の正常系テスト
      *
