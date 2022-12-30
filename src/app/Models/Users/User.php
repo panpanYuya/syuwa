@@ -2,6 +2,7 @@
 
 namespace App\Models\Users;
 
+use App\Models\FollowUser;
 use App\Models\Post;
 use App\Models\Users\UserPersonalInfo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -53,5 +54,14 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany(Post:: class);
+    }
+
+    public function followUsers()
+    {
+        return $this->hasOne(
+            FollowUser::class,
+            ['user_id', 'following_id'],
+            ['user_id', 'followed_id'],
+        );
     }
 }

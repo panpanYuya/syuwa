@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,8 +17,8 @@ class FollowUser extends Model
      */
     protected $fillable = [
         'id',
-        'user_id',
-        'follow_id',
+        'following_id',
+        'followed_id',
 
     ];
 
@@ -30,4 +31,16 @@ class FollowUser extends Model
         'created_at',
         'updated_at',
     ];
+
+    /**
+     * 投稿したユーザーの情報を取得する
+     */
+    public function user()
+    {
+        return $this->belongsTo(
+                    User::class,
+                    ['user_id','following_id'],
+                    ['user_id', 'followed_id'],
+                )->withDefault();
+    }
 }
