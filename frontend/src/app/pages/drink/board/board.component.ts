@@ -15,9 +15,13 @@ import { BoardService } from '../services/board.service';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
-  public errorMessage:string;
+  public errorMessage: string;
+
+  public postExist: boolean;
 
   public posts: Post[];
+
+  public displaiedPost: number;
 
 
 
@@ -25,8 +29,10 @@ export class BoardComponent implements OnInit {
     private boardService: BoardService,
     private routingService: RoutingService,
   ) {
-    this.posts = [];
     this.errorMessage = '';
+    this.postExist = true;
+    this.posts = [];
+    this.displaiedPost = 0;
   }
 
   ngOnInit(): void {
@@ -34,16 +40,21 @@ export class BoardComponent implements OnInit {
   }
 
   showBoard() {
-    let showBoardResponseDto: Observable<ShowBoardResponseDto> = this.boardService.getPosts();
+    let showBoardResponseDto: Observable<ShowBoardResponseDto> = this.boardService.getPosts(this.displaiedPost);
     showBoardResponseDto.subscribe( {
       next:
         () => {
           showBoardResponseDto.forEach((data: any) => {
             if (data == null) {
               this.setErrorMessage(ErrorMessageConst.NO_POST);
+              this.postExist = false;
             } else {
+              this.displaiedPost += data["post"].length;
               for (let i = 0; i < data["post"].length; i++){
                 this.setPosts(data["post"][i]);
+              }
+              if (data["post"].length < 10) {
+                this.postExist = false;
               }
             }
           });
