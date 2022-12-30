@@ -18,8 +18,10 @@ return new class extends Migration
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_bin';
             $table->id();
-            $table->foreignIdFor(User::class)->comment('ユーザーid');
-            $table->integer('follow_id')->comment('フォローid');
+            $table->foreignId('following_id')->comment('フォローユーザーid');
+            $table->foreign('following_id')->references('id')->on('users');
+            $table->foreignId('followed_id')->comment('フォローされているユーザーid');
+            $table->foreign('followed_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

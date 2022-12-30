@@ -28,6 +28,18 @@ class ImageSeeder extends Seeder
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
+            [
+                'post_id' => 3,
+                'img_url' => '/assets/images/syuwa-logo.png',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'post_id' => 4,
+                'img_url' => '/assets/images/syuwa-logo.png',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
         ]);
     }
 }

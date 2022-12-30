@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 //TODO login機能が修正出来次第sanctumを噛ませるように修正
 Route::controller(BoardController::class)->group(function () {
-    Route::get('/drink/show', 'show');
+    Route::get('/drink/show/{numOfDisplaiedPosts}', 'show');
     Route::post('/drink/add', 'add');
     Route::get('/drink/create', 'create');
     Route::get('/drink/detail/{postId}', 'detail');

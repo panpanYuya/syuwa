@@ -4,11 +4,9 @@ namespace App\Http\Controllers\API\drink;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Drink\PostAddRequest;
-use App\Models\Post;
-use App\Models\Tag;
+use App\Services\FollowUserService;
 use App\Services\PostService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BoardController extends Controller
@@ -16,31 +14,37 @@ class BoardController extends Controller
 
     private PostService $postService;
 
+    private FollowUserService $followUserService;
+
     public function __construct(
-        PostService $postService
+        PostService $postService,
+        FollowUserService $followUserService
     ) {
         $this->postService = $postService;
+        $this->followUserService = $followUserService;
     }
 
     /**
      * 投稿一覧画面に必要な情報を返す
      *
+     * @param integer $numOfDisplaiedPosts
      * @return JsonResponse
      */
-    public function show(): JsonResponse
+    public function show(int $numOfDisplaiedPosts): JsonResponse
     {
-        //TODO フォロー機能が作成後に修正する
-        $followerFlg = false;
+        $userId = Auth::id();
+
+        $isFollowing = $this->followUserService->isFollowedUser($userId);
 
         //フォローしているユーザーが存在している場合はフォローユーザーの投稿から最新の10件を取得する
-        if ($followerFlg) {
+        if ($isFollowing) {
+            $posts = $this->postService->searchPostsByFollowee($userId, $numOfDisplaiedPosts);
         } else {
-            //フォローしているユーザーが存在していない場合は最新の投稿から10件を取得
-            $posted = Post::orderBy('created_at', 'desc')->with(['postTags', 'images', 'postTags.tag'])->take(10)->get();
+            $posts = $this->postService->searchPosts($numOfDisplaiedPosts);
         }
 
         return response()->json([
-            'post' => $posted,
+            'post' => $posts
         ]);
     }
 

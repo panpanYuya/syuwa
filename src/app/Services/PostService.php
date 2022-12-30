@@ -8,10 +8,13 @@ use App\Models\Image;
 use App\Models\PostTag;
 use App\Models\Tag;
 use App\Repositories\CreateNewPostRepository;
+use App\Repositories\FollowUserRepository;
 use App\Repositories\PostRepository;
-use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Ramsey\Uuid\Type\Integer;
+use Exception;
 use Throwable;
 
 class PostService
@@ -22,10 +25,47 @@ class PostService
 
     public function __construct(
         CreateNewPostRepository $createNewPostRepository,
-        PostRepository $postRepository
+        PostRepository $postRepository,
+        FollowUserRepository $followUserRepository
     ) {
         $this->createNewPostRepository = $createNewPostRepository;
         $this->postRepository = $postRepository;
+        $this->followUserRepository = $followUserRepository;
+    }
+
+    /**
+     * フォローユーザーの投稿で一番新しい投稿Idを取得
+     *
+     * @return Integer
+     */
+    public function getLastedPostId():Integer
+    {
+        $post= $this->postRepository->getLastedPostByFollower();
+        return $post->id();
+
+    }
+
+    /**
+     * 未表示の日付が新しい投稿を10件取得
+     *
+     * @param integer $numOfDisplaiedPosts
+     * @return Collection
+     */
+    public function searchPosts(int $numOfDisplaiedPosts): Collection
+    {
+        return $this->postRepository->searchPosts($numOfDisplaiedPosts);
+    }
+
+    /**
+     * フォローしているユーザーの未表示で日付が新しい投稿を10件取得
+     *
+     * @param integer $userId
+     * @param integer $numOfDisplaiedPosts
+     * @return void
+     */
+    public function searchPostsByFollowee(int $userId, int $numOfDisplaiedPosts): Collection
+    {
+        return $this->postRepository->searchPostsByFollowee($userId, $numOfDisplaiedPosts);
     }
 
     /**

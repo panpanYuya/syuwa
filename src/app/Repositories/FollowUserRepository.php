@@ -17,4 +17,15 @@ class FollowUserRepository implements FollowUserInterface
         $followUser->save();
     }
 
+    /**
+     * フォローしているユーザーが何人存在するのか確認
+     *
+     * @param integer $userId
+     * @return integer $numOfFollowee
+     */
+    public function isFollowedUser(int $userId):int
+    {
+        return FollowUser::where('followed_id', $userId)->count();
+    }
+
 }

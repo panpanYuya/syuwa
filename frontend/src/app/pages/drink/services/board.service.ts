@@ -19,8 +19,8 @@ export class BoardService {
     private http: HttpClient
   ) { }
 
-  getPosts(): Observable<ShowBoardResponseDto> {
-    return this.http.get<ShowBoardResponseDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.SHOW)
+  getPosts(displaiedPost:number): Observable<ShowBoardResponseDto> {
+    return this.http.get<ShowBoardResponseDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.SHOW + ApiConst.SLASH + displaiedPost)
       .pipe(
         catchError(() => {
           return of(null as unknown as ShowBoardResponseDto);
