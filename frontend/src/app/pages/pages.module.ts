@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from '../material/material.module';
 import { AuthModule } from './auth/auth.module';
+import { FooterComponent } from './common/footer/footer.component';
 import { HeaderComponent } from './common/header/header.component';
 import { LogoComponent } from './common/logo/logo.component';
 import { NavigationComponent } from './common/navigation/navigation.component';
@@ -19,7 +20,8 @@ import { PostComponent } from './drink/post/post.component';
     LogoComponent,
     PostComponent,
     BoardComponent,
-    DetailComponent
+    DetailComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -30,6 +32,7 @@ import { PostComponent } from './drink/post/post.component';
   exports: [
     LogoComponent,
     HeaderComponent,
+    FooterComponent,
   ]
 })
 export class PagesModule { }
