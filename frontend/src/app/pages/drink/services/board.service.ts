@@ -2,7 +2,6 @@ import { catchError, Observable, of, throwError } from 'rxjs';
 import { ApiConst } from 'src/app/common/constants/api-const';
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { getSafePropertyAccessString } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 
 import { CreateNewPostRequestDto } from '../models/dtos/requests/create-new-post-request-dto';
@@ -44,6 +43,13 @@ export class BoardService {
 
   getPostDetail(postId: number): Observable<GetPostDetailResponseDTO>{
     return this.http.get<GetPostDetailResponseDTO>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.DETAIL + ApiConst.SLASH  +postId)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  searchPostsByTag(tagId: number, numOfDisplaiedPosts: number): Observable<ShowBoardResponseDto> {
+    return this.http.get<ShowBoardResponseDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.SEARCH + ApiConst.SLASH + tagId + ApiConst.SLASH + numOfDisplaiedPosts)
       .pipe(
         catchError(this.handleError)
       );
