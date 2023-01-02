@@ -18,7 +18,7 @@ class UserTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $email = 'test@test.com';
+        $email = 'syuwaUser01@syuwa.com';
         $password = 'password';
 
         $response = $this->postJson('/api/login', ['email' => $email, 'password' =>  $password]);

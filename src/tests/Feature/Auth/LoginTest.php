@@ -9,7 +9,8 @@ use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class LoginTest extends TestCase{
+class LoginTest extends TestCase
+{
 
     use RefreshDatabase;
 
@@ -25,11 +26,12 @@ class LoginTest extends TestCase{
      *
      * @return void
      */
-    public function test_authenticate(){
-        $email = 'test@test.com';
+    public function test_authenticate()
+    {
+        $email = 'syuwaUser01@syuwa.com';
         $password = 'password';
 
-        $response = $this->postJson('/api/login', ['email' => $email,'password' =>  $password]);
+        $response = $this->postJson('/api/login', ['email' => $email, 'password' =>  $password]);
 
         $this->assertAuthenticated();
         $response->assertJson(
@@ -46,7 +48,8 @@ class LoginTest extends TestCase{
      *
      * @return void
      */
-    public function test_authenticate_unauthorized(){
+    public function test_authenticate_unauthorized()
+    {
         $email = 'password@test.com';
         $password = 'testtest';
 

@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'user_name' => Str::random(10),
-                'email' => "test@test.com",
+                'email' => "syuwaUser01@syuwa.com",
                 'password' => Hash::make("password"),
                 'birthday' => '2002/10/10 19:24:40',
                 'created_at' => new Datetime(),
@@ -28,14 +28,12 @@ class UserSeeder extends Seeder
             ],
             [
                 'user_name' => Str::random(10),
-                'email' => "test2@test2.com",
+                'email' => "syuwaUser02@syuwa.com",
                 'password' => Hash::make("password"),
                 'birthday' => '2002/10/10 19:24:40',
                 'created_at' => new Datetime(),
                 'updated_at' => new Datetime()
             ],
         ]);
-
-
     }
 }
