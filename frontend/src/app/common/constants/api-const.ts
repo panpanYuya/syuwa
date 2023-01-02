@@ -17,6 +17,8 @@ export class ApiConst {
 
   static readonly REGIST = 'regist';
 
+  static readonly SEARCH = 'search';
+
   static readonly SHOW = 'show';
 
   static readonly USER = 'user';

@@ -12,6 +12,7 @@ import { NavigationComponent } from './common/navigation/navigation.component';
 import { BoardComponent } from './drink/board/board.component';
 import { DetailComponent } from './drink/detail/detail.component';
 import { PostComponent } from './drink/post/post.component';
+import { SearchComponent } from './drink/search/search.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { PostComponent } from './drink/post/post.component';
     PostComponent,
     BoardComponent,
     DetailComponent,
-    FooterComponent
+    FooterComponent,
+    SearchComponent
   ],
   imports: [
     CommonModule,

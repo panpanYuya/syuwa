@@ -19,4 +19,8 @@ export class FooterComponent {
   public toBoard() {
     this.routingService.transitToPath(UrlConst.SLASH + UrlConst.DRINK + UrlConst.SLASH + UrlConst.BOARD);
   }
+
+  public toSearch() {
+    this.routingService.transitToPath(UrlConst.SLASH + UrlConst.DRINK + UrlConst.SLASH + UrlConst.SEARCH);
+  }
 }

@@ -4,8 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from '../../material/material.module';
 import { PagesModule } from '../pages.module';
-import { BoardComponent } from './board/board.component';
-import { PostComponent } from './post/post.component';
 
 @NgModule({
   declarations: [

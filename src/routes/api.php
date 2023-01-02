@@ -31,6 +31,7 @@ Route::controller(BoardController::class)->group(function () {
     Route::post('/drink/add', 'add');
     Route::get('/drink/create', 'create');
     Route::get('/drink/detail/{postId}', 'detail');
+    Route::get('/drink/search/{tagId}/{numOfDisplaiedPosts}', 'searchPostsByTag');
 });
 
 Route::post('/login', [LoginController::class, 'authenticate']);

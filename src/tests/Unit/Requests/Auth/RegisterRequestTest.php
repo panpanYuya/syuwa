@@ -131,7 +131,7 @@ class RegisterRequestTest extends TestCase
             ],
             'email登録済みエラー' => [
                 ['user_name', 'email', 'birthday', 'password', 'password_confirmation'],
-                ['テスト太郎', 'test@test.com', '2000-1-1', 'testPassword', 'testPassword'],
+                ['テスト太郎', 'syuwaUser01@syuwa.com', '2000-1-1', 'testPassword', 'testPassword'],
                 false
             ],
             'email形式エラーfront' => [

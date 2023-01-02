@@ -7,6 +7,11 @@ use App\Models\Post;
 use App\Models\PostTag;
 use App\Models\Tag;
 use App\Models\Users\User;
+use Database\Seeders\ImageTestDataSeeder;
+use Database\Seeders\PostTagTestDataSeeder;
+use Database\Seeders\PostTestDataSeeder;
+use Database\Seeders\TagTestDataSeeder;
+use Database\Seeders\UserTestDataSeeder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +27,7 @@ class BoardTest extends TestCase
     public function test_show()
     {
 
-        $email = 'test@test.com';
+        $email = 'syuwaUser01@syuwa.com';
         $password = 'password';
 
         $response = $this->postJson('/api/login', ['email' => $email, 'password' =>  $password]);
@@ -35,54 +40,54 @@ class BoardTest extends TestCase
             [
                 'post' => [
                     [
-                        'id'=> 1,
-                        'user_id'=> 1,
-                        'text'=> 'この日本酒は純米大吟醸のお酒です。',
-                        'created_at'=> '2022-12-16T12:00:00.000000Z',
-                        'following_id'=> 1,
-                        'followed_id'=> 2,
-                        'post_tags'=> [
+                        'id' => 1,
+                        'user_id' => 1,
+                        'text' => 'この日本酒は純米大吟醸のお酒です。',
+                        'created_at' => '2022-12-16T12:00:00.000000Z',
+                        'following_id' => 1,
+                        'followed_id' => 2,
+                        'post_tags' => [
                             [
-                                'id'=> 1,
-                                'post_id'=> 1,
-                                'tag_id'=> 1,
-                                'tag'=> [
-                                    'id'=> 1,
-                                    'tag_name'=> '日本酒'
+                                'id' => 1,
+                                'post_id' => 1,
+                                'tag_id' => 1,
+                                'tag' => [
+                                    'id' => 1,
+                                    'tag_name' => '日本酒'
                                 ]
                             ]
                         ],
-                        'images'=> [
+                        'images' => [
                             [
-                                'id'=> 1,
-                                'post_id'=> 1,
-                                'img_url'=> '/assets/images/wine.png'
+                                'id' => 1,
+                                'post_id' => 1,
+                                'img_url' => '/assets/images/wine.png'
                             ]
                         ]
                     ],
                     [
-                        'id'=> 2,
-                        'user_id'=> 1,
-                        'text'=> 'このワインは赤です。',
-                        'created_at'=> '2022-12-17T12:00:00.000000Z',
-                        'following_id'=> 1,
-                        'followed_id'=> 2,
-                        'post_tags'=> [
+                        'id' => 2,
+                        'user_id' => 1,
+                        'text' => 'このワインは赤です。',
+                        'created_at' => '2022-12-17T12:00:00.000000Z',
+                        'following_id' => 1,
+                        'followed_id' => 2,
+                        'post_tags' => [
                             [
-                                'id'=> 2,
-                                'post_id'=> 2,
-                                'tag_id'=> 2,
-                                'tag'=> [
-                                    'id'=> 2,
-                                    'tag_name'=> 'ワイン'
+                                'id' => 2,
+                                'post_id' => 2,
+                                'tag_id' => 2,
+                                'tag' => [
+                                    'id' => 2,
+                                    'tag_name' => 'ワイン'
                                 ]
                             ]
                         ],
-                        'images'=> [
+                        'images' => [
                             [
-                            'id'=> 2,
-                                'post_id'=> 2,
-                                'img_url'=> '/assets/images/syuwa-logo.png',
+                                'id' => 2,
+                                'post_id' => 2,
+                                'img_url' => '/assets/images/syuwa-logo.png',
                             ]
                         ]
                     ]
@@ -131,9 +136,8 @@ class BoardTest extends TestCase
             'post_id' => $post->id,
         ]);
         $image = Image::where('post_id', $post->id)->first();
-        $imageFile = str_replace(env('AWS_URL') . '/'. env('AWS_BUCKET') . '/', '', $image->img_url);
+        $imageFile = str_replace(env('AWS_URL') . '/' . env('AWS_BUCKET') . '/', '', $image->img_url);
         Storage::disk('s3')->assertExists($imageFile);
-
     }
 
     /**
@@ -165,7 +169,6 @@ class BoardTest extends TestCase
         ]);
 
         $response->assertStatus(422);
-
     }
 
     public function test_get_post_detail()
@@ -173,7 +176,7 @@ class BoardTest extends TestCase
 
         $post = Post::factory()->for(User::factory()->create())->create();
         $tag = Tag::factory()->create();
-        $postTag = PostTag::factory()->state(['post_id' => $post->id, 'tag_id'=> $tag->id])->create();
+        $postTag = PostTag::factory()->state(['post_id' => $post->id, 'tag_id' => $tag->id])->create();
         $image = Image::factory()->state(['post_id' => $post->id])->create();
 
         $response = $this->withHeaders([
@@ -213,7 +216,135 @@ class BoardTest extends TestCase
             ],
             JSON_UNESCAPED_UNICODE
         );
-
     }
 
+    /**
+     * タグ検索機能の正常系テストを記述
+     *
+     * @return void
+     */
+    public function test_search_posts_by_tag()
+    {
+        $this->seed([
+            UserTestDataSeeder::class,
+            PostTestDataSeeder::class,
+            TagTestDataSeeder::class,
+            PostTagTestDataSeeder::class,
+            ImageTestDataSeeder::class,
+        ]);
+
+        $email = 'syuwaUser01@syuwa.com';
+        $password = 'password';
+
+        $response = $this->postJson('/api/login', ['email' => $email, 'password' =>  $password]);
+
+        $response = $this->withHeaders([
+            'XSRF-TOKEN' => csrf_token(),
+        ])->getJson('/api/drink/search/9999999/0');
+
+        $response->assertJson(
+            [
+                'post' => [
+                    [
+                        'id' => 9999993,
+                        'user_id' => 9999998,
+                        'text' => "テストデータその2になります",
+                        'created_at' => '2022-12-17T12:00:00.000000Z',
+                        'post_tags' => [
+                            [
+                                'id' => 9999993,
+                                'post_id' => 9999993,
+                                'tag_id' => 9999999,
+                                'tag' => [
+                                    'id' => 9999999,
+                                    'tag_name' => 'タグテスト2'
+                                ]
+                            ]
+                        ],
+                        'images' => [
+                            [
+                                'id' => 9999993,
+                                'post_id' => 9999993,
+                                'img_url' => 'http://localhost:9900/syuwa-post-img/testFile.png',
+                            ]
+                        ]
+                    ],
+                    [
+                        'id' => 9999995,
+                        'user_id' => 9999997,
+                        'text' => 'テストデータその4になります',
+                        'created_at' => '2022-12-19T12:00:00.000000Z',
+                        'post_tags' => [
+                            [
+                                'id' => 9999995,
+                                'post_id' => 9999995,
+                                'tag_id' => 9999999,
+                                'tag' => [
+                                    'id' => 9999999,
+                                    'tag_name' => 'タグテスト2'
+                                ]
+                            ]
+                        ],
+                        'images' => [
+                            [
+                                'id' => 9999995,
+                                'post_id' => 9999995,
+                                'img_url' => 'http://localhost:9900/syuwa-post-img/testFile.png',
+                            ]
+                        ]
+                    ],
+                    [
+                        'id' => 9999997,
+                        'user_id' => 9999999,
+                        'text' => 'テストデータその6になります',
+                        'created_at' => '2022-12-21T12:00:00.000000Z',
+                        'post_tags' => [
+                            [
+                                'id' => 9999997,
+                                'post_id' => 9999997,
+                                'tag_id' => 9999999,
+                                'tag' => [
+                                    'id' => 9999999,
+                                    'tag_name' => 'タグテスト2'
+                                ]
+                            ]
+                        ],
+                        'images' => [
+                            [
+                                'id' => 9999997,
+                                'post_id' => 9999997,
+                                'img_url' => 'http://localhost:9900/syuwa-post-img/testFile.png',
+                            ]
+                        ]
+                    ],
+                    [
+                        'id' => 9999999,
+                        'user_id' => 9999998,
+                        'text' => 'テストデータその8になります',
+                        'created_at' => '2022-12-23T12:00:00.000000Z',
+                        'post_tags' => [
+                            [
+                                'id' => 9999999,
+                                'post_id' => 9999999,
+                                'tag_id' => 9999999,
+                                'tag' => [
+                                    'id' => 9999999,
+                                    'tag_name' => 'タグテスト2'
+                                ]
+                            ]
+                        ],
+                        'images' => [
+                            [
+                                'id' => 9999999,
+                                'post_id' => 9999999,
+                                'img_url' => 'http://localhost:9900/syuwa-post-img/testFile.png',
+                            ]
+                        ]
+                    ],
+
+                ]
+            ],
+            JSON_UNESCAPED_UNICODE
+        );
+    }
 }

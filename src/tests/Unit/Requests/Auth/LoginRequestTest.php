@@ -53,7 +53,7 @@ class LoginRequestTest extends TestCase
         return [
             'OK' => [
                 ['email', 'password'],
-                ['test@test.com', 'password'],
+                ['syuwaUser01@syuwa.com', 'password'],
                 true
             ],
             'email必須エラー1' => [

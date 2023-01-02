@@ -25,6 +25,8 @@ export class PostComponent implements OnInit {
 
   public errorMessage?: string;
 
+  public tags: Tag[];
+
   /** FileInput */
   @ViewChild('fileInputElement', { static: false }) public fileInputElement: ElementRef;
 
@@ -33,12 +35,10 @@ export class PostComponent implements OnInit {
     private routingService: RoutingService,
     private boardService: BoardService,
   ) {
-
+    this.tags = [];
   }
-
   postImage = new FormControl(null);
 
-  //TODO 初期値はtagsで取ってきた値を格納できるようにする
   postTag = new FormControl(1, [
     Validators.required,
   ]);
@@ -53,11 +53,7 @@ export class PostComponent implements OnInit {
     comment: this.comment,
   });
 
-  tags: Tag[] = [
-    // {value: 1, viewValue: 'ワイン' },
-    // {value: 2, viewValue: '日本酒' },
-    // {value: 3, viewValue: 'ウィスキー' },
-  ];
+
 
 
 

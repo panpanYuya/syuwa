@@ -89,7 +89,7 @@ class ResistUserServiceTest extends TestCase
      */
     public function test_send_tmp_mail()
     {
-        $testMailAddress = 'test@test.com';
+        $testMailAddress = 'syuwaUser01@syuwa.com';
         $userName = 'テストネーム';
 
         Mail::fake();

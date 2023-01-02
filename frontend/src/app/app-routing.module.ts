@@ -7,6 +7,7 @@ import { SendEmailComponent } from './pages/auth/send-email/send-email.component
 import { BoardComponent } from './pages/drink/board/board.component';
 import { DetailComponent } from './pages/drink/detail/detail.component';
 import { PostComponent } from './pages/drink/post/post.component';
+import { SearchComponent } from './pages/drink/search/search.component';
 
 const routes: Routes = [
   { path:'auth/login', component:LoginComponent},
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path:'drink/board', component:BoardComponent},
   { path:'drink/add', component:PostComponent},
   { path:'drink/detail/:postId', component:DetailComponent},
+  { path:'drink/search', component:SearchComponent},
 ];
 
 @NgModule({
