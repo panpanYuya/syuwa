@@ -97,7 +97,7 @@ describe('LoginService', () => {
  * @returns LoginResponseDto
  */
 function createExpectedLoginRequestDto(): LoginRequestDto{
-  return { email: 'test@test.com', password: 'password' };
+  return { email: 'syuwaUser01@syuwa.com', password: 'password' };
 }
 
 
