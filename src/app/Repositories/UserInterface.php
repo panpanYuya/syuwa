@@ -2,7 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Models\Users\User;
+
 interface UserInterface
 {
     public function existsUser(int $userId): bool;
+
+    public function findUserInfo(int $userId): User;
 }

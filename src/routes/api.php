@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\RegisterController;
 use App\Http\Controllers\API\Auth\UserController;
+use App\Http\Controllers\API\Auth\UserPageController;
 use App\Http\Controllers\API\drink\BoardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,9 @@ Route::controller(BoardController::class)->group(function () {
 });
 
 Route::post('/login', [LoginController::class, 'authenticate']);
+
+//TODO login機能の修正後にsanctumのミドルウェアを噛ませる
+Route::get('/user/page/{userId}', [UserPageController::class, 'showUserPage']);
 
 Route::middleware('auth:sanctum')->controller(RegisterController::class)->group(function () {
     Route::post('/user/regist', 'registTmpUser');

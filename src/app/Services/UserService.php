@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\FollowUser;
+use App\Models\Users\User;
 use App\Repositories\FollowUserRepository;
 use App\Repositories\UserRepository;
 use Exception;
@@ -29,6 +30,18 @@ class UserService
     public function existsUser(int $userId):bool
     {
         return $this->userRepository->existsUser($userId);
+    }
+
+
+    /**
+     * ユーザーに紐づくすべての情報を取得
+     *
+     * @param integer $userId
+     * @return User
+     */
+    public function findUserInfo(int $userId): User
+    {
+        return $this->userRepository->findUserInfo($userId);
     }
 
     /**

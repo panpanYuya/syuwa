@@ -16,4 +16,15 @@ class UserRepository implements UserInterface
     {
         return User::find($userId)->exists();
     }
+
+    /**
+     * ユーザーに紐づくすべての情報を取得
+     *
+     * @param integer $userId
+     * @return User
+     */
+    public function findUserInfo(int $userId): User
+    {
+        return User::where('id',$userId)->with(['posts','posts.postTags', 'posts.images', 'posts.postTags.tag'])->first();
+    }
 }
