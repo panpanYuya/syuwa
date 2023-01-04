@@ -49,8 +49,8 @@ class FollowUserRepository implements FollowUserInterface
     public function followedByUserId(int $userId, int $followedId):bool
     {
         return FollowUser::Where([
-            ['followed_id', $userId],
-            ['followee_id', $followedId]
+            ['following_id', $followedId],
+            ['followed_id', $userId]
         ])->exists();
     }
 
