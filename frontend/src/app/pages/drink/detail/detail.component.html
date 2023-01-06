@@ -3,7 +3,7 @@
   <div class="post-detail-wrapper">
     <div class="post-user">
       <input type="hidden" value="{{postDetail.userId}}">
-      <div class="user_name">{{postDetail.userName}}</div>
+      <div class="user_name" (click)="toUserPage(postDetail.userId)">{{postDetail.userName}}</div>
       <div class="follow-button">
         <button>フォロー</button>
       </div>

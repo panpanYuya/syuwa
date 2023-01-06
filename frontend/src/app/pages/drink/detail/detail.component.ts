@@ -1,11 +1,12 @@
 import { Observable } from 'rxjs';
 import { ErrorMessageConst } from 'src/app/common/constants/error-message-const';
+import { RoutingService } from 'src/app/common/services/routing.service';
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { UrlConst } from '../../constants/url-const';
 import { GetPostDetailResponseDTO } from '../models/dtos/responses/get-post-detail-response-dto';
-import { Post } from '../models/post';
 import { PostDetail } from '../models/post-detail';
 import { BoardService } from '../services/board.service';
 
@@ -22,7 +23,8 @@ export class DetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private boardServcie: BoardService
+    private boardServcie: BoardService,
+    private routingService: RoutingService
   ) {
     this.postDetail = new PostDetail();
   }
@@ -52,6 +54,10 @@ export class DetailComponent implements OnInit {
           this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
         }
     });
+  }
+
+  public toUserPage(userId:number) {
+    this.routingService.transitToPath(UrlConst.SLASH + UrlConst.AUTH + UrlConst.SLASH + UrlConst.USER + UrlConst.SLASH + UrlConst.PAGE + UrlConst.SLASH + userId);
   }
 
 

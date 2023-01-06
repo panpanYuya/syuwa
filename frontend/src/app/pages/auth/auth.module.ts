@@ -9,12 +9,14 @@ import { PagesModule } from '../pages.module';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { LoginComponent } from './login/login.component';
 import { SendEmailComponent } from './send-email/send-email.component';
+import { UserPageComponent } from './user-page/user-page.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
     CreateUserComponent,
     SendEmailComponent,
+    UserPageComponent,
   ],
   imports: [
     CommonModule,

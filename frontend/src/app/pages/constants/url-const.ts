@@ -11,4 +11,6 @@ export class UrlConst {
 
   static readonly DRINK = 'drink';
   static readonly BOARD = 'board';
+  static readonly PAGE = 'page';
+  static readonly USER = 'user';
 }
