@@ -29,7 +29,7 @@ class UserPageController extends Controller
      * @param integer $userId
      * @return JsonResponse
      */
-    public function showUserPage(int $showedUserId):JsonResponse
+    public function showUserPage(int $showedUserId): JsonResponse
     {
         $followFlg = false;
         $userId = Auth::id();
@@ -38,7 +38,7 @@ class UserPageController extends Controller
         }
         $numOfFollowed = $this->followUserService->countFollowedbyUserId($userId);
         $numOfFollowee = $this->followUserService->countFolloweeByUser($userId);
-        $userInfo = $this->userService->findUserInfo($userId);
+        $userInfo = $this->userService->findUserInfo($showedUserId);
         return response()->json([
             'follow_flg' => $followFlg,
             'followed_num' => $numOfFollowed,

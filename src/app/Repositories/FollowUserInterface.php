@@ -12,5 +12,5 @@ interface FollowUserInterface
 
     public function countFolloweeUser(int $userId): int;
 
-    public function followedByUserId(int $userId, int $followedId): bool;
+    public function followedByUserId(int $userId, int $checkUserId): bool;
 }

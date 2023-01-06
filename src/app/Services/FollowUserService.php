@@ -29,7 +29,6 @@ class FollowUserService
             return true;
         }
         return false;
-
     }
 
     /**
@@ -61,9 +60,8 @@ class FollowUserService
      * @param integer $followedId
      * @return integer
      */
-    public function followedByUserId(int $userId, int $followedId): int
+    public function followedByUserId(int $userId, int $checkUserId): int
     {
-        return $this->followUserRepository->followedByUserId($userId, $followedId);
+        return $this->followUserRepository->followedByUserId($userId, $checkUserId);
     }
-
 }

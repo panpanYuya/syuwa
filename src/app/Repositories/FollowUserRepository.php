@@ -23,7 +23,7 @@ class FollowUserRepository implements FollowUserInterface
      * @param integer $userId
      * @return integer $numOfFollowee
      */
-    public function countFollowedUser(int $userId):int
+    public function countFollowedUser(int $userId): int
     {
         return FollowUser::where('followed_id', $userId)->count();
     }
@@ -34,24 +34,23 @@ class FollowUserRepository implements FollowUserInterface
      * @param integer $userId
      * @return integer
      */
-    public function countFolloweeUser(int $userId):int
+    public function countFolloweeUser(int $userId): int
     {
         return FollowUser::where('following_id', $userId)->count();
     }
 
     /**
-     * ユーザーIDのユーザーがfollowedIdのユーザーをフォローしているか確認
+     * ユーザーIDのユーザーがcheckUserIdのユーザーをフォローしているか確認
      *
      * @param integer $userId
-     * @param integer $followedId
+     * @param integer $checkUserId
      * @return boolean
      */
-    public function followedByUserId(int $userId, int $followedId):bool
+    public function followedByUserId(int $userId, int $checkUserId): bool
     {
         return FollowUser::Where([
-            ['following_id', $followedId],
-            ['followed_id', $userId]
+            ['following_id', $userId],
+            ['followed_id', $checkUserId]
         ])->exists();
     }
-
 }
