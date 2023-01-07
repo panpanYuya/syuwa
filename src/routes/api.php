@@ -46,8 +46,8 @@ Route::middleware('auth:sanctum')->controller(RegisterController::class)->group(
 });
 
 Route::middleware('auth:sanctum')->controller(FollowUserController::class)->group(function () {
-    Route::put('/user/follow/{userId}', 'followUser');
-    Route::delete('/user/unfollow/{userId}', 'unfollowUser');
+    Route::put('/user/follow/{followId}', 'followUser');
+    Route::delete('/user/unfollow/{unfollowId}', 'unfollowUser');
 });
 
 // get('/user', function (Request $request) {
