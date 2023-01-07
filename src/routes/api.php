@@ -19,36 +19,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::middleware('auth:sanctum')->group(function () {
-});
-
 //TODO login機能が修正出来次第sanctumを噛ませるように修正
-Route::controller(BoardController::class)->group(function () {
-    Route::get('/drink/show/{numOfDisplaiedPosts}', 'show');
-    Route::post('/drink/add', 'add');
-    Route::get('/drink/create', 'create');
-    Route::get('/drink/detail/{postId}', 'detail');
-    Route::get('/drink/search/{tagId}/{numOfDisplaiedPosts}', 'searchPostsByTag');
-});
 
 Route::post('/login', [LoginController::class, 'authenticate']);
 
 //TODO login機能の修正後にsanctumのミドルウェアを噛ませる
 Route::get('/user/page/{userId}', [UserPageController::class, 'showUserPage']);
 
-Route::middleware('auth:sanctum')->controller(RegisterController::class)->group(function () {
-    Route::post('/user/regist', 'registTmpUser');
-    Route::post('/user/regist/complete/{token}', 'registUserComplete');
+
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::controller(BoardController::class)->group(function () {
+        Route::get('/drink/show/{numOfDisplaiedPosts}', 'show');
+        Route::post('/drink/add', 'add');
+        Route::get('/drink/create', 'create');
+        Route::get('/drink/detail/{postId}', 'detail');
+        Route::get('/drink/search/{tagId}/{numOfDisplaiedPosts}', 'searchPostsByTag');
+    });
+
+    Route::controller(RegisterController::class)->group(function () {
+        Route::post('/user/regist', 'registTmpUser');
+        Route::post('/user/regist/complete/{token}', 'registUserComplete');
+    });
+
+    Route::controller(FollowUserController::class)->group(function () {
+        Route::put('/user/follow/{followId}', 'followUser');
+        Route::delete('/user/unfollow/{unfollowId}', 'unfollowUser');
+    });
 });
 
-Route::middleware('auth:sanctum')->controller(FollowUserController::class)->group(function () {
-    Route::put('/user/follow/{followId}', 'followUser');
-    Route::delete('/user/unfollow/{unfollowId}', 'unfollowUser');
-});
 
 // get('/user', function (Request $request) {
 //     return $request->user();
