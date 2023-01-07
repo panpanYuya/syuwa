@@ -22,11 +22,13 @@ export class UserPageComponent implements OnInit {
 
   public followFlg: boolean;
 
-  public userId: number;
+  public posts: Post[];
+
+  public requestServer: boolean;
 
   public user: User;
 
-  public posts: Post[];
+  public userId: number;
 
   constructor(
     private routingService: RoutingService,
@@ -34,9 +36,10 @@ export class UserPageComponent implements OnInit {
     private route: ActivatedRoute,
   ) {
     this.errorMessage = '';
-    this.posts = [];
-    this.user = new User();
     this.followFlg = false;
+    this.posts = [];
+    this.requestServer = false;
+    this.user = new User();
    }
 
   ngOnInit(): void {
@@ -73,6 +76,52 @@ export class UserPageComponent implements OnInit {
 
   showPostDetail(postId: number) {
     this.routingService.transitToPath(UrlConst.SLASH + UrlConst.DRINK + UrlConst.SLASH + UrlConst.DETAIL + UrlConst.SLASH + postId)
+  }
+
+  public followUser(userId: number) {
+    this.requestServer = true;
+    let followResult: Observable<boolean> = this.userInfoService.followUser(userId);
+    followResult.subscribe({
+      next:
+      () => {
+        followResult.forEach((data: any) => {
+          if (data['result']) {
+            this.followFlg = true;
+          }
+        });
+      },
+      error:
+      () => {
+        this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
+      },
+      complete:
+      () => {
+          this.requestServer = false;
+      }
+    });
+  }
+
+  public unfollowUser(userId: number) {
+    this.requestServer = true;
+    let followResult: Observable<boolean> = this.userInfoService.unfollowUser(userId);
+    followResult.subscribe({
+      next:
+        () => {
+          followResult.forEach((data: any) => {
+            if (data['result']) {
+              this.followFlg = false;
+            }
+          });
+        },
+      error:
+        () => {
+          this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
+        },
+      complete:
+        () => {
+            this.requestServer = false;
+        }
+    });
   }
 
   setUser(responseDto: any) {
