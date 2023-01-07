@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\FollowUser;
 use App\Repositories\FollowUserRepository;
+use Exception;
 
 class FollowUserService
 {
@@ -60,8 +62,39 @@ class FollowUserService
      * @param integer $followedId
      * @return integer
      */
-    public function followedByUserId(int $userId, int $checkUserId): int
+    public function followedByUserId(int $userId, int $checkUserId): bool
     {
         return $this->followUserRepository->followedByUserId($userId, $checkUserId);
+    }
+
+    /**
+     * フォローテーブルにユーザーのフォロー情報を保存
+     *
+     * @param FollowUser $followUser
+     * @return void
+     */
+    public function followUser(FollowUser $followUser)
+    {
+        try {
+            $this->followUserRepository->followUser($followUser);
+        } catch (Exception $e) {
+            abort(500);
+        }
+    }
+
+    /**
+     * フォローテーブルに存在しているフォロー情報を削除
+     *
+     * @param integer $userId
+     * @param integer $followedId
+     * @return void
+     */
+    public function unfollowUser(int $userId, int $followedId)
+    {
+        try {
+            $this->followUserRepository->unfollowUser($userId, $followedId);
+        } catch (Exception $e) {
+            abort(500);
+        }
     }
 }

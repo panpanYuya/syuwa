@@ -6,7 +6,9 @@ use App\Models\FollowUser;
 
 interface FollowUserInterface
 {
-    public function followUser(FollowUser $followUser);
+    public function followUser(FollowUser $followUser): void;
+
+    public function unfollowUser(int $userId, int $followedId): void;
 
     public function countFollowedUser(int $userId): int;
 

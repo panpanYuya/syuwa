@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\API\Auth\FollowUserController;
 use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\RegisterController;
-use App\Http\Controllers\API\Auth\UserController;
 use App\Http\Controllers\API\Auth\UserPageController;
 use App\Http\Controllers\API\drink\BoardController;
 use Illuminate\Http\Request;
@@ -45,8 +45,9 @@ Route::middleware('auth:sanctum')->controller(RegisterController::class)->group(
     Route::post('/user/regist/complete/{token}', 'registUserComplete');
 });
 
-Route::middleware('auth:sanctum')->controller(UserController::class)->group(function () {
-    Route::post('/user/follow/{userId}', 'followUser');
+Route::middleware('auth:sanctum')->controller(FollowUserController::class)->group(function () {
+    Route::put('/user/follow/{userId}', 'followUser');
+    Route::delete('/user/unfollow/{userId}', 'unfollowUser');
 });
 
 // get('/user', function (Request $request) {
