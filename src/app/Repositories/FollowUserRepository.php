@@ -12,9 +12,24 @@ class FollowUserRepository implements FollowUserInterface
      * @param FollowUser $followUser
      * @return void
      */
-    public function followUser(FollowUser $followUser)
+    public function followUser(FollowUser $followUser): void
     {
         $followUser->save();
+    }
+
+    /**
+     * フォローしていたユーザーのフォローを解除
+     *
+     * @param integer $followingId
+     * @param integer $followedId
+     * @return void
+     */
+    public function unfollowUser(int $userId, int $followedId): void
+    {
+        FollowUser::Where([
+            ['following_id', $userId],
+            ['followed_id', $followedId]
+        ])->delete();
     }
 
     /**

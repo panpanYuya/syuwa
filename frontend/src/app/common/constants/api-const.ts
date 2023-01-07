@@ -13,6 +13,8 @@ export class ApiConst {
 
   static readonly DRINK = 'drink';
 
+  static readonly FOLLOW = 'follow';
+
   static readonly LOGIN = 'login';
 
   static readonly PAGE = 'page';
@@ -24,6 +26,8 @@ export class ApiConst {
   static readonly SHOW = 'show';
 
   static readonly USER = 'user';
+
+  static readonly UNFOLLOW = 'unfollow';
 
   static readonly XSRF = 'sanctum/csrf-cookie'
 }

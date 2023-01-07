@@ -27,7 +27,7 @@ class UserService
      * @param integer $userId
      * @return bool
      */
-    public function existsUser(int $userId):bool
+    public function existsUser(int $userId): bool
     {
         return $this->userRepository->existsUser($userId);
     }
@@ -42,20 +42,5 @@ class UserService
     public function findUserInfo(int $userId): User
     {
         return $this->userRepository->findUserInfo($userId);
-    }
-
-    /**
-     * フォローテーブルにユーザーのフォロー情報を保存
-     *
-     * @param FollowUser $followUser
-     * @return void
-     */
-    public function followUser(FollowUser $followUser)
-    {
-        try {
-            $this->followUserRepository->followUser($followUser);
-        } catch (Exception $e) {
-            abort(500);
-        }
     }
 }
