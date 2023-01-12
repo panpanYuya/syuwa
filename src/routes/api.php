@@ -46,6 +46,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/user/follow/{followId}', 'followUser');
         Route::delete('/user/unfollow/{unfollowId}', 'unfollowUser');
     });
+
+    Route::controller(LoginController::class)->group(function () {
+        Route::post('/logout', 'logout');
+    });
 });
 
 

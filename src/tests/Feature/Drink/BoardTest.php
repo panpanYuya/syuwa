@@ -27,14 +27,10 @@ class BoardTest extends TestCase
     public function test_show()
     {
 
-        $email = 'syuwaUser01@syuwa.com';
-        $password = 'password';
 
-        $response = $this->postJson('/api/login', ['email' => $email, 'password' =>  $password]);
+        $testUser = $this->createTestUserForm();
 
-        $response = $this->withHeaders([
-            'XSRF-TOKEN' => csrf_token(),
-        ])->getJson('/api/drink/show/0');
+        $response = $this->actingAs($testUser)->getJson('/api/drink/show/0');
 
         $response->assertJson(
             [
@@ -179,9 +175,9 @@ class BoardTest extends TestCase
         $postTag = PostTag::factory()->state(['post_id' => $post->id, 'tag_id' => $tag->id])->create();
         $image = Image::factory()->state(['post_id' => $post->id])->create();
 
-        $response = $this->withHeaders([
-            'XSRF-TOKEN' => csrf_token(),
-        ])->getJson('/api/drink/detail/' . $post->id);
+        $testUser = $this->createTestUserForm();
+
+        $response = $this->actingAs($testUser)->getJson('/api/drink/detail/' . $post->id);
 
         $response->assertJson(
             [
@@ -233,14 +229,9 @@ class BoardTest extends TestCase
             ImageTestDataSeeder::class,
         ]);
 
-        $email = 'syuwaUser01@syuwa.com';
-        $password = 'password';
+        $testUser = $this->createTestUserForm();
 
-        $response = $this->postJson('/api/login', ['email' => $email, 'password' =>  $password]);
-
-        $response = $this->withHeaders([
-            'XSRF-TOKEN' => csrf_token(),
-        ])->getJson('/api/drink/search/9999999/0');
+        $response = $this->actingAs($testUser)->getJson('/api/drink/search/9999999/0');
 
         $response->assertJson(
             [
@@ -346,5 +337,20 @@ class BoardTest extends TestCase
             ],
             JSON_UNESCAPED_UNICODE
         );
+    }
+
+    /**
+     * Userの新しいモデルを作成
+     *
+     * @return User
+     */
+    private function createTestUserForm(): User
+    {
+        $user = new User();
+        $user->id = 1;
+        $user->email = 'syuwaUser01@syuwa.com';
+        $user->password = 'password';
+
+        return $user;
     }
 }

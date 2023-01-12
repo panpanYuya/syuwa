@@ -7,11 +7,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\API\Auth\LoginRequest;
 use Exception;
-use Illuminate\Http\Client\Request;
+use Illuminate\Auth\AuthManager;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+
+    private  AuthManager $auth;
+
+    /**
+     * @param AuthManager $auth
+     */
+    public function __construct(
+        AuthManager $auth
+    ) {
+        $this->auth = $auth;
+    }
 
 
     public function authenticate(LoginRequest $request): JsonResponse
@@ -35,5 +47,31 @@ class LoginController extends Controller
                 'message' => $message,
             ]);
         }
+    }
+
+
+    /**
+     * ログアウト
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function logout(Request $request): JsonResponse
+    {
+        if ($this->auth->guard()->guest()) {
+            return new JsonResponse([
+                'message' => 'Already Unauthenticated.',
+            ]);
+        }
+
+        Auth::guard('api')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return response()->json([
+            'result' => true,
+        ]);
     }
 }
