@@ -1,3 +1,4 @@
+import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { ErrorMessageConst } from 'src/app/common/constants/error-message-const';
 
@@ -9,6 +10,7 @@ import { UrlConst } from '../../constants/url-const';
 import { Post } from '../../drink/models/post';
 import { ShowUserInfoResponseDTO } from '../models/dtos/responses/show-user-info-response-dto';
 import { User } from '../models/user';
+import { LoginService } from '../services/login.service';
 import { UserInfoService } from '../services/user-info.service';
 
 @Component({
@@ -31,8 +33,10 @@ export class UserPageComponent implements OnInit {
   public userId: number;
 
   constructor(
+    private cookieService: CookieService,
     private routingService: RoutingService,
     private userInfoService: UserInfoService,
+    private loginService: LoginService,
     private route: ActivatedRoute,
   ) {
     this.errorMessage = '';
@@ -122,6 +126,26 @@ export class UserPageComponent implements OnInit {
             this.requestServer = false;
         }
     });
+  }
+
+  public logout() {
+    this.requestServer = true;
+    let logoutResult: Observable<boolean> = this.loginService.logout();
+    logoutResult.subscribe({
+      next:
+      () => {
+      },
+      error:
+      () => {
+        this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
+      },
+      complete:
+      () => {
+        this.requestServer = false;
+      }
+    });
+    this.cookieService.deleteAll();
+    this.routingService.transitToPath(UrlConst.SLASH + UrlConst.AUTH + UrlConst.SLASH + UrlConst.LOGIN)
   }
 
   setUser(responseDto: any) {

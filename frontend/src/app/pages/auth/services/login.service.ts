@@ -43,4 +43,13 @@ export class LoginService {
       );
   }
 
+  public logout(): Observable<boolean> {
+    return this.http.post<boolean>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.LOGOUT, '')
+      .pipe(
+        catchError(() => {
+          return of(false);
+        })
+      );
+  }
+
 }
