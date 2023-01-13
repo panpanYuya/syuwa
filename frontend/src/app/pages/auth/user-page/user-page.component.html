@@ -9,8 +9,11 @@
         <button class="stop_follow-button" [hidden]="!followFlg" [disabled]="requestServer"
           (click)="unfollowUser(user.id)">フォロー解除</button>
       </div>
+      <div class="user-setting-wapper" [hidden]="">
+        <button class="follow-button" [disabled]="requestServer" (click)="logout()">ログアウト</button>
+      </div>
     </div>
-    <div class="select-post">
+    <div class=" select-post">
       <div class="post-list">投稿一覧</div>
       <div class="fav-list">いいね一覧</div>
     </div>

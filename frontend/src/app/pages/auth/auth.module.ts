@@ -1,3 +1,4 @@
+import { CookieService } from 'ngx-cookie-service';
 import { MaterialModule } from 'src/app/material/material.module';
 
 import { CommonModule } from '@angular/common';
@@ -24,6 +25,9 @@ import { UserPageComponent } from './user-page/user-page.component';
     MaterialModule,
     HttpClientModule,
     PagesModule
+  ],
+  providers: [
+    CookieService
   ],
   exports: [
     ReactiveFormsModule,
