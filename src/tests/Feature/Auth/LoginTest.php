@@ -6,6 +6,7 @@ use App\Consts\HttpStatusConst;
 use App\Models\Users\User;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -33,10 +34,9 @@ class LoginTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => $email, 'password' =>  $password]);
 
         $this->assertAuthenticated();
-        $response->assertJson(
+        $response->assertStatus(200)->assertJson(
             [
-                'status' => HttpStatusConst::SUCCESS,
-                'message' => 'ログインに成功しました。',
+                'userId' => Auth::id()
             ],
             JSON_UNESCAPED_UNICODE
         );
@@ -54,10 +54,9 @@ class LoginTest extends TestCase
 
         $response = $this->postJson('/api/login', ['email' => $email, 'password' => $password]);
 
-        $response->assertJson(
+        $response->assertStatus(401)->assertJson(
             [
-                'status' => HttpStatusConst::AUTH_ERROR,
-                'message' => 'ログイン情報が正しくありません。',
+                'message' => '認証情報が正しくないため、画面を表示できません。',
             ],
             JSON_UNESCAPED_UNICODE
         );
@@ -82,6 +81,23 @@ class LoginTest extends TestCase
 
         $this->assertGuest('api');
 
+    }
+
+    /**
+     * ログイン状態確認機能のテスト
+     *
+     * @return void
+     */
+    public function test_check_login()
+    {
+        $user = $this->createTestUserForm();
+        $response = $this->actingAs($user)->postJson('/api/user/check');
+
+        $response->assertJson(
+            [
+                'result' => true,
+            ],
+        );
     }
 
     /**

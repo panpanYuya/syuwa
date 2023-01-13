@@ -1,7 +1,7 @@
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { ApiConst } from 'src/app/common/constants/api-const';
 
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { LoginRequestDto } from '../models/dtos/requests/login-request-dto';
@@ -28,17 +28,15 @@ export class LoginService {
   public login(loginRequestDto:LoginRequestDto): Observable<LoginResponseDto> {
     return this.http.post<LoginResponseDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.LOGIN, loginRequestDto)
       .pipe(
-        catchError(() => {
-          return of(null as unknown  as LoginResponseDto);
-        })
+        catchError(this.handleError)
       );
   }
 
   public checkLogin():Observable<boolean> {
-    return this.http.get<boolean>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.USER + ApiConst.SLASH + ApiConst.CHECK)
+    return this.http.post<boolean>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.USER + ApiConst.SLASH + ApiConst.CHECK, "")
       .pipe(
         catchError(() => {
-          return of(null as unknown as boolean);
+          return of(null);
         })
       );
   }
@@ -50,6 +48,10 @@ export class LoginService {
           return of(false);
         })
       );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    return throwError(() => error);
   }
 
 }

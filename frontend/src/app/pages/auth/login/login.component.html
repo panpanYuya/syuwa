@@ -3,7 +3,7 @@
   <div class="title">
     ログイン
   </div>
-  <p *ngIf="errorMessage">{{errorMessage}}</p>
+  <p class="error-message" *ngIf="errorMessage">{{errorMessage}}</p>
   <form class="login-form" [formGroup]="loginForm" (ngSubmit)="clickLoginButton()">
     <mat-form-field class="login-full-width" appearance="fill">
       <mat-error *ngIf="email.hasError('required')">
