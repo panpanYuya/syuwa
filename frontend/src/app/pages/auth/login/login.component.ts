@@ -55,13 +55,14 @@ export class LoginComponent implements OnInit {
           let loginResponseDto: Observable<LoginResponseDto> = this.loginService.login(loginRequestDto);
           loginResponseDto.subscribe( {
             next:
-              () => {
+              (result) => {
+                  sessionStorage.setItem('userId', result.userId);
                   this.routingService.transitToPath(UrlConst.SLASH + UrlConst.DRINK + UrlConst.SLASH + UrlConst.BOARD);
               },
             error:
               (error) => {
                 if (error.status === ErrorStatusConst.AUTH_ERROR_CODE) {
-                  return this.setErrorMessage(ErrorMessageConst.AUTH_ERROR);
+                  return this.setErrorMessage(error.error.message);
                 } else {
                   return this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
                 }

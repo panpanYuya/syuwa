@@ -7,46 +7,33 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\API\Auth\LoginRequest;
 use Exception;
-use Illuminate\Auth\AuthManager;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
 
-    private  AuthManager $auth;
-
     /**
-     * @param AuthManager $auth
+     * ログイン
+     *
+     * @param LoginRequest $request
+     * @return JsonResponse
      */
-    public function __construct(
-        AuthManager $auth
-    ) {
-        $this->auth = $auth;
-    }
-
-
     public function authenticate(LoginRequest $request): JsonResponse
     {
         try {
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 $request->session()->regenerate();
-                $status = HttpStatusConst::SUCCESS;
-                $message = __('auth.success');
-            } else {
-                $status = HttpStatusConst::AUTH_ERROR;
-                $message = __('auth.unauthorized');
+                return response()->json([
+                    'userId' => Auth::id()
+                ]);
             }
         } catch (Exception $error) {
-            $status = HttpStatusConst::SERVER_ERROR;
-            $message = __('error.database.auth');
-        } finally {
-            //TODOエラーの共通処理実装後に修正する
-            return response()->json([
-                'status' => $status,
-                'message' => $message,
-            ]);
+            abort(500);
         }
+        //カスタムメッセージをフロントエンド側に渡す為にabort関数を使用
+        abort(401);
     }
 
 
@@ -58,12 +45,6 @@ class LoginController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        if ($this->auth->guard()->guest()) {
-            return new JsonResponse([
-                'message' => 'Already Unauthenticated.',
-            ]);
-        }
-
         Auth::guard('api')->logout();
 
         $request->session()->invalidate();
@@ -73,5 +54,22 @@ class LoginController extends Controller
         return response()->json([
             'result' => true,
         ]);
+    }
+
+
+    /**
+     * ユーザーのログイン状態を確認
+     *
+     * @return JsonResponse
+     */
+    public function checkLogin():JsonResponse
+    {
+        if (Auth::check()) {
+            return response()->json([
+                'result' => true,
+            ]);
+        }
+
+        abort(401);
     }
 }

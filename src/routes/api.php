@@ -5,7 +5,6 @@ use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\RegisterController;
 use App\Http\Controllers\API\Auth\UserPageController;
 use App\Http\Controllers\API\drink\BoardController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,13 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//TODO login機能が修正出来次第sanctumを噛ませるように修正
-
 Route::post('/login', [LoginController::class, 'authenticate']);
-
-//TODO login機能の修正後にsanctumのミドルウェアを噛ませる
-Route::get('/user/page/{userId}', [UserPageController::class, 'showUserPage']);
-
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
@@ -49,10 +42,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(LoginController::class)->group(function () {
         Route::post('/logout', 'logout');
+        Route::post('/user/check', 'checkLogin');
     });
+
+    Route::get('/user/page/{userId}', [UserPageController::class, 'showUserPage']);
 });
-
-
-// get('/user', function (Request $request) {
-//     return $request->user();
-// });
