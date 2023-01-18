@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Auth\FollowUserController;
+use App\Http\Controllers\API\Auth\PasswordResetController;
 use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\RegisterController;
 use App\Http\Controllers\API\Auth\UserPageController;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', [LoginController::class, 'authenticate']);
+
+Route::post('/password/email', [PasswordResetController::class, 'checkEmail']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
 

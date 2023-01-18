@@ -2,23 +2,17 @@
 
 namespace App\Services;
 
-use App\Models\FollowUser;
 use App\Models\Users\User;
-use App\Repositories\FollowUserRepository;
 use App\Repositories\UserRepository;
-use Exception;
 
 class UserService
 {
     private UserRepository $userRepository;
-    private FollowUserRepository $followUserRepository;
 
     public function __construct(
-        UserRepository $userRepository,
-        FollowUserRepository $followUserRepository
+        UserRepository $userRepository
     ) {
         $this->userRepository = $userRepository;
-        $this->followUserRepository = $followUserRepository;
     }
 
     /**
@@ -42,5 +36,17 @@ class UserService
     public function findUserInfo(int $userId): User
     {
         return $this->userRepository->findUserInfo($userId);
+    }
+
+
+    /**
+     * emailアドレスに紐づくユーザーが存在しているのかを確認
+     *
+     * @param string $email
+     * @return User
+     */
+    public function findUserByEmail(string $email): User
+    {
+        return $this->userRepository->findUserByEmail($email);
     }
 }

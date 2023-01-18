@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Consts\UrlConst;
 use App\Consts\UtilConst;
 use App\Mail\RegistTmpUserMail;
+use App\Mail\PasswordResetMail;
 use App\Models\Users\TmpUserRegistration;
 use App\Models\Users\User;
 use App\Repositories\RegistTmpUserRepository;
@@ -38,8 +39,6 @@ class RegistUserService
      */
     public function createTmpUser(TmpUserRegistration $tmpUser)
     {
-        $tmpUser->password = $this->hashedPassword($tmpUser->password);
-
         try {
             $this->registTmpUserRepository->createNewTmpUser($tmpUser);
         } catch (Throwable $e) {
@@ -74,8 +73,6 @@ class RegistUserService
      */
     public function updateTmpUser(TmpUserRegistration $tmpUser)
     {
-        $tmpUser->password = $this->hashedPassword($tmpUser->password);
-
         try {
             $this->registTmpUserRepository->updateNewTmpUser($tmpUser);
         } catch (Throwable $e) {
@@ -177,6 +174,11 @@ class RegistUserService
         return config('app.url') . UrlConst::CREATEANDUPDATEURL . $token;
     }
 
+    public function createPasswordResetUrl(string $token): string
+    {
+        return config('app.url') . UrlConst::CREATEPASSWORDRESETURL . $token;
+    }
+
     /**
      * 本登録メールを送信
      *
@@ -190,6 +192,16 @@ class RegistUserService
         $registUrl = $this->createRegistUrl($token);
         try {
             Mail::to($email)->send(new RegistTmpUserMail($userName, $registUrl));
+        } catch (Throwable $e) {
+            abort(500);
+        }
+    }
+
+    public function sendPasswordResetMail(string $email, string $token)
+    {
+        $registUrl = $this->createPasswordResetUrl($token);
+        try {
+            Mail::to($email)->send(new PasswordResetMail($registUrl));
         } catch (Throwable $e) {
             abort(500);
         }

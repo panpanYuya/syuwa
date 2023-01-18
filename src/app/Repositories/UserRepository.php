@@ -27,4 +27,15 @@ class UserRepository implements UserInterface
     {
         return User::where('id',$userId)->with(['posts','posts.postTags', 'posts.images', 'posts.postTags.tag'])->first();
     }
+
+    /**
+     * メールアドレスに紐づくユーザーが存在している確認する処理
+     *
+     * @param string $email
+     * @return User
+     */
+    public function findUserByEmail(string $email): User
+    {
+        return User::where('email', $email)->first();
+    }
 }
