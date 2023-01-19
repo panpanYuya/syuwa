@@ -21,7 +21,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [LoginController::class, 'authenticate']);
 
-Route::post('/password/email', [PasswordResetController::class, 'checkEmail']);
+
+Route::controller(PasswordResetController::class)->group(function () {
+    Route::post('/password/email', 'checkEmail');
+    Route::post('/password/reset/{token}', 'passwordReset');
+});
 
 Route::middleware(['auth:sanctum'])->group(function () {
 

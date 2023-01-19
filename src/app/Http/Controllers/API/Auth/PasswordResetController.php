@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Auth;
 
+use App\Consts\ErrorMessageConst;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Auth\PasswordResetRequest;
 use App\Models\Users\TmpUserRegistration;
@@ -47,7 +48,28 @@ class PasswordResetController extends Controller
 
         return response()->json([
             'result' => 'success',
-            'userResult' => $user
+        ], 200);
+    }
+
+    /**
+     * パスワードリセット
+     *
+     * @param string $token
+     * @return JsonResponse
+     */
+    public function passwordReset(string $token)
+    {
+        $tmpUser = $this->registUserService->findTmpUserByToken($token);
+
+        if (!$this->registUserService->checkExpirationDate($tmpUser->updated_at)) {
+            $this->registUserService->deleteRegistedTmpUser($tmpUser);
+            return response()->json([
+                'result' => 'error',
+                'message' => ErrorMessageConst::EXPIRATION_DATE,
+            ], 200);
+        }
+        return response()->json([
+            'result' => 'success'
         ], 200);
     }
 
