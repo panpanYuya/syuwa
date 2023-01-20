@@ -38,6 +38,16 @@ class UserService
         return $this->userRepository->findUserInfo($userId);
     }
 
+    /**
+     * ユーザー情報
+     *
+     * @param User $user
+     * @return void
+     */
+    public function updateUser(User $user)
+    {
+        return $this->userRepository->updateUser($user);
+    }
 
     /**
      * emailアドレスに紐づくユーザーが存在しているのかを確認

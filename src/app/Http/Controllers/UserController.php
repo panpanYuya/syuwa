@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Users\TmpUserRegistration;
+use App\Models\Users\User;
 use App\Services\RegistUserService;
 
 class UserController extends Controller
@@ -23,12 +25,30 @@ class UserController extends Controller
     {
         $tmpUser = $this->registUserService->findTmpUserByToken(request('token'));
         if ($this->registUserService->checkExpirationDate($tmpUser->updated_at)) {
-            $this->registUserService->createNewUser($tmpUser);
+            $user = $this->createUserForm($tmpUser);
+            $this->registUserService->createNewUser($user);
             $this->registUserService->deleteRegistedTmpUser($tmpUser);
             return view('create_user_complete');
         }
 
         $this->registUserService->deleteRegistedTmpUser($tmpUser);
         return view('fail_create_user');
+    }
+
+    /**
+     * 仮登録用ユーザーのモデルをユーザーモデルに変換
+     *
+     * @param TmpUserRegistration $tmpUser
+     * @return User
+     */
+    public function createUserForm(TmpUserRegistration $tmpUser): User
+    {
+        $user = new User();
+        $user->user_name = $tmpUser->user_name;
+        $user->email = $tmpUser->email;
+        $user->password = $tmpUser->password;
+        $user->birthday = $tmpUser->birthday;
+
+        return $user;
     }
 }

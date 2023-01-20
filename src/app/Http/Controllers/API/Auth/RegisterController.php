@@ -49,7 +49,7 @@ class RegisterController extends Controller
         $tmpUserRegistration = new TmpUserRegistration();
         $tmpUserRegistration->user_name = $request->user_name;
         $tmpUserRegistration->email = $request->email;
-        $tmpUserRegistration->password = $this->hashedPassword($request->password);
+        $tmpUserRegistration->password = $this->registUserService->hashedPassword($request->password);
         $tmpUserRegistration->birthday = $request->birthday;
         $tmpUserRegistration->token = $this->registUserService->createTmpToken();
         return $tmpUserRegistration;

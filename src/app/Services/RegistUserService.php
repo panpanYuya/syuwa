@@ -52,9 +52,8 @@ class RegistUserService
      * @param TmpUserRegistration $tmpUser
      * @return void
      */
-    public function createNewUser(TmpUserRegistration $tmpUser)
+    public function createNewUser(User $user)
     {
-        $user = $this->createUserForm($tmpUser);
         try
         {
             $this->registUserRepository->createNewUser($user);
@@ -174,9 +173,15 @@ class RegistUserService
         return config('app.url') . UrlConst::CREATEANDUPDATEURL . $token;
     }
 
+    /**
+     * パスワードリセットメールに記載するURLを作成
+     *
+     * @param string $token
+     * @return string
+     */
     public function createPasswordResetUrl(string $token): string
     {
-        return config('app.url') . UrlConst::CREATEPASSWORDRESETURL . $token;
+        return env('FRONT_URL') . UrlConst::CREATEPASSWORDRESETURL . $token;
     }
 
     /**
@@ -207,20 +212,5 @@ class RegistUserService
         }
     }
 
-    /**
-     * ユーザーテーブルに登録する新規ユーザーの情報をセット
-     *
-     * @param TmpUserRegistration $tmpUser
-     * @return User
-     */
-    public function createUserForm(TmpUserRegistration $tmpUser): User
-    {
-        $user = new User();
-        $user->user_name = $tmpUser->user_name;
-        $user->email = $tmpUser->email;
-        $user->password = $tmpUser->password;
-        $user->birthday = $tmpUser->birthday;
 
-        return $user;
-    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Auth;
 
 use App\Consts\ErrorMessageConst;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\Auth\PasswordCompleteRequest;
 use App\Http\Requests\API\Auth\PasswordResetRequest;
 use App\Models\Users\TmpUserRegistration;
 use App\Models\Users\User;
@@ -57,7 +58,7 @@ class PasswordResetController extends Controller
      * @param string $token
      * @return JsonResponse
      */
-    public function passwordReset(string $token)
+    public function passwordReset(string $token):JsonResponse
     {
         $tmpUser = $this->registUserService->findTmpUserByToken($token);
 
@@ -73,6 +74,32 @@ class PasswordResetController extends Controller
         ], 200);
     }
 
+    /**
+     * パスワード再登録
+     *
+     * @param PasswordCompleteRequest $request
+     * @return JsonResponse
+     */
+    public function changePasswordComplete(PasswordCompleteRequest $request): JsonResponse
+    {
+        $tmpUser = $this->registUserService->findTmpUserByToken($request->token);
+        $user = $this->createUserForm($tmpUser, $request->password);
+        $this->userService->updateUser($user);
+        $this->registUserService->deleteRegistedTmpUser($tmpUser);
+        return response()->json([
+            'result' => 'success'
+        ], 200);
+
+    }
+
+
+    /**
+     * ユーザーのモデルを仮登録用ユーザーモデルに変換
+     *
+     * @param User $user
+     * @param string $token
+     * @return TmpUserRegistration
+     */
     private function tmpUserForm(User $user, string $token): TmpUserRegistration
     {
         $tmpUser = new TmpUserRegistration();
@@ -84,8 +111,24 @@ class PasswordResetController extends Controller
         $tmpUser->token = $token;
 
         return $tmpUser;
+    }
 
+    /**
+     * 仮登録用ユーザーのモデルをユーザーモデルに変換
+     *
+     * @param TmpUserRegistration $tmpUser
+     * @param string $password
+     * @return User
+     */
+    private function createUserForm(TmpUserRegistration $tmpUser, string $password): User
+    {
+        $user = new User();
+        $user->id = $tmpUser->user_id;
+        $user->user_name = $tmpUser->user_name;
+        $user->email = $tmpUser->email;
+        $user->password = $this->registUserService->hashedPassword($password);
+        $user->birthday = $tmpUser->birthday;
 
-
+        return $user;
     }
 }

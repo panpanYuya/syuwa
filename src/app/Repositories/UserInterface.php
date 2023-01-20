@@ -11,4 +11,6 @@ interface UserInterface
     public function findUserInfo(int $userId): User;
 
     public function findUserByEmail(string $email):User;
+
+    public function updateUser(User $user);
 }

@@ -38,4 +38,20 @@ class UserRepository implements UserInterface
     {
         return User::where('email', $email)->first();
     }
+
+    /**
+     * ユーザーテーブルの情報を更新
+     *
+     * @param User $user
+     * @return void
+     */
+    public function updateUser(User $user)
+    {
+        return User::where('id', $user->id)->update([
+            'user_name' => $user->user_name,
+            'email' => $user->email,
+            'password' => $user->password,
+            'birthday' => $user->birthday
+        ]);
+    }
 }
