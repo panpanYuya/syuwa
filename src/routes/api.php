@@ -25,6 +25,12 @@ Route::post('/login', [LoginController::class, 'authenticate']);
 Route::controller(PasswordResetController::class)->group(function () {
     Route::post('/password/email', 'checkEmail');
     Route::post('/password/reset/{token}', 'passwordReset');
+    Route::post('/password/complete', 'changePasswordComplete');
+});
+
+Route::controller(RegisterController::class)->group(function () {
+    Route::post('/user/regist', 'registTmpUser');
+    Route::post('/user/regist/complete/{token}', 'registUserComplete');
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -37,10 +43,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/drink/search/{tagId}/{numOfDisplaiedPosts}', 'searchPostsByTag');
     });
 
-    Route::controller(RegisterController::class)->group(function () {
-        Route::post('/user/regist', 'registTmpUser');
-        Route::post('/user/regist/complete/{token}', 'registUserComplete');
-    });
 
     Route::controller(FollowUserController::class)->group(function () {
         Route::put('/user/follow/{followId}', 'followUser');
