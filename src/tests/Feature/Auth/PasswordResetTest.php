@@ -23,9 +23,8 @@ class PasswordResetTest extends TestCase
         $userEmail = $user->email;
 
         Mail::fake();
-        $response = $this->withHeaders([
-            'XSRF-TOKEN' => csrf_token(),
-        ])->postJson('/api/password/email', ['email' => $userEmail]);
+        $this->withHeaders([ 'XSRF-TOKEN' => csrf_token(),])
+        ->postJson('/api/password/email', ['email' => $userEmail]);
 
         $this->assertDatabaseHas(TmpUserRegistration::class, [
             'user_id' => $user->id,
