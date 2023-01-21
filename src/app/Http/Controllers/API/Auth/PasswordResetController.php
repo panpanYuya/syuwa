@@ -26,7 +26,7 @@ class PasswordResetController extends Controller
     }
 
     /**
-     * パスワードリセット
+     * パスワードリセット用のメール送信
      *
      * @param PasswordResetRequest $request
      * @return JsonResponse
