@@ -19,6 +19,15 @@ class UserTestDataSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
+                'id' => 1000000,
+                'user_name' => 'testnewtest',
+                'email' => "newtestnewUser@test.com",
+                'password' => Hash::make("password"),
+                'birthday' => date('1999-12-1'),
+                'created_at' => new Datetime(),
+                'updated_at' => new Datetime()
+            ],
+            [
                 'id' => 9999997,
                 'user_name' => Str::random(10),
                 'email' => "test@test.com",

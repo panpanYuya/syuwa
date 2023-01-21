@@ -53,7 +53,7 @@ class PasswordResetController extends Controller
     }
 
     /**
-     * パスワードリセット
+     * パスワードリセット画面表示判定
      *
      * @param string $token
      * @return JsonResponse

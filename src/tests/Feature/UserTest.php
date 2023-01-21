@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Users\TmpUserRegistration;
 use App\Models\Users\User;
+use Database\Seeders\TmpUserRegistrationTestDataSeeder;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -19,19 +20,20 @@ class UserTest extends TestCase
      */
     public function test_create_new_user()
     {
+        $this->seed([
+            TmpUserRegistrationTestDataSeeder::class
+        ]);
 
         $response = $this->withHeaders([
             'XSRF-TOKEN' => csrf_token(),
-        ])->get('/web/user/regist/complete/testtesttesttest');
+        ])->get('/web/user/regist/complete/passwordsuccessu');
 
         self::assertDatabaseHas(User::class, [
-            'user_name' => 'testNewUser',
             'email' => 'newtestUser@test.com',
             'birthday' => '1999-12-1',
         ]);
 
         $this->assertDatabaseMissing(TmpUserRegistration::class, [
-            'user_name' => 'testNewUser',
             'email' => 'newtestUser@test.com',
             'birthday' => '1999-12-1',
         ]);
@@ -46,13 +48,15 @@ class UserTest extends TestCase
      */
     public function test_create_new_user_fail()
     {
+        $this->seed([
+            TmpUserRegistrationTestDataSeeder::class
+        ]);
 
         $response = $this->withHeaders([
             'XSRF-TOKEN' => csrf_token(),
-        ])->get('/web/user/regist/complete/failfailfailfail');
+        ])->get('/web/user/regist/complete/passwordfaildata');
 
         $this->assertDatabaseMissing(TmpUserRegistration::class, [
-            'user_name' => 'testExpieredUser',
             'email' => 'testExpieredUser@test.com',
             'birthday' => '1999-12-1',
         ]);
