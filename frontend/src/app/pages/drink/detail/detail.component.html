@@ -1,0 +1,27 @@
+<app-header></app-header>
+<div class="post-detail">
+  <div class="post-detail-wrapper">
+    <div class="post-user">
+      <input type="hidden" value="{{postDetail.userId}}">
+      <div class="user_name" (click)="toUserPage(postDetail.userId)">{{postDetail.userName}}</div>
+      <div class="follow-button">
+        <button>フォロー</button>
+      </div>
+    </div>
+    <div class="post-body">
+      <input type="hidden" value="{{postDetail.postId}}">
+      <div class="post-img"><img src="{{postDetail.imageUrl}}" alt=""></div>
+      <div class="post-bottom">
+        <div class="post-info">
+          <div class="post-tag">
+            <p>{{postDetail.tagName}}</p>
+          </div>
+        </div>
+        <div class="post-comment">
+          {{postDetail.text}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

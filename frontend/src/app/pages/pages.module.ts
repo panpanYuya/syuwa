@@ -5,21 +5,36 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from '../material/material.module';
 import { AuthModule } from './auth/auth.module';
-import { BoardComponent } from './drink/board/board.component';
+import { FooterComponent } from './common/footer/footer.component';
 import { HeaderComponent } from './common/header/header.component';
+import { LogoComponent } from './common/logo/logo.component';
 import { NavigationComponent } from './common/navigation/navigation.component';
+import { BoardComponent } from './drink/board/board.component';
+import { DetailComponent } from './drink/detail/detail.component';
+import { PostComponent } from './drink/post/post.component';
+import { SearchComponent } from './drink/search/search.component';
 
 @NgModule({
   declarations: [
-    BoardComponent,
     HeaderComponent,
-    NavigationComponent
+    NavigationComponent,
+    LogoComponent,
+    PostComponent,
+    BoardComponent,
+    DetailComponent,
+    FooterComponent,
+    SearchComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     MaterialModule,
-    AuthModule
+    HttpClientModule,
   ],
+  exports: [
+    LogoComponent,
+    HeaderComponent,
+    FooterComponent,
+  ]
 })
 export class PagesModule { }

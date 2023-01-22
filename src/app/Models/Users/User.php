@@ -2,6 +2,7 @@
 
 namespace App\Models\Users;
 
+use App\Models\FollowUser;
 use App\Models\Post;
 use App\Models\Users\UserPersonalInfo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'id',
-        'name',
+        'user_name',
         'email',
     ];
 
@@ -31,18 +32,8 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'birthday',
     ];
-
-
-    //TODO 不要だった場合は削除
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    // protected $casts = [
-    //     'email_verified_at' => 'datetime',
-    // ];
 
     /**
      * ユーザーの追加情報を取得する
@@ -63,5 +54,14 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany(Post:: class);
+    }
+
+    public function followUsers()
+    {
+        return $this->hasOne(
+            FollowUser::class,
+            ['user_id', 'following_id'],
+            ['user_id', 'followed_id'],
+        );
     }
 }

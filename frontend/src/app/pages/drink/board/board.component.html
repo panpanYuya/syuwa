@@ -3,7 +3,8 @@
   <div class="error-message">
     {{ errorMessage }}
   </div>
-  <div class="post" *ngFor="let post of posts">
+  <div class="post" *ngFor="let post of posts" (click)="showPostDetail(post.id)">
+    <input type="hidden" value="{{post.id}}">
     <div class="post-img">
       <img fluid src={{post.imageUrl}} alt="">
     </div>
@@ -24,5 +25,8 @@
       </div>
     </div>
   </div>
-
+  <div class="add-post" [hidden]="!postExist">
+    <button id="add-post-button" (click)="showBoard()">過去の投稿を取得</button>
+  </div>
 </div>
+<app-footer></app-footer>

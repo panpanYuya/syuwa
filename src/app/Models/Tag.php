@@ -15,6 +15,11 @@ class Tag extends Model
         'tag_name',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     /**
      * 投稿したユーザーの情報を取得する
      */

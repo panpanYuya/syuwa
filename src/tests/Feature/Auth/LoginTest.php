@@ -5,11 +5,12 @@ namespace Tests\Feature\Auth;
 use App\Consts\HttpStatusConst;
 use App\Models\Users\User;
 use Database\Seeders\UserSeeder;
-use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
-class LoginTest extends TestCase{
+class LoginTest extends TestCase
+{
 
     use RefreshDatabase;
 
@@ -25,17 +26,17 @@ class LoginTest extends TestCase{
      *
      * @return void
      */
-    public function test_authenticate(){
-        $email = 'test@test.com';
+    public function test_authenticate()
+    {
+        $email = 'syuwaUser01@syuwa.com';
         $password = 'password';
 
-        $response = $this->postJson('/api/login', ['email' => $email,'password' =>  $password]);
+        $response = $this->postJson('/api/login', ['email' => $email, 'password' =>  $password]);
 
         $this->assertAuthenticated();
-        $response->assertJson(
+        $response->assertStatus(200)->assertJson(
             [
-                'status' => HttpStatusConst::SUCCESS,
-                'message' => 'ログインに成功しました。',
+                'userId' => Auth::id()
             ],
             JSON_UNESCAPED_UNICODE
         );
@@ -46,18 +47,71 @@ class LoginTest extends TestCase{
      *
      * @return void
      */
-    public function test_authenticate_unauthorized(){
+    public function test_authenticate_unauthorized()
+    {
         $email = 'password@test.com';
         $password = 'testtest';
 
         $response = $this->postJson('/api/login', ['email' => $email, 'password' => $password]);
 
-        $response->assertJson(
+        $response->assertStatus(401)->assertJson(
             [
-                'status' => HttpStatusConst::AUTH_ERROR,
-                'message' => 'ログイン情報が正しくありません。',
+                'message' => '認証情報が正しくないため、画面を表示できません。',
             ],
             JSON_UNESCAPED_UNICODE
         );
+    }
+
+
+    /**
+     * ログアウト機能をテスト
+     *
+     * @return void
+     */
+    public function test_logout()
+    {
+        $user = $this->createTestUserForm();
+        $response = $this->actingAs($user)->postJson('/api/logout');
+
+        $response->assertJson(
+            [
+                'result' => true,
+            ],
+        );
+
+        $this->assertGuest('api');
+
+    }
+
+    /**
+     * ログイン状態確認機能のテスト
+     *
+     * @return void
+     */
+    public function test_check_login()
+    {
+        $user = $this->createTestUserForm();
+        $response = $this->actingAs($user)->postJson('/api/user/check');
+
+        $response->assertJson(
+            [
+                'result' => true,
+            ],
+        );
+    }
+
+    /**
+     * Userの新しいモデルを作成
+     *
+     * @return User
+     */
+    private function createTestUserForm(): User
+    {
+        $user = new User();
+        $user->id = 1;
+        $user->email = 'syuwaUser01@syuwa.com';
+        $user->password = 'password';
+
+        return $user;
     }
 }

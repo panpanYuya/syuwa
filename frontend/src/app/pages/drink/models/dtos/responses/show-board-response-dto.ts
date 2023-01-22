@@ -16,7 +16,7 @@ export interface ShowBoardResponseDto {
       updated_at: Date;
     };
   };
-  imagetag: {
+  image_tag: {
     id: number;
     post_id: number;
     img_url: string;

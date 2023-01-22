@@ -1,13 +1,13 @@
-.app-logo > img{
-  width: 116px;
-  height: 122px;
-  display: block;
-  margin: 0 auto;
-}
-
 .title{
   font-size: 24px;
   margin-bottom: 30px;
+}
+
+.error-message {
+  text-align: center;
+  color: red;
+  font-size: 15px;
+  margin: 20px 0;
 }
 
 .login-wrapper{
@@ -16,7 +16,9 @@
   text-align: center;
 }
 
-.login-form {
+.login-form,
+.create-form,
+.forget-password-form {
   min-width: 150px;
   max-width: 500px;
   margin: 0 auto;
@@ -37,12 +39,40 @@
 }
 
 
-.login-button{
+.login-button,
+.create-button {
   border-radius: 30px;
   width: 100%;
   height: 35px;
-  background-color: #70B7E7;
-  color: #fff;
   border: none;
   margin-top: 30px;
+}
+
+.login-button {
+  background-color: #70B7E7;
+  color: #fff;
+}
+
+.forget-password-form {
+  margin-top: 20px;
+}
+
+.create-form {
+  margin-top: 50px;
+}
+
+.forget-password-form {
+  margin-top: 20px;
+  text-align: center;
+  color: blue;
+}
+
+.forget-password-form > a {
+  text-decoration: underline;
+}
+
+.create-button {
+  background-color: #fff;
+  border: 3px solid #70B7E7;
+  color: #70B7E7;
 }

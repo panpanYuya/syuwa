@@ -67,21 +67,14 @@ describe('LoginComponent', () => {
   });
 
   describe('login', () => {
-    // it('should check xsrf-token', () => {
-    //   loginServiceSpy.getXsrfToken();
-    // });
-
     it('should login', () => {
       loginServiceSpy.login.and.returnValue(of(expectedSignInResponseDto));
       spyOn(router, 'navigate');
       component.clickLoginButton();
-      //TODO バックエンド作成後に作成
-      // expect(loginServiceSpy.setUser.calls.count()).toEqual(1);
-      expect(router.navigate).toHaveBeenCalledWith([UrlConst.SLASH + UrlConst.PATH_DRINK + UrlConst.SLASH + UrlConst.PATH_SHOW]);
+      expect(router.navigate).toHaveBeenCalledWith([UrlConst.SLASH + UrlConst.DRINK + UrlConst.SLASH + UrlConst.BOARD]);
     });
 
   });
-  //TODO 例外処理を書く　URLを参考にhttps://qiita.com/sengoku/items/c4a04995aae43d953961
 
   describe('createLoginRequest', () => {
     it('should create RequestDto', () => {
@@ -95,5 +88,5 @@ describe('LoginComponent', () => {
 });
 
 function createExpectedRequestDto(): LoginRequestDto{
-  return { email: 'test@test.com', password: 'password' };
+  return { email: 'syuwaUser01@syuwa.com', password: 'password' };
 }

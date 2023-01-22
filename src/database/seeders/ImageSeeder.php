@@ -15,7 +15,6 @@ class ImageSeeder extends Seeder
      */
     public function run()
     {
-        //
         DB::table('images')->insert([
             [
                 'post_id' => 1,
@@ -25,6 +24,18 @@ class ImageSeeder extends Seeder
             ],
             [
                 'post_id' => 2,
+                'img_url' => '/assets/images/syuwa-logo.png',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'post_id' => 3,
+                'img_url' => '/assets/images/syuwa-logo.png',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'post_id' => 4,
                 'img_url' => '/assets/images/syuwa-logo.png',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),

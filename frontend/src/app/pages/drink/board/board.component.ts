@@ -1,8 +1,10 @@
 import { Observable } from 'rxjs';
 import { ErrorMessageConst } from 'src/app/common/constants/error-message-const';
+import { RoutingService } from 'src/app/common/services/routing.service';
 
 import { Component, OnInit } from '@angular/core';
 
+import { UrlConst } from '../../constants/url-const';
 import { ShowBoardResponseDto } from '../models/dtos/responses/show-board-response-dto';
 import { Post } from '../models/post';
 import { BoardService } from '../services/board.service';
@@ -13,15 +15,24 @@ import { BoardService } from '../services/board.service';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
-  public errorMessage:string;
+  public errorMessage: string;
+
+  public postExist: boolean;
 
   public posts: Post[];
 
+  public displaiedPost: number;
 
 
-  constructor(private boardService: BoardService) {
-    this.posts = [];
+
+  constructor(
+    private boardService: BoardService,
+    private routingService: RoutingService,
+  ) {
     this.errorMessage = '';
+    this.postExist = true;
+    this.posts = [];
+    this.displaiedPost = 0;
   }
 
   ngOnInit(): void {
@@ -29,16 +40,21 @@ export class BoardComponent implements OnInit {
   }
 
   showBoard() {
-    let showBoardResponseDto: Observable<ShowBoardResponseDto> = this.boardService.getPosts();
+    let showBoardResponseDto: Observable<ShowBoardResponseDto> = this.boardService.getPosts(this.displaiedPost);
     showBoardResponseDto.subscribe( {
       next:
         () => {
           showBoardResponseDto.forEach((data: any) => {
             if (data == null) {
               this.setErrorMessage(ErrorMessageConst.NO_POST);
+              this.postExist = false;
             } else {
+              this.displaiedPost += data["post"].length;
               for (let i = 0; i < data["post"].length; i++){
                 this.setPosts(data["post"][i]);
+              }
+              if (data["post"].length < 10) {
+                this.postExist = false;
               }
             }
           });
@@ -48,6 +64,10 @@ export class BoardComponent implements OnInit {
           this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
         }
     });
+  }
+
+  showPostDetail(postId: number) {
+    this.routingService.transitToPath(UrlConst.SLASH + UrlConst.DRINK  + UrlConst.SLASH + UrlConst.DETAIL + UrlConst.SLASH + postId)
   }
 
   setPosts(responseDto: any) {

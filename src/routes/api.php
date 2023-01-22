@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\API\Auth\FollowUserController;
+use App\Http\Controllers\API\Auth\PasswordResetController;
 use App\Http\Controllers\API\Auth\LoginController;
+use App\Http\Controllers\API\Auth\RegisterController;
+use App\Http\Controllers\API\Auth\UserPageController;
 use App\Http\Controllers\API\drink\BoardController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,14 +19,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::middleware('auth:sanctum')->group(function () {
-});
-
-//login機能が修正出来次第sanctumを噛ませるように修正
-Route::get('/drink/show', [BoardController::class, 'show']);
-
 Route::post('/login', [LoginController::class, 'authenticate']);
+
+
+Route::controller(PasswordResetController::class)->group(function () {
+    Route::post('/password/email', 'checkEmail');
+    Route::post('/password/reset/{token}', 'passwordReset');
+    Route::post('/password/complete', 'changePasswordComplete');
+});
+
+Route::controller(RegisterController::class)->group(function () {
+    Route::post('/user/regist', 'registTmpUser');
+    Route::post('/user/regist/complete/{token}', 'registUserComplete');
+});
+
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::controller(BoardController::class)->group(function () {
+        Route::get('/drink/show/{numOfDisplaiedPosts}', 'show');
+        Route::post('/drink/add', 'add');
+        Route::get('/drink/create', 'create');
+        Route::get('/drink/detail/{postId}', 'detail');
+        Route::get('/drink/search/{tagId}/{numOfDisplaiedPosts}', 'searchPostsByTag');
+    });
+
+
+    Route::controller(FollowUserController::class)->group(function () {
+        Route::put('/user/follow/{followId}', 'followUser');
+        Route::delete('/user/unfollow/{unfollowId}', 'unfollowUser');
+    });
+
+    Route::controller(LoginController::class)->group(function () {
+        Route::post('/logout', 'logout');
+        Route::post('/user/check', 'checkLogin');
+    });
+
+    Route::get('/user/page/{userId}', [UserPageController::class, 'showUserPage']);
+});
