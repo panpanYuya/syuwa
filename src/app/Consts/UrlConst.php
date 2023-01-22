@@ -7,5 +7,5 @@ class UrlConst
 {
     const CREATEANDUPDATEURL = 'web/user/regist/complete/';
 
-    const CREATEPASSWORDRESETURL = 'web/password/reset/';
+    const CREATEPASSWORDRESETURL = 'auth/password/reset/';
 }
