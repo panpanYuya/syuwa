@@ -1,0 +1,26 @@
+<app-logo></app-logo>
+<div class="password-reset-wrapper">
+  <div class="title">
+    パスワード変更
+  </div>
+  <p class="error-message" *ngIf="errorMessage">{{errorMessage}}</p>
+  <p class="success-message" *ngIf="successMessage">{{successMessage}}</p>
+  <form class="password-reset-form" [formGroup]="sendPassResetForm" (ngSubmit)="clickSendButton()">
+    <mat-form-field class="create-full-width" appearance="fill">
+      <mat-error *ngIf="email.hasError('required') || email.hasError('minlength')">
+        文字数は<strong>3文字</strong>以上でお願いします
+      </mat-error>
+      <mat-error class="validation-error" *ngIf="email.hasError('maxlength')">
+        文字数は<strong>255文字</strong>以上でお願いします
+      </mat-error>
+      <mat-error class="validation-error" *ngIf="email.hasError('email')">
+        <strong>メールアドレス形式で入力ください</strong>
+      </mat-error>
+      <mat-label>メールアドレス</mat-label>
+      <input id="email" matInput placeholder="" formControlName="email">
+    </mat-form-field>
+    <div class="password-reset-button-row">
+      <button class="password-reset-button">メール送信</button>
+    </div>
+  </form>
+</div>

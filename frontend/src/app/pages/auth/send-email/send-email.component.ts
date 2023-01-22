@@ -10,6 +10,7 @@ export class SendEmailComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 }

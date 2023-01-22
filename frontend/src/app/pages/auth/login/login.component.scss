@@ -61,6 +61,16 @@
   margin-top: 50px;
 }
 
+.forget-password-form {
+  margin-top: 20px;
+  text-align: center;
+  color: blue;
+}
+
+.forget-password-form > a {
+  text-decoration: underline;
+}
+
 .create-button {
   background-color: #fff;
   border: 3px solid #70B7E7;

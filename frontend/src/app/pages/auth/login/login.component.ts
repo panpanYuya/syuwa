@@ -75,11 +75,14 @@ export class LoginComponent implements OnInit {
             return this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
           }
       });
-
   }
 
   public toCreate() {
     this.routingService.transitToPath(UrlConst.SLASH + UrlConst.AUTH  + UrlConst.SLASH + UrlConst.CREATE + UrlConst.SLASH + UrlConst.REGIST);
+  }
+
+  public toResetPassword() {
+    this.routingService.transitToPath(UrlConst.SLASH + UrlConst.AUTH  + UrlConst.SLASH + UrlConst.PASSWORD + UrlConst.SLASH + UrlConst.EMAIL);
   }
 
   public createLoginRequestDto():LoginRequestDto{

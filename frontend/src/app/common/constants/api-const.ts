@@ -9,9 +9,13 @@ export class ApiConst {
 
   static readonly CREATE = 'create';
 
+  static readonly COMPLETE = 'complete';
+
   static readonly DETAIL = 'detail';
 
   static readonly DRINK = 'drink';
+
+  static readonly EMAIL = 'email';
 
   static readonly FOLLOW = 'follow';
 
@@ -23,6 +27,8 @@ export class ApiConst {
 
   static readonly REGIST = 'regist';
 
+  static readonly RESET = 'reset';
+
   static readonly SEARCH = 'search';
 
   static readonly SHOW = 'show';
@@ -30,6 +36,8 @@ export class ApiConst {
   static readonly USER = 'user';
 
   static readonly UNFOLLOW = 'unfollow';
+
+  static readonly PASSWORD = 'password';
 
   static readonly XSRF = 'sanctum/csrf-cookie'
 }
