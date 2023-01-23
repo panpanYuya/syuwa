@@ -17,6 +17,11 @@ class UserRepository implements UserInterface
         return User::find($userId)->exists();
     }
 
+    public function findUser(int $userId):User
+    {
+        return User::where('id',$userId)->first();
+    }
+
     /**
      * ユーザーに紐づくすべての情報を取得
      *
@@ -47,11 +52,10 @@ class UserRepository implements UserInterface
      */
     public function updateUser(User $user)
     {
-        return User::where('id', $user->id)->update([
+        User::where('id', $user->id)->update([
             'user_name' => $user->user_name,
             'email' => $user->email,
             'password' => $user->password,
-            'birthday' => $user->birthday
         ]);
     }
 }
