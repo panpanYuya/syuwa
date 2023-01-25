@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Consts\UrlConst;
 use App\Consts\UtilConst;
+use App\Mail\CertifyNewMailAddress;
 use App\Mail\RegistTmpUserMail;
 use App\Mail\PasswordResetMail;
 use App\Models\Users\TmpUserRegistration;
@@ -106,6 +107,17 @@ class RegistUserService
     }
 
     /**
+     * メールアドレスに紐づく仮登録ユーザー情報を取得する
+     *
+     * @param string $email
+     * @return TmpUserRegistration
+     */
+    public function findTmpUserByEmail(string $email): TmpUserRegistration
+    {
+        return $this->registTmpUserRepository->findTmpUserByEmail($email);
+    }
+
+    /**
      * トークンに紐づく仮登録情報を取得
      *
      * @param string $token
@@ -185,6 +197,17 @@ class RegistUserService
     }
 
     /**
+     * メールアドレス変更完了メールに記載するURLを作成
+     *
+     * @param string $token
+     * @return string
+     */
+    public function createCertifyNewEmail(string $token):string
+    {
+        return env('FRONT_URL') . UrlConst::CERTIFYNEWEMAIL . $token;
+    }
+
+    /**
      * 本登録メールを送信
      *
      * @param string $email
@@ -202,11 +225,35 @@ class RegistUserService
         }
     }
 
+    /**
+     * パスワードリセット用のメールを送信
+     *
+     * @param string $email
+     * @param string $token
+     * @return void
+     */
     public function sendPasswordResetMail(string $email, string $token)
     {
         $registUrl = $this->createPasswordResetUrl($token);
         try {
             Mail::to($email)->send(new PasswordResetMail($registUrl));
+        } catch (Throwable $e) {
+            abort(500);
+        }
+    }
+
+    /**
+     * メールアドレス変更認証用のメールを送信
+     *
+     * @param string $email
+     * @param string $token
+     * @return void
+     */
+    public function sendCertifyNewAddressMail(string $email, string $token)
+    {
+        $certifyUrl = $this->createCertifyNewEmail($token);
+        try {
+            Mail::to($email)->send(new CertifyNewMailAddress($certifyUrl));
         } catch (Throwable $e) {
             abort(500);
         }

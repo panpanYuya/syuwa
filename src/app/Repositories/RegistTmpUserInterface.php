@@ -16,5 +16,7 @@ interface RegistTmpUserInterface
 
     public function checkToken(string $token): bool;
 
+    public function findTmpUserByEmail(string $email): TmpUserRegistration;
+
     public function findTmpUserByToken(string $token): TmpUserRegistration;
 }

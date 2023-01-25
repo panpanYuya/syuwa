@@ -4,6 +4,7 @@ use App\Http\Controllers\API\Auth\FollowUserController;
 use App\Http\Controllers\API\Auth\PasswordResetController;
 use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\RegisterController;
+use App\Http\Controllers\API\Auth\UserInfoEditController;
 use App\Http\Controllers\API\Auth\UserPageController;
 use App\Http\Controllers\API\drink\BoardController;
 use Illuminate\Support\Facades\Route;
@@ -55,4 +56,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::get('/user/page/{userId}', [UserPageController::class, 'showUserPage']);
+
+    Route::controller(UserInfoEditController::class)->group(function () {
+        Route::get('/user/edit/{userId}', 'userInfoEdit');
+        Route::post('/user/update', 'userInfoUpdate');
+        Route::post('/user/update/complete/{token}', 'completedEmailCertification');
+    });
 });
