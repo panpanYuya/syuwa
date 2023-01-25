@@ -22,7 +22,7 @@ class TmpUserRegistrationTestDataSeeder extends Seeder
             [
                 'user_id' => 1000000,
                 'user_name' => 'testnewtest',
-                'email' => "newtestnewUser@test.com",
+                'email' => "newtestnewUser@gmail.com",
                 'password' => Hash::make("password"),
                 'birthday' => date('1999-12-1'),
                 'token' => 'successusertests',
@@ -32,7 +32,7 @@ class TmpUserRegistrationTestDataSeeder extends Seeder
             [
                 'user_id' => null,
                 'user_name' => Str::random(10),
-                'email' => "testtest@test.com",
+                'email' => "testtest@gmail.com",
                 'password' => Hash::make("password"),
                 'birthday' => date('1999-12-1'),
                 'token' => Str::random(16),
@@ -42,7 +42,7 @@ class TmpUserRegistrationTestDataSeeder extends Seeder
             [
                 'user_id' => null,
                 'user_name' => 'testNewUser',
-                'email' => "newtestUser@test.com",
+                'email' => "newtestUser@gmail.com",
                 'password' => Hash::make("password"),
                 'birthday' => date('1999-12-1'),
                 'token' => 'passwordsuccessu',
@@ -52,7 +52,7 @@ class TmpUserRegistrationTestDataSeeder extends Seeder
             [
                 'user_id' => null,
                 'user_name' => 'testExpieredUser',
-                'email' => "testExpieredUser@test.com",
+                'email' => "testExpieredUser@gmail.com",
                 'password' => Hash::make("password"),
                 'birthday' => date('1999-12-1'),
                 'token' => 'passwordfaildata',

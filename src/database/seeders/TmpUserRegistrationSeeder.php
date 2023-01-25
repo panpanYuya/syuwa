@@ -20,7 +20,7 @@ class TmpUserRegistrationSeeder extends Seeder
         DB::table('tmp_user_registrations')->insert([
             [
                 'user_name' => Str::random(10),
-                'email' => "syuwaUser1000@syuwa.com",
+                'email' => "syuwaUser1000@gmail.com",
                 'password' => Hash::make("password"),
                 'birthday' => date('1999-12-1'),
                 'token' => Str::random(16),
@@ -29,7 +29,7 @@ class TmpUserRegistrationSeeder extends Seeder
             ],
             [
                 'user_name' => Str::random(10),
-                'email' => "syuwaUser1001@syuwa.com",
+                'email' => "syuwaUser1001@gmail.com",
                 'password' => Hash::make("password"),
                 'birthday' => date('1999-12-1'),
                 'token' => 'testtesttesttest',
@@ -38,7 +38,7 @@ class TmpUserRegistrationSeeder extends Seeder
             ],
             [
                 'user_name' => Str::random(10),
-                'email' => "syuwaUser1002@syuwa.com",
+                'email' => "syuwaUser1002@gmail.com",
                 'password' => Hash::make("password"),
                 'birthday' => date('1999-12-1'),
                 'token' => 'failfailfailfail',
