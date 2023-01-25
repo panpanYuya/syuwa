@@ -19,7 +19,7 @@ class FollowUserTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $email = 'syuwaUser01@syuwa.com';
+        $email = 'syuwaUser01@gmail.com';
         $password = 'password';
 
         $response = $this->postJson('/api/login', ['email' => $email, 'password' =>  $password]);
@@ -49,7 +49,7 @@ class FollowUserTest extends TestCase
             FollowUserTestDataSeeder::class
         ]);
 
-        $email = 'syuwaUser01@syuwa.com';
+        $email = 'syuwaUser01@gmail.com';
         $password = 'password';
 
         $response = $this->postJson('/api/login', ['email' => $email, 'password' =>  $password]);

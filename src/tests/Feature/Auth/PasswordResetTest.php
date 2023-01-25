@@ -95,12 +95,12 @@ class PasswordResetTest extends TestCase
         ]);
 
         self::assertDatabaseHas(User::class, [
-            'email' => 'newtestnewUser@test.com',
+            'email' => 'newtestnewUser@gmail.com',
             'birthday' => '1999-12-1',
         ]);
 
         $this->assertDatabaseMissing(TmpUserRegistration::class, [
-            'email' => 'newtestnewUser@test.com',
+            'email' => 'newtestnewUser@gmail.com',
             'password' => Hash::make('password'),
             'birthday' => '1999-12-1',
         ]);
@@ -112,6 +112,6 @@ class PasswordResetTest extends TestCase
             JSON_UNESCAPED_UNICODE
         );
 
-        $this->assertTrue(Auth::attempt(['email' => 'newtestnewUser@test.com', 'password' => 'testNewUser']));
+        $this->assertTrue(Auth::attempt(['email' => 'newtestnewUser@gmail.com', 'password' => 'testNewUser']));
     }
 }

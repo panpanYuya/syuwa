@@ -28,7 +28,7 @@ class LoginTest extends TestCase
      */
     public function test_authenticate()
     {
-        $email = 'syuwaUser01@syuwa.com';
+        $email = 'syuwaUser01@gmail.com';
         $password = 'password';
 
         $response = $this->postJson('/api/login', ['email' => $email, 'password' =>  $password]);
@@ -49,7 +49,7 @@ class LoginTest extends TestCase
      */
     public function test_authenticate_unauthorized()
     {
-        $email = 'password@test.com';
+        $email = 'password@gmail.com';
         $password = 'testtest';
 
         $response = $this->postJson('/api/login', ['email' => $email, 'password' => $password]);
@@ -109,7 +109,7 @@ class LoginTest extends TestCase
     {
         $user = new User();
         $user->id = 1;
-        $user->email = 'syuwaUser01@syuwa.com';
+        $user->email = 'syuwaUser01@gmail.com';
         $user->password = 'password';
 
         return $user;

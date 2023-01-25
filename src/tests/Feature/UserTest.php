@@ -29,12 +29,12 @@ class UserTest extends TestCase
         ])->get('/web/user/regist/complete/passwordsuccessu');
 
         self::assertDatabaseHas(User::class, [
-            'email' => 'newtestUser@test.com',
+            'email' => 'newtestUser@gmail.com',
             'birthday' => '1999-12-1',
         ]);
 
         $this->assertDatabaseMissing(TmpUserRegistration::class, [
-            'email' => 'newtestUser@test.com',
+            'email' => 'newtestUser@gmail.com',
             'birthday' => '1999-12-1',
         ]);
 
@@ -57,7 +57,7 @@ class UserTest extends TestCase
         ])->get('/web/user/regist/complete/passwordfaildata');
 
         $this->assertDatabaseMissing(TmpUserRegistration::class, [
-            'email' => 'testExpieredUser@test.com',
+            'email' => 'testExpieredUser@gmail.com',
             'birthday' => '1999-12-1',
         ]);
 
