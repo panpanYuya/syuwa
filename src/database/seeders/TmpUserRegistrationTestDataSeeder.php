@@ -21,8 +21,8 @@ class TmpUserRegistrationTestDataSeeder extends Seeder
         DB::table('tmp_user_registrations')->insert([
             [
                 'user_id' => 1000000,
-                'user_name' => 'testnewtest',
-                'email' => "newtestnewUser@gmail.com",
+                'user_name' => '新しいテストユーザー',
+                'email' => "newTestTmpUser@gmail.com",
                 'password' => Hash::make("password"),
                 'birthday' => date('1999-12-1'),
                 'token' => 'successusertests',

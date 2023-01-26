@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use DateTime;
+use Illuminate\Database\Eloquent\Collection;
 use Throwable;
 
 class RegistUserService
@@ -110,9 +111,9 @@ class RegistUserService
      * メールアドレスに紐づく仮登録ユーザー情報を取得する
      *
      * @param string $email
-     * @return TmpUserRegistration
+     * @return Collection
      */
-    public function findTmpUserByEmail(string $email): TmpUserRegistration
+    public function findTmpUserByEmail(string $email): Collection
     {
         return $this->registTmpUserRepository->findTmpUserByEmail($email);
     }

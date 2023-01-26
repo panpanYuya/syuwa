@@ -11,6 +11,8 @@ use App\Services\RegistUserService;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 
+use function PHPUnit\Framework\isEmpty;
+
 class UserInfoEditController extends Controller
 {
 
@@ -54,7 +56,7 @@ class UserInfoEditController extends Controller
      * @param UserInfoEditRequest $request
      * @return void
      */
-    public function userInfoUpdate(UserInfoEditRequest $request)
+    public function updateUserInfo(UserInfoEditRequest $request)
     {
         $loginId = Auth::id();
         if ($request->user_id != $loginId) {
@@ -78,7 +80,7 @@ class UserInfoEditController extends Controller
         } else {
             //requestでバリデーションがうまく実行されなかったため、判定処理を追加
             $registedTmpUser = $this->registUserService->findTmpUserByEmail($request->email);
-            if (!empty($registedTmpUser)) {
+            if (!isEmpty($registedTmpUser)) {
                 return response()->json([
                     'result' => false,
                     'message' => "指定のメールアドレスは既に使用されています。"
@@ -109,7 +111,7 @@ class UserInfoEditController extends Controller
         if (!$this->registUserService->checkExpirationDate($tmpUser->updated_at)) {
             $this->registUserService->deleteRegistedTmpUser($tmpUser);
             return response()->json([
-                'result' => 'error',
+                'result' => false,
                 'message' => ErrorMessageConst::EXPIRATION_DATE,
             ], 200);
         }
@@ -118,7 +120,8 @@ class UserInfoEditController extends Controller
         $this->userService->updateUser($user);
         $this->registUserService->deleteRegistedTmpUser($tmpUser);
         return response()->json([
-            'result' => 'success'
+            'result' => true,
+            'message' => 'ユーザー情報の変更を完了しました。'
         ], 200);
     }
 

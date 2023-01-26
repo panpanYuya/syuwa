@@ -34,6 +34,8 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('/user/regist/complete/{token}', 'registUserComplete');
 });
 
+Route::post('/user/update/complete/{token}', [UserInfoEditController::class, 'completedEmailCertification']);
+
 Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(BoardController::class)->group(function () {
@@ -59,7 +61,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(UserInfoEditController::class)->group(function () {
         Route::get('/user/edit/{userId}', 'userInfoEdit');
-        Route::post('/user/update', 'userInfoUpdate');
-        Route::post('/user/update/complete/{token}', 'completedEmailCertification');
+        Route::post('/user/update', 'updateUserInfo');
     });
 });

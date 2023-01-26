@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Users\TmpUserRegistration;
+use Illuminate\Database\Eloquent\Collection;
 
 interface RegistTmpUserInterface
 {
@@ -16,7 +17,7 @@ interface RegistTmpUserInterface
 
     public function checkToken(string $token): bool;
 
-    public function findTmpUserByEmail(string $email): TmpUserRegistration;
+    public function findTmpUserByEmail(string $email): Collection;
 
     public function findTmpUserByToken(string $token): TmpUserRegistration;
 }
