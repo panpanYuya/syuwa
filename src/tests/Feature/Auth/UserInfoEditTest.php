@@ -77,6 +77,7 @@ class UserInfoEditTest extends TestCase
         $response->assertStatus(200)->assertJson(
             [
                 'result' => true,
+                'temporary' => false,
                 'message' => '個人情報の変更が完了しました。'
             ],
             JSON_UNESCAPED_UNICODE
@@ -125,13 +126,14 @@ class UserInfoEditTest extends TestCase
                 'user_id' => $id,
                 'user_name' => $changedUserName,
                 'email' => $changedEmail,
-            'password' => $changedPassword,
-            'password_confirmation' => $changedPassword
-        ]);
+                'password' => $changedPassword,
+                'password_confirmation' => $changedPassword
+            ]);
 
-        $response->assertStatus(200)->assertJson(
+            $response->assertStatus(200)->assertJson(
             [
                 'result' => true,
+                'temporary' => true,
                 'message' => 'メールを送信しました。メールから個人情報変更を完了させてください。'
             ],
             JSON_UNESCAPED_UNICODE
