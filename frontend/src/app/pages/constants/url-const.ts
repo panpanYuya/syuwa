@@ -1,6 +1,7 @@
 export class UrlConst {
   static readonly SLASH = '/';
 
+  static readonly ADD = 'add';
   static readonly AUTH = 'auth';
   static readonly LOGIN = 'login';
   static readonly CREATE = 'create';
