@@ -28,6 +28,17 @@ class UserService
 
 
     /**
+     * ユーザーの情報を取得
+     *
+     * @param integer $userId
+     * @return User
+     */
+    public function findUser(int $userId): User
+    {
+        return $this->userRepository->findUser($userId);
+    }
+
+    /**
      * ユーザーに紐づくすべての情報を取得
      *
      * @param integer $userId
@@ -39,7 +50,7 @@ class UserService
     }
 
     /**
-     * ユーザー情報
+     * ユーザーに紐づく情報を更新
      *
      * @param User $user
      * @return void

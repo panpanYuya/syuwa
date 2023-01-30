@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Users\TmpUserRegistration;
+use Illuminate\Database\Eloquent\Collection;
 
 class RegistTmpUserRepository implements RegistTmpUserInterface
 {
@@ -68,6 +69,17 @@ class RegistTmpUserRepository implements RegistTmpUserInterface
     public function checkToken(string $token): bool
     {
         return TmpUserRegistration::where('token', $token)->exists();
+    }
+
+    /**
+     * メールアドレスに紐づく仮登録ユーザー情報を取得
+     *
+     * @param string $email
+     * @return Collection
+     */
+    public function findTmpUserByEmail(string $email): Collection
+    {
+        return TmpUserRegistration::where('email', $email)->get();
     }
 
     /**

@@ -3,14 +3,13 @@ import { Observable } from 'rxjs';
 import { ErrorMessageConst } from 'src/app/common/constants/error-message-const';
 
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { RoutingService } from '../../../common/services/routing.service';
 import { UrlConst } from '../../constants/url-const';
 import { Post } from '../../drink/models/post';
 import { ShowUserInfoResponseDTO } from '../models/dtos/responses/show-user-info-response-dto';
 import { User } from '../models/user';
-import { LoginService } from '../services/login.service';
 import { UserInfoService } from '../services/user-info.service';
 
 @Component({
@@ -32,11 +31,12 @@ export class UserPageComponent implements OnInit {
 
   public userId: number;
 
+  public userPageFlg: boolean;
+
   constructor(
     private cookieService: CookieService,
     private routingService: RoutingService,
     private userInfoService: UserInfoService,
-    private loginService: LoginService,
     private route: ActivatedRoute,
   ) {
     this.errorMessage = '';
@@ -44,6 +44,7 @@ export class UserPageComponent implements OnInit {
     this.posts = [];
     this.requestServer = false;
     this.user = new User();
+    this.userPageFlg = true;
    }
 
   ngOnInit(): void {
@@ -59,9 +60,15 @@ export class UserPageComponent implements OnInit {
       next:
         () => {
           showUserInfoResponseDTO.forEach((data: any) => {
+            this.posts = [];
             if (data == null) {
               this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
             } else {
+              if(Number(this.userId) !==  Number(sessionStorage.getItem('userId'))) {
+                this.userPageFlg = false;
+              } else {
+                this.userPageFlg = true;
+              }
               this.followFlg = data['follow_flg'];
               this.setUser(data['user_info']);
               for (let i = 0; i < data['user_info']['posts'].length; i++) {
@@ -128,24 +135,8 @@ export class UserPageComponent implements OnInit {
     });
   }
 
-  public logout() {
-    this.requestServer = true;
-    let logoutResult: Observable<boolean> = this.loginService.logout();
-    logoutResult.subscribe({
-      next:
-      () => {
-      },
-      error:
-      () => {
-        this.setErrorMessage(ErrorMessageConst.SERVER_ERROR);
-      },
-      complete:
-      () => {
-        this.requestServer = false;
-      }
-    });
-    this.cookieService.deleteAll();
-    this.routingService.transitToPath(UrlConst.SLASH + UrlConst.AUTH + UrlConst.SLASH + UrlConst.LOGIN)
+  public toEditUser() {
+    this.routingService.transitToPath(UrlConst.SLASH + UrlConst.AUTH + UrlConst.SLASH + UrlConst.USER + UrlConst.SLASH + UrlConst.EDIT);
   }
 
   setUser(responseDto: any) {

@@ -15,6 +15,8 @@ export class ApiConst {
 
   static readonly DRINK = 'drink';
 
+  static readonly EDIT = 'edit';
+
   static readonly EMAIL = 'email';
 
   static readonly FOLLOW = 'follow';
@@ -34,6 +36,8 @@ export class ApiConst {
   static readonly SHOW = 'show';
 
   static readonly USER = 'user';
+
+  static readonly UPDATE = 'update';
 
   static readonly UNFOLLOW = 'unfollow';
 
