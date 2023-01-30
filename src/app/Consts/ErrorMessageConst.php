@@ -22,5 +22,5 @@ class ErrorMessageConst
 
 
     //有効期限切れ
-    const EXPIRATION_DATE = '有効期限が切れました。<br>再度登録をしてください。';
+    const EXPIRATION_DATE = '有効期限が切れました。 再度登録をしてください。';
 }

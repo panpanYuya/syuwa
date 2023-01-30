@@ -4,13 +4,14 @@
     <div class="user_info">
       <div class="user-name">{{user.userName}}</div>
       <div class="follow-wrapper">
-        <button class="follow-button" [hidden]="followFlg" [disabled]="requestServer"
+        <button class="follow-button" [hidden]="followFlg  || userPageFlg" [disabled]="requestServer"
           (click)="followUser(user.id)">フォロー</button>
-        <button class="stop_follow-button" [hidden]="!followFlg" [disabled]="requestServer"
+        <button class="stop_follow-button" [hidden]="!followFlg || userPageFlg" [disabled]="requestServer"
           (click)="unfollowUser(user.id)">フォロー解除</button>
       </div>
-      <div class="user-setting-wapper" [hidden]="">
-        <button class="follow-button" [disabled]="requestServer" (click)="logout()">ログアウト</button>
+      <div class="user-setting-wapper">
+        <button class="follow-button" [disabled]="requestServer" [hidden]="!userPageFlg"
+          (click)="toEditUser()">ユーザー情報変更</button>
       </div>
     </div>
     <div class=" select-post">

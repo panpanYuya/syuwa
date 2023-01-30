@@ -1,0 +1,57 @@
+<app-logo></app-logo>
+<div class="user-edit-wrapper">
+  <div class="title">
+    ユーザー情報を編集
+  </div>
+  <div class="edit-user-title">
+    アカウント情報編集
+  </div>
+  <p class="error-message" *ngIf="errorMessage">{{errorMessage}}</p>
+  <p class="success-message" *ngIf="successMessage">{{successMessage}}</p>
+  <form class="edit-form" [formGroup]="editForm" (ngSubmit)="clickEditButton()">
+    <mat-form-field class="edit-full-width" appearance="fill">
+      <input id="user_name" matInput placeholder="" formControlName="userName">
+      <mat-hint align="end">ユーザー名は空白や<>、特殊記号は使用できません</mat-hint>
+      <mat-error class="validation-error" *ngIf="userName.hasError('required') || userName.hasError('minlength')">
+        文字数は<strong>1文字</strong>以上でお願いします
+      </mat-error>
+      <mat-error class="validation-error" *ngIf="userName.hasError('maxlength')">
+        文字数は<strong>50文字</strong>以内でお願いします
+      </mat-error>
+      <mat-label>ユーザー名</mat-label>
+    </mat-form-field>
+    <mat-form-field class="edit-full-width" appearance="fill">
+      <mat-error *ngIf="email.hasError('required') || email.hasError('minlength')">
+        文字数は<strong>3文字</strong>以上でお願いします
+      </mat-error>
+      <mat-error class="validation-error" *ngIf="email.hasError('maxlength')">
+        文字数は<strong>255文字</strong>以上でお願いします
+      </mat-error>
+      <mat-error class="validation-error" *ngIf="email.hasError('email')">
+        <strong>メールアドレス形式で入力ください</strong>
+      </mat-error>
+      <mat-label>メールアドレス</mat-label>
+      <input id="email" matInput placeholder="" formControlName="email">
+    </mat-form-field>
+    <mat-form-field class="edit-full-width" appearance="fill">
+      <mat-error class="validation-error" *ngIf="password.hasError('required')">
+      </mat-error>
+      <mat-label>パスワード</mat-label>
+      <input type="password" id="password" matInput placeholder="" formControlName="password">
+    </mat-form-field>
+    <mat-form-field class="edit-full-width" appearance="fill">
+      <mat-error class="validation-error" *ngIf="passwordConfirmation.hasError('required')">
+      </mat-error>
+      <mat-label>パスワード確認用</mat-label>
+      <input type="password" id="password_Confirmation" matInput placeholder="" formControlName="passwordConfirmation">
+      <mat-hint align="end">パスワードと同じパスワードを入力してください</mat-hint>
+    </mat-form-field>
+    <div class="edit-button-row">
+      <button class="edit-button">ユーザー情報変更</button>
+    </div>
+  </form>
+  <div class="logout-wapper" [hidden]="">
+    <button class="logout-button" [disabled]="requestServer" (click)="logout()">ログアウト</button>
+  </div>
+</div>
+<app-footer></app-footer>

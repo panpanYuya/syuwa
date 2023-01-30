@@ -73,6 +73,7 @@ class UserInfoEditController extends Controller
         }
 
         $message ="";
+        $tmpEditFlg = false;
         if ($request->email == $user->email) {
             $newUserModel = $this->createUserForm($request->user_name, $request->email, $password);
             $this->userService->updateUser($newUserModel);
@@ -89,11 +90,13 @@ class UserInfoEditController extends Controller
             $newTmpUserModel = $this->createTmpUserForm($request->user_name, $request->email, $password, $user->birthday);
             $this->registUserService->createTmpUser($newTmpUserModel);
             $this->registUserService->sendCertifyNewAddressMail($newTmpUserModel->email, $newTmpUserModel->token);
+            $tmpEditFlg = true;
             $message = "メールを送信しました。メールから個人情報変更を完了させてください。";
         }
 
         return response()->json([
             'result' => true,
+            'temporary' => $tmpEditFlg,
             'message'=> $message
         ], 200);
 

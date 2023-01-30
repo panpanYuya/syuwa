@@ -23,4 +23,9 @@ export class FooterComponent {
   public toSearch() {
     this.routingService.transitToPath(UrlConst.SLASH + UrlConst.DRINK + UrlConst.SLASH + UrlConst.SEARCH);
   }
+
+  public toMyPage() {
+    this.routingService.transitToPath(UrlConst.SLASH + UrlConst.AUTH + UrlConst.SLASH + UrlConst.USER + UrlConst.SLASH + UrlConst.PAGE + UrlConst.SLASH + sessionStorage.getItem('userId'));
+  }
+
 }

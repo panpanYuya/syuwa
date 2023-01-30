@@ -37,7 +37,7 @@ class UserInfoEditRequest extends FormRequest
                 Rule::unique('users')->ignore(Auth::id()),
                 'email:strict,dns,spoof'
             ],
-            'password' => ['min:8', 'max:255', 'confirmed', new Space, 'alpha_num'],
+            'password' => ['confirmed'],
         ];
     }
 }

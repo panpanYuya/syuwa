@@ -9,5 +9,5 @@ class UrlConst
 
     const CREATEPASSWORDRESETURL = 'auth/password/reset/';
 
-    const CERTIFYNEWEMAIL = 'user/edit/complete/';
+    const CERTIFYNEWEMAIL = 'auth/user/edit/complete/';
 }
