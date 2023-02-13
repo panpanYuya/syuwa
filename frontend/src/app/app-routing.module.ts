@@ -23,6 +23,7 @@ import { SearchComponent } from './pages/drink/search/search.component';
 import { AuthGuard } from './pages/guards/auth.guard';
 
 const routes: Routes = [
+  {path: '', redirectTo: 'auth/login', pathMatch: 'full'},
   { path:'auth/login', component:LoginComponent },
   { path:'auth/create/regist', component: CreateUserComponent },
   { path:'auth/create/send', component: SendEmailComponent },
