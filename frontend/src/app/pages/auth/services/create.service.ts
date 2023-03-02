@@ -1,5 +1,6 @@
 import { catchError, Observable, of, throwError } from 'rxjs';
 import { ApiConst } from 'src/app/common/constants/api-const';
+import { environment } from 'src/environments/environment';
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -17,7 +18,7 @@ export class CreateService {
   ) { }
 
   public createUser(createUserRequestDto:CreateUserRequestDto):Observable<any> {
-    return this.http.post<CreateUserResponseDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.USER + ApiConst.SLASH + ApiConst.REGIST, createUserRequestDto)
+    return this.http.post<CreateUserResponseDto>(environment.apiUrl + ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.USER + ApiConst.SLASH + ApiConst.REGIST, createUserRequestDto)
       .pipe(
         catchError(this.handleError)
       );

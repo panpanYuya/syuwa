@@ -1,6 +1,7 @@
 import { ApiConst } from 'src/app/common/constants/api-const';
 import { ErrorMessageConst } from 'src/app/common/constants/error-message-const';
 import { ErrorStatusConst } from 'src/app/common/constants/error-status-const';
+import { environment } from 'src/environments/environment';
 
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -35,7 +36,7 @@ describe('LoginService', () => {
   });
 
   describe('login', () => {
-    const webApiUrl = ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.LOGIN;
+    const webApiUrl = environment.apiUrl +ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.LOGIN;
     it('should return expected response', ((done: DoneFn) => {
       const loginRequestDto: LoginRequestDto = createExpectedLoginRequestDto();
       const expectedLoginResponseDto: LoginResponseDto = createExpectedLoginResponseDto();

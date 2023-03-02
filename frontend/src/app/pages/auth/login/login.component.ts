@@ -47,11 +47,10 @@ export class LoginComponent implements OnInit {
   }
 
   private login(loginRequestDto: LoginRequestDto) {
-    //TODO 実装、修正後に修正
     let xsrf: Observable<string>= this.loginService.getXsrfToken();
     xsrf.subscribe( {
       next:
-      () => {
+      (response) => {
           let loginResponseDto: Observable<LoginResponseDto> = this.loginService.login(loginRequestDto);
           loginResponseDto.subscribe( {
             next:
