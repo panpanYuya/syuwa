@@ -1,5 +1,6 @@
 import { catchError, Observable, of, throwError } from 'rxjs';
 import { ApiConst } from 'src/app/common/constants/api-const';
+import { environment } from 'src/environments/environment';
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -19,7 +20,7 @@ export class BoardService {
   ) { }
 
   getPosts(displaiedPost:number): Observable<ShowBoardResponseDto> {
-    return this.http.get<ShowBoardResponseDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.SHOW + ApiConst.SLASH + displaiedPost)
+    return this.http.get<ShowBoardResponseDto>(environment.apiUrl + ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.SHOW + ApiConst.SLASH + displaiedPost)
       .pipe(
         catchError(() => {
           return of(null as unknown as ShowBoardResponseDto);
@@ -28,28 +29,28 @@ export class BoardService {
   }
 
   createNewPost(createNewPost: CreateNewPostRequestDto): Observable<CreateNewPostRequestDto> {
-    return this.http.post<CreateNewPostRequestDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.ADD, createNewPost)
+    return this.http.post<CreateNewPostRequestDto>(environment.apiUrl + ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.ADD, createNewPost)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getTags(): Observable<GetTagsResponseDto> {
-    return this.http.get<GetTagsResponseDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.CREATE)
+    return this.http.get<GetTagsResponseDto>(environment.apiUrl + ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.CREATE)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getPostDetail(postId: number): Observable<GetPostDetailResponseDTO>{
-    return this.http.get<GetPostDetailResponseDTO>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.DETAIL + ApiConst.SLASH  +postId)
+    return this.http.get<GetPostDetailResponseDTO>(environment.apiUrl + ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.DETAIL + ApiConst.SLASH  +postId)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   searchPostsByTag(tagId: number, numOfDisplaiedPosts: number): Observable<ShowBoardResponseDto> {
-    return this.http.get<ShowBoardResponseDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.SEARCH + ApiConst.SLASH + tagId + ApiConst.SLASH + numOfDisplaiedPosts)
+    return this.http.get<ShowBoardResponseDto>(environment.apiUrl + ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.DRINK + ApiConst.SLASH + ApiConst.SEARCH + ApiConst.SLASH + tagId + ApiConst.SLASH + numOfDisplaiedPosts)
       .pipe(
         catchError(this.handleError)
       );
