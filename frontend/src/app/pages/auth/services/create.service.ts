@@ -17,8 +17,8 @@ export class CreateService {
     private http: HttpClient,
   ) { }
 
-  public createUser(createUserRequestDto:CreateUserRequestDto):Observable<any> {
-    return this.http.post<CreateUserResponseDto>(environment.apiUrl + ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.USER + ApiConst.SLASH + ApiConst.REGIST, createUserRequestDto)
+  public createUser(createUserRequestDto: CreateUserRequestDto): Observable<any> {
+    return this.http.post<CreateUserResponseDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.USER + ApiConst.SLASH + ApiConst.REGIST, createUserRequestDto)
       .pipe(
         catchError(this.handleError)
       );

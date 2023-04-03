@@ -64,7 +64,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/user/update', 'updateUserInfo');
     });
 });
-
-Route::get('/healthcheck', function () {
-    return response()->json(200);
-});
