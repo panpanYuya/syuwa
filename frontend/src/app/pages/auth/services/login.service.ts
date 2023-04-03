@@ -18,7 +18,7 @@ export class LoginService {
   ) { }
 
   public getXsrfToken(): Observable<string> {
-    return this.http.get<string>(environment.apiUrl + ApiConst.SLASH + ApiConst.XSRF)
+    return this.http.get<string>(ApiConst.SLASH + ApiConst.XSRF)
       .pipe(
         catchError(() => {
           return of(null as unknown as string);
@@ -27,14 +27,14 @@ export class LoginService {
   }
 
   public login(loginRequestDto:LoginRequestDto): Observable<LoginResponseDto> {
-    return this.http.post<LoginResponseDto>(environment.apiUrl + ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.LOGIN, loginRequestDto)
+    return this.http.post<LoginResponseDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.LOGIN, loginRequestDto)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   public checkLogin():Observable<boolean> {
-    return this.http.post<boolean>(environment.apiUrl + ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.USER + ApiConst.SLASH + ApiConst.CHECK, "")
+    return this.http.post<boolean>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.USER + ApiConst.SLASH + ApiConst.CHECK, "")
       .pipe(
         catchError(() => {
           return of(null);
@@ -43,7 +43,7 @@ export class LoginService {
   }
 
   public logout(): Observable<boolean> {
-    return this.http.post<boolean>(environment.apiUrl + ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.LOGOUT, '')
+    return this.http.post<boolean>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.LOGOUT, '')
       .pipe(
         catchError(() => {
           return of(false);

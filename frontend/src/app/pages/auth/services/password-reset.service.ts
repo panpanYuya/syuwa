@@ -18,21 +18,21 @@ export class PasswordResetService {
   ) { }
 
   public sendPassResetEmail(email :string): Observable<PasswordResetEmailDto> {
-    return this.http.post<PasswordResetEmailDto>(environment.apiUrl +ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.PASSWORD + ApiConst.SLASH + ApiConst.EMAIL, email)
+    return this.http.post<PasswordResetEmailDto>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.PASSWORD + ApiConst.SLASH + ApiConst.EMAIL, email)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   public checkToken(token: string): Observable<boolean> {
-    return this.http.post<boolean>(environment.apiUrl + ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.PASSWORD + ApiConst.SLASH + ApiConst.RESET + ApiConst.SLASH + token, '')
+    return this.http.post<boolean>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.PASSWORD + ApiConst.SLASH + ApiConst.RESET + ApiConst.SLASH + token, '')
       .pipe(
         catchError(this.handleError)
       );
   }
 
   public passwordReset(passwordResetRequestDto: PasswordResetRequestDto): Observable<boolean>{
-    return this.http.post<boolean>(environment.apiUrl + ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.PASSWORD + ApiConst.SLASH + ApiConst.COMPLETE, passwordResetRequestDto)
+    return this.http.post<boolean>(ApiConst.SLASH + ApiConst.API + ApiConst.SLASH + ApiConst.PASSWORD + ApiConst.SLASH + ApiConst.COMPLETE, passwordResetRequestDto)
       .pipe(
         catchError(this.handleError)
       );
