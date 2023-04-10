@@ -10,8 +10,6 @@ RUN apt-get update && \
     pecl install xdebug && \
     docker-php-ext-enable xdebug
 
-#TODO AWSのインストール
-
 COPY ./php/php.ini /usr/local/etc/php/php.ini
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
